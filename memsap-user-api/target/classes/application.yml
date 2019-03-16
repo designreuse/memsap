@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: memsap-user-api
+  mvc:
+    servlet:
+      load-on-startup: 1
+    date-format: yyyy-MM-dd HH:mm:ss
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://localhost:3306/graduation_design?rewriteBatchedStatements=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000 #最小空闲时间
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+
+server:
+  port: 8082
+  servlet:
+    context-path: /${spring.application.name}
+
+####################### eureka配置 ############################
+eureka:
+  healthcheck:
+    enabled: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka      # peer1 为10.1.8.120服务区器主机名
+  instance:
+    prefer-ip-address: true
+    instance-id: localhost:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 60
+
+#################### mybatis配置 #############################
+mybatis:
+  type-aliases-package: com.we.sdk.memsap.dao
+  mapper-locations:
+    - classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true  #属性支持驼峰命名
+    callSettersOnNulls: true
+
+logging:
+  level:
+    com.we.sdk.memsap.dao: trace

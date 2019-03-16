@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.we.sdk.memsap.dao.AddressDao">
+    <!-- 列名 -->
+    <sql id="field">
+        id,user_id,province,city,county,detail_address
+    </sql>
+
+	<!-- resultMap -->
+    <resultMap type="com.we.sdk.memsap.bean.Address" id="AddressMapper">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="county" column="county"/>
+        <result property="detailAddress" column="detail_address"/>
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="com.we.sdk.memsap.bean.Address" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="ID">
+        INSERT INTO USER_ADDRESS
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="province != null">province,</if>
+            <if test="city != null">city,</if>
+            <if test="county != null">county,</if>
+            <if test="detailAddress != null">detail_address</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="county != null">#{county},</if>
+            <if test="detailAddress != null">#{detailAddress}</if>
+        </trim>
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="delete">
+      DELETE FROM USER_ADDRESS WHERE id = #{id}
+    </delete>
+
+
+    <!-- 修改 -->
+    <update id="update" parameterType="com.we.sdk.memsap.bean.Address">
+        UPDATE USER_ADDRESS
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="county != null">county = #{county},</if>
+            <if test="detailAddress != null">detail_address = #{detailAddress},</if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="getAddressById" resultMap="AddressMapper">
+        SELECT
+        <include refid="field"/>
+        FROM USER_ADDRESS
+        WHERE id = #{id}
+    </select>
+
+    <!-- 查询全部收货地址-->
+    <select id="getAddressList" resultMap="AddressMapper">
+            SELECT
+            <include refid="field"/>
+            FROM USER_ADDRESS
+    </select>
+
+    <!-- 查询全部收货地址-->
+    <select id="getAddressByPhoneNumber" resultMap="AddressMapper">
+            SELECT
+            <include refid="field"/>
+            FROM USER_ADDRESS WHERE user_id = #{phoneNumber}
+    </select>
+
+</mapper>

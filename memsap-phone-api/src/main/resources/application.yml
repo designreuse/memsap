@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: memsap-phone-api
+  mvc:
+    servlet:
+      load-on-startup: 1
+    date-format: yyyy-MM-dd HH:mm:ss # 配置请求的String类型转Date类型
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss #配置Date类型返回时的时间格式，否则会返回long
+    time-zone: GMT+8 #设置Date类型的时区
+  datasource:
+    url: jdbc:mysql://localhost:3306/graduation_design?rewriteBatchedStatements=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    #阿里 druid 数据源配置
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000 #最小空闲时间
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+  redis:
+    database: 0
+    timeout: 1000
+    host: 192.168.124.131
+    port: 6379
+    jedis:
+      pool:
+        #最大连接数据库连接数,设 0 为没有限制
+        max-active: 3
+        #最大等待连接中的数量,设 0 为没有限制
+        max-idle: 2
+        #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        max-wait: 1000ms
+        #最小等待连接中的数量,设 0 为没有限制
+        min-idle: 0
+
+server:
+  port: 8080
+  servlet:
+    context-path: /${spring.application.name}
+
+####################### eureka配置 ############################
+eureka:
+  healthcheck:
+    enabled: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: localhost:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 60
+
+#################### mybatis配置 #############################
+mybatis:
+  type-aliases-package: com.we.sdk.memsap.dao
+  mapper-locations:
+    - classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true  #属性支持驼峰命名
+    callSettersOnNulls: true
+
+
+logging:
+  level:
+    com.we.sdk.memsap.phone.dao: trace
+
+
+ribbon:
+  ReadTimeout: 3000
+  ConnectTimeout: 3000
+  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
+  MaxAutoRetriesNextServer: 1 #
+  OkToRetryOnAllOperations: false

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.we.sdk.memsap.dao.OrderDao">
+    <!-- 列名 -->
+    <sql id="field">
+        id,
+        payment,
+        creat_time,
+        user_name,
+        user_phone,
+        user_address
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="queryConditions">
+        <where>
+            <if test="searchVo.userName != null and searchVo.userName != ''">
+                AND user_name like concat('%',#{searchVo.userName},'%')
+            </if>
+            <if test="searchVo.phoneNumber != null and searchVo.phoneNumber != ''">
+                AND user_phone like concat('%',#{searchVo.phoneNumber},'%')
+            </if>
+            AND is_delete != 1
+        </where>
+    </sql>
+
+    <!-- resultMap -->
+    <resultMap type="Order" id="orderMapper">
+        <result property="id" column="id"/>
+        <result property="payment" column="payment"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userAddress" column="user_address"/>
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="Order" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="ID">
+        INSERT INTO `ORDER`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="payment != null">payment,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="userPhone != null">user_phone,</if>
+            <if test="userAddress != null">user_address</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="payment != null">#{payment},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="userPhone != null">#{userPhone},</if>
+            <if test="userAddress != null">#{userAddress}</if>
+        </trim>
+    </insert>
+
+    <!-- 删除 -->
+    <update id="delete">
+        UPDATE `ORDER`
+        SET is_delete = 1
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 修改(默认只能修改用户收获地址) -->
+    <update id="update" parameterType="Order">
+        UPDATE `ORDER`
+        <set>
+            <if test="userAddress != null">user_address = #{userAddress}</if>
+        </set>
+        WHERE id = #{id} AND is_delete != 1
+    </update>
+
+    <!-- 查询 -->
+    <select id="getOrderById" resultMap="orderMapper">
+        SELECT
+        <include refid="field"/>
+        FROM `ORDER`
+        WHERE id = #{id} AND is_delete != 1
+    </select>
+
+    <!-- 条件查询List -->
+    <select id="getOrderListByCondition" resultMap="orderMapper">
+        SELECT T.* FROM(
+        SELECT
+        <include refid="field"/>
+        FROM `ORDER` A
+        <include refid="queryConditions"/>
+          ORDER BY creat_time DESC
+        ) T
+        limit ${(page.pn-1)*page.pageSize} , ${page.pageSize}
+    </select>
+
+    <!-- 查询数量 -->
+    <select id="getOrderListCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM(
+        SELECT
+        <include refid="field"/>
+        FROM `ORDER` A
+        <include refid="queryConditions"/>
+        ) T
+    </select>
+
+
+
+    <!-- 列名 -->
+    <sql id="detailField">
+        id,
+        order_id,
+        phone_detail,
+        repair_details,
+        price
+    </sql>
+
+    <!-- resultMap -->
+    <resultMap type="OrderDetail" id="orderDetailMapper">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="phoneDetail" column="phone_detail"/>
+        <result property="repairDetails" column="repair_details"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="saveOrderDetail">
+        INSERT INTO ORDER_DETAIL (order_id,phone_detail,repair_details,price)
+        VALUES
+        <foreach collection="orderDetails" item="orderDetail" separator=",">
+            (#{orderDetail.orderId},#{orderDetail.phoneDetail},#{orderDetail.repairDetails},#{orderDetail.price})
+        </foreach>
+    </insert>
+
+    <!-- 删除 -->
+    <update id="deleteOrderDetail">
+        UPDATE ORDER_DETAIL SET is_delete = 1
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 批量删除 -->
+    <update id="batchDeleteDetailByOrderIds">
+        UPDATE ORDER_DETAIL SET is_delete = 1
+        WHERE
+        <foreach collection="orderIds" item="orderId" open="order_id IN (" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </update>
+
+
+    <!-- 查询 -->
+    <select id="getOrderDetailById" resultMap="orderDetailMapper">
+        SELECT
+        <include refid="detailField"/>
+        FROM ORDER_DETAIL
+        WHERE id = #{id} AND is_delete != 1
+    </select>
+
+    <!-- 根据订单号查询List -->
+    <select id="getOrderDetailsByOrderIds" resultMap="orderDetailMapper">
+        SELECT
+        <include refid="detailField"/>
+        FROM ORDER_DETAIL
+        WHERE is_delete != 1
+        <foreach collection="orderIds" item="orderId" open="AND order_id IN (" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </select>
+
+
+</mapper>

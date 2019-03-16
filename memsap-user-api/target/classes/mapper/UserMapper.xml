@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.we.sdk.memsap.dao.UserDao">
+    <!-- 列名 -->
+    <sql id="field">
+        phone_number,
+        password,
+        user_name,
+        sex,
+        email,
+        salt,
+        register_date
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="queryConditions">
+        <where>
+            <if test="searchVo.phoneNumber != null and searchVo.phoneNumber != ''">
+                phone_number like CONCAT('%',#{searchVo.phoneNumber},'%')
+            </if>
+            <if test="searchVo.userName != null and searchVo.userName != ''">
+                AND user_name like CONCAT('%',#{searchVo.userName},'%')
+            </if>
+            <if test="searchVo.sex != null and searchVo.sex != ''">
+                AND sex = #{searchVo.sex}
+            </if>
+            AND is_delete != 1
+        </where>
+    </sql>
+
+    <!-- resultMap -->
+    <resultMap type="com.we.sdk.memsap.bean.User" id="userMapper">
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="password" column="password"/>
+        <result property="userName" column="user_name"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+        <result property="salt" column="salt"/>
+        <result property="registerDate" column="register_date"/>
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="com.we.sdk.memsap.bean.User">
+        INSERT INTO USER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="password != null">password,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="email != null">email,</if>
+            <if test="salt != null">salt</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="password != null">#{password},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="email != null">#{email},</if>
+            <if test="salt != null">#{salt}</if>
+        </trim>
+    </insert>
+
+    <!-- 删除 -->
+    <update id="delete">
+        update USER
+        SET is_delete = 1
+        WHERE phone_number = #{phoneNumber}
+    </update>
+
+
+    <!-- 修改 -->
+    <update id="update" parameterType="com.we.sdk.memsap.bean.User">
+        UPDATE USER
+        <trim prefix="set" suffixOverrides=",">
+            <if test="password != null">password = #{password},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="email != null">email = #{email}</if>
+        </trim>
+        WHERE phone_number = #{phoneNumber}
+    </update>
+
+    <!-- 查询 -->
+    <select id="getUserByPhoneNumber" resultMap="userMapper">
+        SELECT
+        <include refid="field"/>
+        FROM USER
+        WHERE phone_number = #{phoneNumber} AND is_delete != 1
+    </select>
+
+    <!-- 根据查询条件查询用户 -->
+    <select id="getUsersByCondition" resultMap="userMapper">
+        SELECT T.* FROM(
+        SELECT
+        <include refid="field"/>
+        FROM USER A
+        <include refid="queryConditions"/>
+        ) T
+        limit ${(page.pn-1)*page.pageSize} , ${page.pageSize}
+    </select>
+
+    <!-- 查询数量 -->
+    <select id="getUsersCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM(
+        SELECT
+        <include refid="field"/>
+        FROM USER A
+        <include refid="queryConditions"/>
+        ) T
+    </select>
+
+    <!-- 检查用户是否存在 -->
+    <select id="checkUser" parameterType="com.we.sdk.memsap.bean.User" resultMap="userMapper">
+        SELECT
+        <include refid="field"/>
+        FROM USER
+        <where>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber}
+            </if>
+            <if test="password != null">
+                AND password = #{password}
+            </if>
+            <if test="email != null">
+                AND email = #{email}
+            </if>
+        </where>
+    </select>
+</mapper>

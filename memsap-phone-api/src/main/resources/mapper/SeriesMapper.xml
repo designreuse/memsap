@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.we.sdk.memsap.dao.SeriesDao">
+    <!-- 列名 -->
+    <sql id="field">
+        id,series_name,brand_id
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="queryConditions">
+        <where>
+            <if test="searchVo.id != null and searchVo.id != ''">
+                AND id = #{searchVo.id}
+            </if>
+            <if test="searchVo.seriesName != null and searchVo.seriesName != ''">
+                AND series_name = #{searchVo.seriesName}
+            </if>
+            <if test="searchVo.brandId != null and searchVo.brandId != ''">
+                AND brand_id = #{searchVo.brandId}
+            </if>
+        </where>
+    </sql>
+
+	<!-- resultMap -->
+    <resultMap type="com.we.sdk.memsap.bean.Series" id="seriesMapper">
+        <result property="id" column="id"/>
+        <result property="seriesName" column="series_name"/>
+        <result property="brandId" column="brand_id"/>
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="com.we.sdk.memsap.bean.Series" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="ID">
+        INSERT INTO MODEL_SERIES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="seriesName != null">series_name,</if>
+            <if test="brandId != null">brand_id</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="seriesName != null">#{seriesName},</if>
+            <if test="brandId != null">#{brandId}</if>
+        </trim>
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="delete">
+      DELETE FROM MODEL_SERIES WHERE id = #{id}
+    </delete>
+
+
+    <!-- 修改 -->
+    <update id="update" parameterType="com.we.sdk.memsap.bean.Series">
+        UPDATE MODEL_SERIES
+        <trim prefix="set" suffixOverrides=",">
+            <if test="seriesName != null">series_name = #{seriesName},</if>
+            <if test="brandId != null">brand_id = #{brandId}</if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="getSeriesById" resultMap="seriesMapper">
+        SELECT
+        <include refid="field"/>
+        FROM MODEL_SERIES
+        WHERE id = #{id}
+    </select>
+
+    <!-- 查询 -->
+    <select id="getSeriesList" resultMap="seriesMapper">
+        SELECT
+        <include refid="field"/>
+        FROM MODEL_SERIES
+    </select>
+
+</mapper>

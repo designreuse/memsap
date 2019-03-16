@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.we.sdk.memsap.dao.FaultRepairDao">
+    <!-- 列名 -->
+    <sql id="field">
+        phone_id
+        ,
+        repair_id,
+        price
+    </sql>
+
+    <!-- resultMap -->
+    <resultMap type="com.we.sdk.memsap.bean.RepairPrice" id="FaultRepairMapper">
+        <result property="phoneId" column="phone_id"/>
+        <result property="repairId" column="repair_id"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="com.we.sdk.memsap.bean.RepairPrice">
+        INSERT INTO MODEL_REPAIR_PRICE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phoneId != null">phone_id,</if>
+            <if test="repairId != null">repair_id,</if>
+            <if test="price != null">price,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phoneId != null">#{phoneId},</if>
+            <if test="repairId != null">#{repairId},</if>
+            <if test="price != null">#{price},</if>
+        </trim>
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        DELETE
+        FROM MODEL_REPAIR_PRICE
+        WHERE phone_id = #{phoneId}
+          AND repair_id = #{repairId}
+    </delete>
+
+
+    <!-- 修改 -->
+    <update id="update" parameterType="com.we.sdk.memsap.bean.RepairPrice">
+        UPDATE MODEL_REPAIR_PRICE
+        SET
+        <if test="price != null">price = #{price}</if>
+        WHERE phone_id = #{phoneId} AND repair_id = #{repairId}
+    </update>
+
+    <!-- 查询 -->
+    <select id="getFaultRepairPriceByCondition" resultMap="FaultRepairMapper">
+        SELECT
+        <include refid="field"/>
+        FROM MODEL_REPAIR_PRICE
+        <where>
+            <if test="phoneId !=null">phone_id = #{phoneId}</if>
+            <if test="repairId !=null">AND repair_id = #{repairId}</if>
+        </where>
+    </select>
+
+   <!--  查询全部维修价格
+    <select id="getFaultRepairPriceList" resultMap="FaultRepairMapper">
+        SELECT
+        <include refid="field"/>
+        FROM MODEL_REPAIR_PRICE
+    </select>-->
+
+</mapper>
