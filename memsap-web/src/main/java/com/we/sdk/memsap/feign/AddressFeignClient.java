@@ -24,6 +24,10 @@ public interface AddressFeignClient {
     @GetMapping(value = "/address/getAddressByPhoneNumber/{phoneNumber}")
     RestResult<List<Address>> getAddressByPhoneNumber(@PathVariable String phoneNumber);
 
+    //////////////////////  Address
+    /*条件查询列表*/
+    @GetMapping(value = "/address/getAddressList")
+    RestResult<List<Address>> getAddressList();
 
 
     //////////////////////////////////////////////////  AddressDic

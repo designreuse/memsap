@@ -90,7 +90,7 @@
                                     <tbody>
                                     <tr th:each="address : ${addressList}">
                                         <td th:text="${address.userId}">18888888888</td>
-                                        <td th:text="${userName}">we</td>
+                                        <td th:text="${address.userName}">we</td>
                                         <td th:text="${address.province + address.city+address.county}+'--'+${address.detailAddress}">南四135</td>
                                         <!--<td><a href="#">查看地址</a></td>-->
                                         <td>

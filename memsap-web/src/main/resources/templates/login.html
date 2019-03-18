@@ -5,6 +5,7 @@
 
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/f3.ico}">
 
     <title>INSPINIA | Login</title>
 
@@ -29,10 +30,11 @@
         <!--<p>Login in. To see it in action.</p>-->
         <form class="m-t" role="form" method="post" onsubmit="return false;">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="输入账号" name="phoneNumber" required=""/>
+                <input id="phone" type="text" class="form-control" placeholder="输入账号" name="phoneNumber" required=""
+                       pattern="^1(3|4|5|7|8)\d{9}$"/>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="输入密码" name="plainPassword" required=""/>
+                <input id="pwd" type="password" class="form-control" placeholder="输入密码" name="password" required=""/>
             </div>
             <button id="login" type="submit" class="btn btn-primary block full-width m-b">登 录</button>
             <a th:href="@{toForget}" href="#">
@@ -60,7 +62,11 @@
 <script th:inline="javascript">
     $(function () {
         $("#login").click(function () {
-            doLogin();
+            var password = $("#pwd").val().split();
+            var phone = $("#phone").val().split();
+            if (password != "" && phone != "") {
+                doLogin();
+            }
         });
     });
     var redirectUrl = [[${redirect}]]; // 浏览器中回显的URL
@@ -68,11 +74,11 @@
 
         $.post("/memsap-web/user/login", $(".m-t").serialize(), function (data) {
             if (data.code == 0) {
-                alert(redirectUrl);
+                // alert(redirectUrl);
                 if (redirectUrl == "" || redirectUrl == null) {
-                location.href = "http://localhost:8084/memsap-web/user/list";//todo 去首页
+                    location.href = "http://localhost:8084/memsap-web/user/list";//todo 去首页
                 } else {
-                location.href = redirectUrl;
+                    location.href = redirectUrl;
                 }
             } else {
                 swal({

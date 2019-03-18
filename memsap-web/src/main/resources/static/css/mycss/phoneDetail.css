@@ -1,0 +1,163 @@
+
+body {
+    margin-top: 50px;
+    position: relative;
+    background-color: #fff;
+}
+
+.clear{
+    clear: both;
+}
+
+.mal-wap {
+    position: relative;
+    padding-top: 50px;
+    padding-left: 40%;
+    padding-bottom: 114px;
+    width: 90%;
+    margin: 0 auto;
+    height: auto;
+}
+
+.mal-wap .img-wrap {
+    position: absolute;
+    left: 5%;
+    top: 50px;
+    width: 35%;
+    height: 300px;
+    border: 1px solid #dfdfdf;
+    text-align: center;
+}
+
+.mal-wap .img-wrap img {
+    /*width: 40%;*/
+    height: 70%;
+    margin-top: 50px;
+}
+
+.mal-wap .mal-con {
+    width: 70%;
+}
+
+.mal-wap .mal-con h1{
+    font-size: 24px;
+    color: #2c2c2c;
+    line-height: 33px;
+    margin-bottom: 15px;
+}
+
+.mal-wap .mal-con h1 #phone_name{
+    color: #e70;
+    margin-left: 6px
+}
+
+.mal-wap .mal-con h1 a{
+    color: #e70;
+    margin-left: 6px;
+    font-size: 14px;
+}
+
+.mal-wap .mal-con .sub-title{
+    font-size: 14px;
+    color: #666;
+    line-height: 20px;
+    padding-bottom: 10px;
+}
+
+.mal-wap .mal-con .sub-title span{
+    margin-left: 6px;
+    margin-right: 20px;
+}
+
+.mal-wap .mal-con h2 {
+    margin-top: 40px;
+    font-size: 16px;
+    color: #2c2c2c;
+    margin-bottom: 10px;
+}
+
+.mal-wap .mal-con ul{
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.mal-wap .mal-con .ul-li {
+    list-style:none;
+    width: 120px;
+    height: 42px;
+    line-height: 40px;
+    border: 1px solid #dfdfdf;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.mal-wap .mal-con .ul-li.cur {
+    border: 1px solid #e70;
+    color: #e70;
+}
+
+.mal-wap .mal-con .mal-li {
+    position: relative;
+    width: 200px;
+}
+
+.mal-wap .mal-con .mal-li.mal-sub-li {
+    height: 62px;
+    line-height: 60px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.mal-wap .mal-con .mal-li .mal-name {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 141px;
+    line-height: 20px;
+}
+
+.mal-wap .mal-con .mal-li.mal-sub-li .mal-money {
+    position: absolute;
+    right: 10px;
+    /*-webkit-transform: translateY(-50%);*/
+    /*-ms-transform: translateY(-50%);*/
+    /*transform: translateY(-50%);*/
+}
+
+.mal-wap .mal-con .mal-li.mal-sub-li .mal-money p {
+    color: #e70;
+    font-size: 14px;
+}
+
+.mal-wap .mal-con .repair-con h3 {
+    font-size: 20px;
+    color: #2c2c2c;
+    line-height: 28px;
+    margin-bottom: 13px;
+}
+
+.mal-wap .mal-con .repair-con .money-div {
+    text-align: right;
+    line-height: 28px;
+    margin-top: 51px;
+    font-size: 20px;
+    color: #333;
+}
+
+.mal-wap .mal-con .btn-wrap button {
+    width: 200px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    background: #e70;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+}

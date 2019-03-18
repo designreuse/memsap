@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -26,8 +25,6 @@ public class UserController {
 
     private final UserService userService;
 
-    private final HttpSession httpSession;
-
     private final JavaMailSender mailSender;
 
     private final SSOService ssoService;
@@ -35,18 +32,18 @@ public class UserController {
     @Value("${spring.mail.from}")
     private String Sender;
 
-
     @GetMapping("/toLogin")
     public String toLogin(String redirect, Model model) {
         model.addAttribute("redirect", redirect);
         return "login";
     }
 
+
     @PostMapping("/login")
     @ResponseBody
-    public RestResult<String> login(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("plainPassword") String plainPassword,
-                                    HttpServletRequest request, HttpServletResponse response) {
-        RestResult<String> result = ssoService.userLogin(phoneNumber, plainPassword, request, response);
+    public RestResult<String> backLogin(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password,
+                                        HttpServletRequest request, HttpServletResponse response) {
+        RestResult<String> result = ssoService.userLogin(phoneNumber, password, request, response);
         return result;
     }
 
@@ -61,7 +58,6 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerPost(User user, Model model) {
-        System.out.println("用户名" + user.getUserName());
         User user1 = userService.getUserByPhoneNumber(user.getPhoneNumber());
         if (user1 != null) {
             model.addAttribute("msg", "该账号已存在！");
@@ -87,7 +83,7 @@ public class UserController {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(Sender);
             message.setTo(email); //接收者邮箱
-            message.setSubject("YX后台信息管理系统-密码找回");
+            message.setSubject("WE后台信息管理系统-密码找回");
             StringBuilder sb = new StringBuilder();
             sb.append(user1.getUserName() + "用户您好！您的注册密码是：" + user1.getPassword() + "。感谢您使用WE信息管理系统！");
             message.setText(sb.toString());

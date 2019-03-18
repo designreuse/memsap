@@ -3,7 +3,9 @@ package com.we.sdk.memsap.controller;
 import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.bean.Address;
 import com.we.sdk.memsap.bean.AddressDic;
+import com.we.sdk.memsap.bean.User;
 import com.we.sdk.memsap.service.AddressService;
+import com.we.sdk.memsap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +19,32 @@ public class AddressController {
 
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/list")
+    public String addressList(Model model) {
+        List<Address> addressList = addressService.getAddressList();
+        List<User> userList = userService.getUserList();
+        for (Address address : addressList) {
+            for (User user : userList) {
+                if (address.getUserId().equals(user.getPhoneNumber())) {
+                    address.setUserName(user.getUserName());
+                }
+            }
+        }
+        model.addAttribute("addressList", addressList);
+        return "address/list";
+    }
 
 
     @GetMapping("/toAddress")
     public String toAddress(Model model, @RequestParam("userName") String userName, @RequestParam("phoneNumber") String phoneNumber) {
         List<Address> addressList = addressService.getAddressByPhoneNumber(phoneNumber);
+        for (Address address : addressList) {
+            address.setUserName(userName);
+        }
         model.addAttribute("addressList", addressList);
-        model.addAttribute("userName", userName);
         return "address/list";
     }
 

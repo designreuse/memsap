@@ -27,7 +27,7 @@ spring:
   redis:
     database: 0
     timeout: 1000
-    host: 192.168.124.131
+    host: 192.168.60.129
     port: 6379
     jedis:
       pool:
@@ -51,7 +51,8 @@ eureka:
     enabled: true
   client:
     serviceUrl:
-      defaultZone: http://localhost:8081/eureka
+      defaultZone: http://192.168.1.247:8081/eureka
+#      defaultZone: http://localhost:8081/eureka
   instance:
     prefer-ip-address: true
     instance-id: localhost:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port
@@ -71,11 +72,3 @@ mybatis:
 logging:
   level:
     com.we.sdk.memsap.phone.dao: trace
-
-
-ribbon:
-  ReadTimeout: 3000
-  ConnectTimeout: 3000
-  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
-  MaxAutoRetriesNextServer: 1 #
-  OkToRetryOnAllOperations: false

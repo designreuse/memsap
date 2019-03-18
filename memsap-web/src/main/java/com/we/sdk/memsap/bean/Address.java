@@ -10,4 +10,5 @@ public class Address {
     private String city;
     private String county;
     private String detailAddress;
+    private String userName;
 }

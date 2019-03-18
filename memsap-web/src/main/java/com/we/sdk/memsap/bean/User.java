@@ -15,7 +15,7 @@ public class User {
     @NotBlank(message = "手机号码不能为空")
     @Pattern(regexp = "^1(3|4|5|7|8)\\d{9}$", message = "手机号码格式错误")
     private String phoneNumber;
-
+    @NotBlank
     private String password;
 
     @NotBlank
@@ -30,8 +30,7 @@ public class User {
 
     private String salt;                    // 用于加密的盐
 
-    @NotBlank
-    private String plainPassword;           // 登录时的密码，不持久化到数据库
 
+    private String plainPassword;           // 登录时的密码，不持久化到数据库
 
 }

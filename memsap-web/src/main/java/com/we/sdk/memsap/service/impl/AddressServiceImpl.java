@@ -38,7 +38,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<Address> getAddressList() {
-        return null;//addressDao.getAddressList();
+        return addressFeignClient.getAddressList().getData();
     }
 
     @Override

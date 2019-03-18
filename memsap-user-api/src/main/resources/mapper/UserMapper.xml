@@ -3,7 +3,8 @@
 <mapper namespace="com.we.sdk.memsap.dao.UserDao">
     <!-- 列名 -->
     <sql id="field">
-        phone_number,
+        phone_number
+        ,
         password,
         user_name,
         sex,
@@ -125,5 +126,11 @@
                 AND email = #{email}
             </if>
         </where>
+    </select>
+
+    <select id="getUsers" resultMap="userMapper">
+        SELECT
+        <include refid="field"/>
+        FROM USER WHERE is_delete != 1
     </select>
 </mapper>

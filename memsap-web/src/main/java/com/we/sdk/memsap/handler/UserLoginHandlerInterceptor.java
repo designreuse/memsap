@@ -24,7 +24,6 @@ public class UserLoginHandlerInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String token = CookieUtils.getCookieValue(request, COOKIE_NAME);
-        System.out.println(request.getRequestURL());
         User user = this.ssoService.queryUserByToken(token).getData();
         if (StringUtils.isEmpty(token) || null == user) {
             // 跳转到登录页面，把用户请求的url作为参数传递给登录页面。

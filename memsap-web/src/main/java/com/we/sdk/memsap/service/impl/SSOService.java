@@ -3,7 +3,6 @@ package com.we.sdk.memsap.service.impl;
 import com.we.sdk.memsap.base.result.RestResult;
 import com.we.sdk.memsap.base.result.RestResultGenerator;
 import com.we.sdk.memsap.base.util.CookieUtils;
-import com.we.sdk.memsap.base.util.ItdragonUtils;
 import com.we.sdk.memsap.base.util.JsonUtils;
 import com.we.sdk.memsap.bean.User;
 import com.we.sdk.memsap.feign.UserFeignClient;
@@ -34,11 +33,18 @@ public class SSOService {
     @Value("${SSO_SESSION_EXPIRE}")
     private Integer SSO_SESSION_EXPIRE;
 
-    public RestResult<String> userLogin(String phoneNumber, String plainPassword,
+    @Value("${administrator.name}")
+    private String name;
+
+    @Value("${administrator.password}")
+    private String password;
+
+    public RestResult<String> userLogin(String phoneNumber, String password,
                                         HttpServletRequest request, HttpServletResponse response) {
         // 判断账号密码是否正确
         User user = userFeignClient.getUserByPhoneNumber(phoneNumber).getData();
-        if ((user == null) || !ItdragonUtils.decryptPassword(user, plainPassword)) {
+//        if ((user == null) || !ItdragonUtils.decryptPassword(user, plainPassword)) {
+        if ((user == null) | !password.equals(user.getPassword())) {
             return RestResultGenerator.createFailResult("账号名或密码错误");
         }
         // 生成token

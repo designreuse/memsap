@@ -65,4 +65,6 @@ public interface UserDao {
 
     User checkUser(User user);
 
+    List<User> getUsers();
+
 }

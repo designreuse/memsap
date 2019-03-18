@@ -7,6 +7,8 @@ import com.we.sdk.memsap.bean.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @FeignClient(name = "user", url = "http://localhost:8082")
 @RequestMapping("/memsap-user-api")
 public interface UserFeignClient {
@@ -25,6 +27,10 @@ public interface UserFeignClient {
     /*条件查询列表*/
     @RequestMapping(value = "/user/getUsersByCondition",method = RequestMethod.POST)
     RestResult<Page<User>> getUserListByCondition(@RequestBody SearchVo searchVo);
+
+    /*条件查询列表*/
+    @GetMapping(value = "/user/getUserList")
+    RestResult<List<User>> getUserList();
 
     /*根据id获取User*/
     @GetMapping(value = "/user/getUserByPhoneNumber/{phoneNumber}")

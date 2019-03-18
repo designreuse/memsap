@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -47,6 +49,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User checkUser(User user) {
         return userDao.checkUser(user);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return userDao.getUsers();
     }
 
 }

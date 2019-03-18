@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author SDK
@@ -72,6 +73,16 @@ public class UserController {
     @PostMapping("/getUsersByCondition")
     public RestResult<Page<User>> getUsersByCondition(@RequestBody(required = false) SearchVo searchVo) {
         Page<User> UserList = userService.getUsersByCondition(searchVo, Page.initPage(searchVo.getPage()));
+        return RestResultGenerator.createOkResult(UserList);
+    }
+
+    /**
+     * 列表
+     */
+    @ApiOperation(value = "查询User列表", notes = "查询User列表")
+    @GetMapping("/getUserList")
+    public RestResult<List<User>> getUsers() {
+        List<User> UserList = userService.getUsers();
         return RestResultGenerator.createOkResult(UserList);
     }
 

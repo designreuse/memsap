@@ -6,6 +6,8 @@ import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
 import com.we.sdk.memsap.bean.User;
 
+import java.util.List;
+
 /**
  * @author ${author}
  * @date 2019-02-23 17:21:24
@@ -21,6 +23,8 @@ public interface UserService {
     User getUserByPhoneNumber(String phoneNumber);
 
     Page<User> getUserListByCondition(SearchVo searchVo, Page page);
+
+   List<User> getUserList();
 
     User checkUser(User user);
 }
