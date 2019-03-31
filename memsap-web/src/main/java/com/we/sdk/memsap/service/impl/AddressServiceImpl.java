@@ -33,7 +33,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address getAddressById(Integer id) {
-        return null;// addressDao.getAddressById(id);
+        return addressFeignClient.getAddressById(id).getData();
     }
 
     @Override

@@ -7,14 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 
 @Controller
-@RequestMapping("")
 @RequiredArgsConstructor
 public class IndexController {
 
@@ -23,7 +21,7 @@ public class IndexController {
     private final SeriesService seriesService;
 
 
-    @GetMapping("")
+    @GetMapping("/index")
     public String index(Model model) {
         List<Brand> brandList = phoneService.getBrandList();
         List<Phone> phoneList = phoneService.getPhoneList();
@@ -36,6 +34,15 @@ public class IndexController {
         model.addAttribute("repairList", repairList);
         model.addAttribute("seriesList", seriesList);
         return "index";
+    }
+
+    @GetMapping("/phoneClassification")
+    public String des(Model model) {
+        List<Brand> brandList = phoneService.getBrandList();
+        List<Phone> phoneList = phoneService.getPhoneList();
+        model.addAttribute("brandList", brandList);
+        model.addAttribute("phoneList", phoneList);
+        return "phoneClassification";
     }
 
     @GetMapping("/detail")

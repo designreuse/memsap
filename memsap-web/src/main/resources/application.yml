@@ -83,12 +83,12 @@ hystrix:
             timeoutInMilliseconds: 160000 #断路器的触发时间 要大于(ribbon.ReadTimeout+ribbon.ConnectTimeout)*(ribbon.MaxAutoRetries+1)*(ribbion.MaxAutoRetriesNextServer+1)
 
 # FIXME  设置服务负载请求超时时长(根据业务需求设置时间长度)，以及重新请求间隔
-#ribbon:
-#  ReadTimeout: 3000
-#  ConnectTimeout: 3000
-#  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
-#  MaxAutoRetriesNextServer: 1 #
-#  OkToRetryOnAllOperations: false
+ribbon:
+  ReadTimeout: 3000
+  ConnectTimeout: 3000
+  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
+  MaxAutoRetriesNextServer: 1 #
+  OkToRetryOnAllOperations: false
 
 ######################## eureka配置 ############################
 eureka:
@@ -96,7 +96,7 @@ eureka:
     enabled: true
   client:
     serviceUrl:
-      defaultZone: http://192.168.1.247:8081/eureka
+      defaultZone: http://localhost:8081/eureka
   instance:
     prefer-ip-address: true
     instance-id: localhost:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port

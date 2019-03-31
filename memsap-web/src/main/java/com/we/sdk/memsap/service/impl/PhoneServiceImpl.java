@@ -58,15 +58,8 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     public Page<Phone> getPhoneListByConditions(SearchVo searchVo, Page page) {
-//        if (searchVo != null) {
-//            searchVo.setPage(page);
-//        } else {
-//            searchVo = new SearchVo();
-//        }
+        searchVo.setPage(page);
         RestResult<Page<Phone>> result = phoneFeignClient.getPhoneListByConditions(searchVo);
-//        if (result == null || result.getCode() != 0) {
-//            return page;
-//        }
         return result.getData();
     }
 

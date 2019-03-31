@@ -37,6 +37,8 @@
         })
 
 
+
+
     })
 
 
@@ -85,7 +87,7 @@
 
             <ul class="nav navbar-nav navbar-right" id="login-ul">
                 <li>
-                    <a class="glyphicon glyphicon-user" th:href="@{/user/toLogin(redirect='http://localhost:8084/memsap-web')}"></a>
+                    <a class="glyphicon glyphicon-user" href="#"></a>
                     <!--<a href="#">预约电话：188xxxxxxxx</a>-->
                 </li>
             </ul>
@@ -179,16 +181,16 @@
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade in active" id="apple">
         <div class="container-fluid model-table">
-            <div class=" model-table-div">
+            <div class=" model-table-div" >
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a th:href="@{'detail?id='+${phone.id}}" th:if="${phone.brandId == 1} and ${phoneState.index} lt 10">
+                    <a href="#" th:if="${phone.brandId == 1} and ${phoneState.index} lt 10" >
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
                 </div>
 
 
-                <a href="phoneClassification.html">选择更多机型</a>
+                <a th:href="@{phoneClassification}">选择更多机型</a>
             </div>
         </div>
     </div>
@@ -197,13 +199,13 @@
             <div class=" model-table-div">
 
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 3}">
+                    <a href="#" th:if="${phone.brandId == 3}" >
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
                 </div>
 
-                <a href="phoneClassification.html">选择更多机型</a>
+                <a th:href="@{phoneClassification}">选择更多机型</a>
             </div>
         </div>
     </div>
@@ -211,13 +213,13 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 2}">
+                    <a href="#" th:if="${phone.brandId == 2}" >
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
                 </div>
 
-                <a href="phoneClassification.html">选择更多机型</a>
+                <a th:href="@{phoneClassification}">选择更多机型</a>
             </div>
         </div>
     </div>
@@ -225,12 +227,12 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 4}">
+                    <a href="#" th:if="${phone.brandId == 4}" >
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
                 </div>
-                <a href="phoneClassification.html">选择更多机型</a>
+                <a th:href="@{phoneClassification}">选择更多机型</a>
             </div>
         </div>
     </div>
@@ -238,12 +240,12 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 5}">
+                    <a href="#" th:if="${phone.brandId == 5}" >
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
                 </div>
-                <a href="phoneClassification.html">选择更多机型</a>
+                <a th:href="@{phoneClassification}">选择更多机型</a>
             </div>
         </div>
     </div>
@@ -251,12 +253,12 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 6}">
+                    <a href="#" th:if="${phone.brandId == 6}" >
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
                 </div>
-                <a href="phoneClassification.html">选择更多机型</a>
+                <a th:href="@{phoneClassification}">选择更多机型</a>
             </div>
         </div>
     </div>
@@ -318,9 +320,9 @@
 <!--预约下单-->
 <div class="subscribe-title" id="subscribe">我要预约</div>
 <div class="subscribe-form">
-    <div class="list-box">
+    <div class="list-box" >
         <div class="series-box box">
-            <div class="select-div">
+            <div class="select-div" >
                 <select name="brand_name" id="brand_name" class="form-control">
                     <option>--手机品牌--</option>
                 </select>
@@ -341,7 +343,7 @@
                     <!--</div>-->
                 </select>
             </div>
-            <div class="select-div">
+            <div class="select-div" >
                 <select name="phone_colors" id="phone_colors" class="form-control">
                     <option>--请选择颜色--</option>
                     <option>黑色</option>
@@ -353,7 +355,7 @@
         </div>
 
         <div class="fault-box box">
-            <div class="select-div">
+            <div class="select-div" >
                 <select name="fault_type" id="fault_type" class="form-control">
                     <option>--故障大类--</option>
                 </select>
@@ -365,18 +367,17 @@
             </div>
         </div>
 
-
         <div class="name-box box">
-            <div class="select-div">
+            <div class="select-div" >
                 <input type="text" id="user_name" placeholder="姓名">
             </div>
-            <div class="select-div">
+            <div class="select-div" >
                 <input type="text" id="phone_number" placeholder="电话号码">
             </div>
         </div>
 
         <div class="city-box box">
-            <div class="select-div">
+            <div class="select-div" >
                 <select name="province" id="province" class="form-control">
                     <option>--请选择省份--</option>
                 </select>
@@ -389,9 +390,14 @@
         </div>
 
         <div class="address-box box">
-            <div class="select-div">
+            <div class="select-div" >
                 <input type="text" id="user_address" placeholder="请输入地址">
             </div>
+        </div>
+
+
+        <div class="submit_box box">
+            <button id="fixSubmit" class="submitbtn" type="submit">提交订单</button>
         </div>
 
 
@@ -479,81 +485,118 @@
 
 
 <script th:inline="javascript">
+
+
     /*<![CDATA[*/
-    ctxPath = /*[[@{/}]]*/ '';
+
+    var phoneList = [[${phoneList}]];
+    var brandList = [[${brandList}]];
+    var seriesList = [[${seriesList}]];
+    var faultList  = [[${faultList}]];
+    var repairList = [[${repairList}]];
+
 
     $(document).ready(function () {
 
-        var now_brand;
-        var now_series;
-
-        //获取一级二级联动下拉菜单数据
         //品牌名和系列
-        $.ajax({
-            type: "GET",
-            url: "package.json",
-            dataType: "json",
-            success: function (res) {
-                /*一级二级联动下拉菜单*/
-                //console.log(res);
-                var brand = res.phone_brand.option;
-                //console.log(typeof(res));
-                for (var key in brand) {
-                    //console.log(data[i].id + "===" + data[i].options[0].name)
-                    $("#brand_name").append("<option value='" + key + "'>" + brand[key].name + "</option>");
-                }
-                $("#brand_name").change(function () {
-                    now_brand = $(this).val();
-                    $("#series_name").html('<option value="">选择手机型号</option>');
-                    for (var k in brand[now_brand].options) {
-                        var now_series = brand[now_brand].options[k];
-                        $("#series_name").append('<option value="' + k + '">' + now_series.name + '</option>');
-                    }
-                    $("#series_name").change(function () {
-                        now_series = $(this).val();
-                    })
-                });
-
+        for(var key in brandList) {
+            // console.log(key);
+            $("#brand_name").append('<option value="' + brandList[key].id + '">' + brandList[key].brandName + '</option>');
+        }
+        $("#brand_name").change(function() {
+            var now_brand = $(this).val();
+            $("#series_name").html('<option value="">选择手机系列</option>');
+            for(var k in seriesList) {
+                if(seriesList[k].brandId == now_brand)
+                // var now_series = brand[now_brand].options[k];
+                    $("#series_name").append('<option value="' +  seriesList[k].id + '">' + seriesList[k].seriesName + '</option>');
             }
+            $("#series_name").change(function () {
+                var now_series = $(this).val();
+                $("#phone_name").html('<option value="">选择手机型号</option>');
+                for(var k in phoneList) {
+                    if(phoneList[k].seriesId == now_series)
+                    // var now_series = brand[now_brand].options[k];
+                        $("#phone_name").append('<option value="' +  phoneList[k].id + '">' + phoneList[k].phoneName + '</option>');
+                }
+
+            })
+            $("#phone_name").change(function () {
+                var now_phone = $(this).val();
+                // console.log(now_phone);
+                $("#phone_colors").html('<option value="">选择手机颜色</option>');
+                for(var k in phoneList) {
+                    if(phoneList[k].id == now_phone){
+                        var colorList = phoneList[k].phoneColorList;
+                        // console.log(colorList);
+                        for (var key in colorList) {
+                            $("#phone_colors").append('<option value="' +  key + '">' + colorList[key] + '</option>');
+                        }
+                    }
+
+
+                }
+
+            })
         });
 
+
+
         //维修问题
-        $.ajax({
+        for(var key in faultList) {
+            $("#fault_type").append('<option value="' + faultList[key].id + '">' + faultList[key].faultType + '</option>');
+        }
+        $("#fault_type").change(function() {
+            var now_type = $(this).val();
+            $("#repair_name").html('<option value="">选择需要维修的问题</option>');
+            for(var k in repairList) {
+                if(repairList[k].faultId == now_type)
+                // var now_series = brand[now_brand].options[k];
+                    $("#repair_name").append('<option value="' +  repairList[k].id + '">' + repairList[k].repairName + '</option>');
+            }
+
+
+        })
+
+
+
+        //维修问题
+        /*$.ajax({
             type: "GET",
             url: "package.json",
             dataType: "json",
-            success: function (res) {
-                /*一级二级联动下拉菜单*/
+            success: function(res) {
+                /!*一级二级联动下拉菜单*!/
                 //console.log(res);
                 var repair = res.model_repair.option;
                 //console.log(typeof(res));
-                for (var key in repair) {
+                for(var key in repair) {
                     //console.log(data[i].id + "===" + data[i].options[0].name)
                     $("#fault_type").append("<option value='" + key + "'>" + repair[key].name + "</option>");
                 }
-                $("#fault_type").change(function () {
+                $("#fault_type").change(function() {
                     var now_type = $(this).val();
                     $("#repair_name").html('<option value="">选择需要维修的问题</option>');
-                    for (var k in repair[now_type].options) {
+                    for(var k in repair[now_type].options) {
                         var now_repair = repair[now_type].options[k];
                         $("#repair_name").append('<option value="' + k + '">' + now_repair.name + '</option>');
                     }
                 });
             }
-        });
+        });*/
 
         //省市
         $.ajax({
             type: "GET",
             url: "package.json",
             dataType: "json",
-            success: function (res) {
+            success: function(res) {
                 /*一级二级联动下拉菜单*/
                 //console.log(res);
                 var province = res.provinces;
                 // var city = res.provinces.citys;
                 //console.log(typeof(res));
-                for (var key in province) {
+                for(var key in province) {
                     //console.log(data[i].id + "===" + data[i].options[0].name)
                     $("#province").append("<option value='" + key + "'>" + province[key].provinceName + "</option>");
                 }
@@ -561,7 +604,7 @@
                     // var now_province = $(this).prop('selectedIndex');
                     var now_province = $(this).val();
                     $("#city").html('<option value="">选择城市</option>');
-                    for (var k in province[now_province].citys) {
+                    for(var k in province[now_province].citys) {
                         var now_city = province[now_province].citys[k];
                         $("#city").append('<option value="' + k + '">' + now_city.citysName + '</option>');
                     }
@@ -569,8 +612,8 @@
             }
         });
 
-
     })
+
     /*]]>*/
 </script>
 

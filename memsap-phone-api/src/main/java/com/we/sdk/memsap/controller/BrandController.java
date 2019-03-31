@@ -37,8 +37,8 @@ public class BrandController {
      * 删除
      */
     @ApiOperation(value = "删除Brand", notes = "删除Brand")
-    @PostMapping(value = "/delete")
-    public RestResult<Integer> delete(@RequestParam Integer id) {
+    @DeleteMapping(value = "/delete/{id}")
+    public RestResult<Integer> delete(@PathVariable Integer id) {
         Integer result = brandService.delete(id);
         return RestResultGenerator.createOkResult(result);
     }
@@ -69,8 +69,8 @@ public class BrandController {
      * @return
      */
     @ApiOperation(value = "根据id查询Brand", notes = "根据id查询Brand")
-    @PostMapping(value = "/getBrandById")
-    public RestResult<Brand> getBrandById(@RequestParam Integer id) {
+    @GetMapping(value = "/getBrandById/{id}")
+    public RestResult<Brand> getBrandById(@PathVariable Integer id) {
         Brand brand = brandService.getBrandById(id);
         return RestResultGenerator.createOkResult(brand);
     }

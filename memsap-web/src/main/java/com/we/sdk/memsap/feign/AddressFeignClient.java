@@ -29,6 +29,9 @@ public interface AddressFeignClient {
     @GetMapping(value = "/address/getAddressList")
     RestResult<List<Address>> getAddressList();
 
+    @GetMapping(value = "/address/getUserAddressById/{id}")
+    RestResult<Address> getAddressById(@PathVariable Integer id);
+
 
     //////////////////////////////////////////////////  AddressDic
 

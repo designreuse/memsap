@@ -42,15 +42,10 @@ public class Page<T> {
     }
 
 
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-        calculate();
-    }
-
     /**
      * 根据当前对象中的属性值计算并设置相关属性值
      */
-    private void calculate() {
+    public void calculate() {
         //计算总页数
         int totalPage = this.totalCount / this.pageSize;
         int plusPage = this.totalCount % this.pageSize == 0 ? 0 : 1;

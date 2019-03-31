@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //@FeignClient(name = "memsap-phone-api", fallbackFactory = HystrixFallbackFactory.class)
-@FeignClient(name = "memsap-phone-api")
+@FeignClient(name = "memsap-phone-api", url = "http://localhost:8080")
 @RequestMapping("/memsap-phone-api")
 public interface PhoneFeignClient {
     /*新增*/
@@ -26,7 +26,10 @@ public interface PhoneFeignClient {
     RestResult<Integer> update(@RequestBody Phone phone);
 
     /*条件查询列表*/
-    @RequestMapping(value = "/phone/getPhoneListByConditions", method = RequestMethod.POST)
+//    @PostMapping(value = "/phone/getPhoneListByConditions/{pn}/{pageSize}")
+//    RestResult<Page<Phone>> getPhoneListByConditions(@RequestBody SearchVo searchVo, @PathVariable Integer pn, @PathVariable Integer pageSize);
+
+    @PostMapping(value = "/phone/getPhoneListByConditions")
     RestResult<Page<Phone>> getPhoneListByConditions(@RequestBody SearchVo searchVo);
 
     /*根据id获取Phone*/

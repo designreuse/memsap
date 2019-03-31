@@ -38,8 +38,8 @@ public class RepairController {
      * 删除
      */
     @ApiOperation(value = "删除Repair", notes = "删除Repair")
-    @PostMapping(value = "/delete")
-    public RestResult<Integer> delete(@RequestParam Integer id){
+    @DeleteMapping(value = "/delete/{id}")
+    public RestResult<Integer> delete(@PathVariable Integer id){
         Integer result = repairService.delete(id);
         return RestResultGenerator.createOkResult(result);
     }
@@ -70,8 +70,8 @@ public class RepairController {
      * @return
      */
     @ApiOperation(value = "根据id查询Repair", notes = "根据id查询Repair")
-    @PostMapping(value = "/getRepairById")
-    public RestResult<Repair> getRepairById(@RequestParam Integer id) {
+    @GetMapping(value = "/getRepairById/{id}")
+    public RestResult<Repair> getRepairById(@PathVariable Integer id) {
         Repair Repair = repairService.getRepairById(id);
         return RestResultGenerator.createOkResult(Repair);
     }

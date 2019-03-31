@@ -47,6 +47,7 @@ public class PhoneServiceImpl implements PhoneService {
     public Page getPhoneListByConditions(SearchVo searchVo, Page page) {
         Integer count = getPhoneListCount(searchVo);
         page.setTotalCount(count);
+        page.calculate();
         page.setData(phoneDao.getPhoneListByConditions(searchVo, page));
         return page;
     }

@@ -2,13 +2,12 @@ package com.we.sdk.memsap.config;
 
 import com.we.sdk.memsap.handler.UserLoginHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+//@Configuration
 public class MyAdapterConfig implements WebMvcConfigurer {
 
     @Autowired
@@ -19,7 +18,7 @@ public class MyAdapterConfig implements WebMvcConfigurer {
         // 判断用户是否登录的拦截器
         registry.addInterceptor(userLoginHandlerInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("", "/user/toForget","/user/forget", "/user/toLogin*", "/user/login*",
+                .excludePathPatterns("","/", "/user/toForget","/user/forget", "/user/toLogin*", "/user/login*",
                         "/user/toRegister*", "/user/register*", "/error", "/css/**", "/img/**", "/js/**", "/font-awesome/**","/**.ico");
     }
 

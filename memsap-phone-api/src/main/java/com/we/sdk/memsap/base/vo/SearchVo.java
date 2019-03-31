@@ -2,7 +2,6 @@ package com.we.sdk.memsap.base.vo;
 
 import lombok.Data;
 
-
 @Data
 public class SearchVo {
 
@@ -14,4 +13,5 @@ public class SearchVo {
     private String phoneName;
 
     private Page page;
+
 }

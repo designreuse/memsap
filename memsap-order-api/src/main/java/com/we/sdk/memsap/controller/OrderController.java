@@ -39,8 +39,8 @@ public class OrderController {
      * 删除
      */
     @ApiOperation(value = "删除Order", notes = "删除Order")
-    @PostMapping(value = "/delete")
-    public RestResult<Integer> delete(@RequestParam Integer id) {
+    @DeleteMapping(value = "/delete/{id}")
+    public RestResult<Integer> delete(@PathVariable Integer id) {
         Integer result = orderService.delete(id);
         return RestResultGenerator.createOkResult(result);
     }
@@ -83,8 +83,8 @@ public class OrderController {
     }
 
     @ApiOperation(value = "根据id删除orderDetail", notes = "根据id删除订单详情")
-    @PostMapping(value = "/deleteOrderDetail")
-    public RestResult<Integer> deleteOrderDetail(Integer id) {
+    @DeleteMapping(value = "/deleteOrderDetail/{id}")
+    public RestResult<Integer> deleteOrderDetail(@PathVariable Integer id) {
         Integer result = orderService.deleteOrderDetail(id);
         return RestResultGenerator.createOkResult(result);
     }
@@ -97,8 +97,8 @@ public class OrderController {
     }
 
     @ApiOperation(value = "根据id查询OrderDetail", notes = "根据id查询OrderDetail")
-    @PostMapping(value = "/getOrderDetailById")
-    public RestResult<OrderDetail> getOrderDetailById(@RequestParam Integer id) {
+    @GetMapping(value = "/getOrderDetailById/{id}")
+    public RestResult<OrderDetail> getOrderDetailById(@PathVariable Integer id) {
         OrderDetail orderDetail = orderService.getOrderDetailById(id);
         return RestResultGenerator.createOkResult(orderDetail);
     }

@@ -2,6 +2,7 @@ package com.we.sdk.memsap.controller;
 
 import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
+import com.we.sdk.memsap.bean.Brand;
 import com.we.sdk.memsap.bean.Phone;
 import com.we.sdk.memsap.bean.RepairPrice;
 import com.we.sdk.memsap.service.impl.PhoneServiceImpl;
@@ -25,13 +26,15 @@ public class PhoneController {
     @RequestMapping("/listByCondition")
     public String getPhoneListByCondition(Model model, SearchVo searchVo, Page page) {
         Page<Phone> pages = phoneService.getPhoneListByConditions(searchVo, page);
+        List<Brand> brands = phoneService.getBrandList();
         List<Phone> phones = pages.getData();
         for (Phone phone : phones) {
             phone.setPhoneColorList(Arrays.asList(phone.getPhoneColors().split(",")));
         }
         model.addAttribute("phoneList", phones);
+        model.addAttribute("brands", brands);
         model.addAttribute("searchVo", searchVo);
-        model.addAttribute("page", pages);
+        model.addAttribute("page",pages);
         return "phone/phoneShow";
     }
 

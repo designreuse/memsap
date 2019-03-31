@@ -94,7 +94,7 @@
                                         <td th:text="${address.province + address.city+address.county}+'--'+${address.detailAddress}">南四135</td>
                                         <!--<td><a href="#">查看地址</a></td>-->
                                         <td>
-                                            <a th:href="@{'toEdit?id='+${address.id}}" title="修改"><i
+                                            <a th:href="@{'toUpdate?id='+${address.id}}" title="修改"><i
                                                     class="fa fa-edit text-navy"></i></a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
                                             <a href="#" th:onclick="'javascript:updateState('+${address.id}+',2,0);'"

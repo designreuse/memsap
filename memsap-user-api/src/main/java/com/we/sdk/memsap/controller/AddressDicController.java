@@ -7,7 +7,7 @@ import com.we.sdk.memsap.bean.AddressDic;
 import com.we.sdk.memsap.service.AddressDicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +20,10 @@ import java.util.List;
 @RestController
 @Api(value = "AddressDic接口", description = "AddressDic接口")
 @RequestMapping("/addressDic")
+@RequiredArgsConstructor
 public class AddressDicController {
-    @Autowired
-    private AddressDicService addressDicService;
+
+    private final AddressDicService addressDicService;
 
     /**
      * 新增

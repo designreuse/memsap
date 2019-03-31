@@ -38,8 +38,8 @@ public class FaultController {
      * 删除
      */
     @ApiOperation(value = "删除Fault", notes = "删除Fault")
-    @PostMapping(value = "/delete")
-    public RestResult<Integer> delete(@RequestParam Integer id){
+    @DeleteMapping(value = "/delete/{id}")
+    public RestResult<Integer> delete(@PathVariable Integer id){
         Integer result = faultService.delete(id);
         return RestResultGenerator.createOkResult(result);
     }
@@ -70,8 +70,8 @@ public class FaultController {
      * @return
      */
     @ApiOperation(value = "根据id查询Fault", notes = "根据id查询Fault")
-    @PostMapping(value = "/getFaultById")
-    public RestResult<Fault> getFaultById(@RequestParam Integer id) {
+    @GetMapping(value = "/getFaultById/{id}")
+    public RestResult<Fault> getFaultById(@PathVariable Integer id) {
         Fault fault = faultService.getFaultById(id);
         return RestResultGenerator.createOkResult(fault);
     }

@@ -64,6 +64,12 @@ public class PhoneController {
         Page<Phone> phoneList = phoneService.getPhoneListByConditions(searchVo, Page.initPage(searchVo.getPage()));
         return RestResultGenerator.createOkResult(phoneList);
     }
+//    @ApiOperation(value = "查询Phone列表", notes = "查询Phone列表")
+//    @PostMapping("/getPhoneListByConditions/{pn}/{pageSize}")
+//    public RestResult<Page<Phone>> getPhoneListByConditions(@RequestBody(required = false) SearchVo searchVo, @PathVariable Integer pn, @PathVariable Integer pageSize) {
+//        Page<Phone> phoneList = phoneService.getPhoneListByConditions(searchVo, Page.initPage(new Page(pn, pageSize)));
+//        return RestResultGenerator.createOkResult(phoneList);
+//    }
 
     /**
      * 根据id查询Phone

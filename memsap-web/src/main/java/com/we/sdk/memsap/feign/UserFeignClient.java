@@ -17,7 +17,7 @@ public interface UserFeignClient {
     RestResult<Integer> save(@RequestBody User user);
 
     /*删除*/
-    @PostMapping(value = "/user/delete/{phoneNumber}")
+    @DeleteMapping(value = "/user/delete/{phoneNumber}")
     RestResult<Integer> delete(@PathVariable String phoneNumber);
 
     /*修改*/
@@ -25,7 +25,7 @@ public interface UserFeignClient {
     RestResult<Integer> update(@RequestBody User user);
 
     /*条件查询列表*/
-    @RequestMapping(value = "/user/getUsersByCondition",method = RequestMethod.POST)
+    @PostMapping(value = "/user/getUsersByCondition")
     RestResult<Page<User>> getUserListByCondition(@RequestBody SearchVo searchVo);
 
     /*条件查询列表*/

@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
     public Page getUsersByCondition(SearchVo searchVo, Page<User> page) {
         Integer count = userDao.getUsersCount(searchVo);
         page.setTotalCount(count);
+        page.calculate();
         page.setData(userDao.getUsersByCondition(searchVo, page));
         return page;
     }

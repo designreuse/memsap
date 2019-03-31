@@ -9,7 +9,7 @@ import com.we.sdk.memsap.bean.User;
 import com.we.sdk.memsap.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +23,10 @@ import java.util.List;
 @RestController
 @Api(value = "User接口", description = "User接口")
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * 新增
