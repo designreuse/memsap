@@ -5,6 +5,8 @@ spring:
     servlet:
       load-on-startup: 1
     date-format: yyyy-MM-dd HH:mm:ss # 配置请求的String类型转Date类型 FIXME 定义默认的时间转换格式
+    favicon:
+      enabled: false
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss #配置Date类型返回时的时间格式，否则会返回long FIXME 定义默认的时间返回格式
     time-zone: GMT+8 #设置Date类型的时区
@@ -44,7 +46,7 @@ server:
 
 feign:
   hystrix:
-    enabled: true #启用断路器
+    enabled: false #启用断路器
   compression:
     request:
       enabled: true # gzip压缩
@@ -81,22 +83,26 @@ hystrix:
             timeoutInMilliseconds: 160000 #断路器的触发时间 要大于(ribbon.ReadTimeout+ribbon.ConnectTimeout)*(ribbon.MaxAutoRetries+1)*(ribbion.MaxAutoRetriesNextServer+1)
 
 # FIXME  设置服务负载请求超时时长(根据业务需求设置时间长度)，以及重新请求间隔
-#ribbon:
-#  ReadTimeout: 3000
-#  ConnectTimeout: 3000
-#  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
-#  MaxAutoRetriesNextServer: 1 #
-#  OkToRetryOnAllOperations: false
+ribbon:
+  ReadTimeout: 3000
+  ConnectTimeout: 3000
+  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
+  MaxAutoRetriesNextServer: 1 #
+  OkToRetryOnAllOperations: false
 
-####################### eureka配置 ############################
+######################## eureka配置 ############################
 eureka:
   healthcheck:
     enabled: true
   client:
     serviceUrl:
-      defaultZone: http://localhost:8081/eureka      # peer1 为10.1.8.120服务区器主机名
+      defaultZone: http://localhost:8081/eureka
   instance:
     prefer-ip-address: true
     instance-id: localhost:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port
     leaseRenewalIntervalInSeconds: 30
     leaseExpirationDurationInSeconds: 60
+
+administrator:
+  name: root
+  password: 123456

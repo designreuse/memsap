@@ -24,22 +24,6 @@ spring:
       test-while-idle: true
       test-on-borrow: false
       test-on-return: false
-  redis:
-    database: 0
-    timeout: 1000
-    host: 192.168.124.131
-    port: 6379
-    jedis:
-      pool:
-        #最大连接数据库连接数,设 0 为没有限制
-        max-active: 3
-        #最大等待连接中的数量,设 0 为没有限制
-        max-idle: 2
-        #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
-        max-wait: 1000ms
-        #最小等待连接中的数量,设 0 为没有限制
-        min-idle: 0
-
 server:
   port: 8080
   servlet:
@@ -51,6 +35,7 @@ eureka:
     enabled: true
   client:
     serviceUrl:
+#      defaultZone: http://192.168.1.247:8081/eureka
       defaultZone: http://localhost:8081/eureka
   instance:
     prefer-ip-address: true
@@ -60,7 +45,7 @@ eureka:
 
 #################### mybatis配置 #############################
 mybatis:
-  type-aliases-package: com.we.sdk.memsap.dao
+  type-aliases-package: com.we.sdk.memsap.bean
   mapper-locations:
     - classpath:mapper/*.xml
   configuration:
@@ -71,11 +56,3 @@ mybatis:
 logging:
   level:
     com.we.sdk.memsap.phone.dao: trace
-
-
-ribbon:
-  ReadTimeout: 3000
-  ConnectTimeout: 3000
-  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
-  MaxAutoRetriesNextServer: 1 #
-  OkToRetryOnAllOperations: false
