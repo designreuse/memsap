@@ -36,6 +36,19 @@ public class FaultRepairController {
         return RestResultGenerator.createOkResult(result);
     }
 
+    @ApiOperation(value = "批量新增RepairPrice", notes = "批量新增手机故障维修价格")
+    @PostMapping(value = "/batchSave")
+    public RestResult<Integer> batchSave(@RequestBody List<RepairPrice> repairPriceList) {
+        for (RepairPrice repairPrice : repairPriceList) {
+            if (!StringUtils.isEmpty(faultRepairService.getFaultRepairPriceByCondition(repairPrice))) {
+                return RestResultGenerator.createFailResult("对应故障维修价格已经存在");
+            }
+        }
+        Integer result = faultRepairService.batchSave(repairPriceList);
+        return RestResultGenerator.createOkResult(result);
+    }
+
+
     @ApiOperation(value = "删除RepairPrice", notes = "删除手机故障维修价格")
     @PostMapping(value = "/delete")
     public RestResult<Integer> delete(@RequestBody RepairPrice repairPrice) {
@@ -47,6 +60,20 @@ public class FaultRepairController {
     @PostMapping(value = "/update")
     public RestResult<Integer> update(@RequestBody RepairPrice repairPrice) {
         Integer result = faultRepairService.update(repairPrice);
+        return RestResultGenerator.createOkResult(result);
+    }
+
+    @ApiOperation(value = "批量修改RepairPrice", notes = "批量修改手机故障维修价格")
+    @PostMapping(value = "/updateBatch")
+    public RestResult<Integer> updateBatch(@RequestBody List<RepairPrice> repairPriceList) {
+        Integer result = faultRepairService.batchUpdate(repairPriceList);
+        return RestResultGenerator.createOkResult(result);
+    }
+
+    @ApiOperation(value = "批量操作RepairPrice", notes = "批量操作手机故障维修价格")
+    @PostMapping(value = "/batchEdit")
+    public RestResult<Integer> batchEdit(@RequestBody List<RepairPrice> repairPriceList) {
+        Integer result = faultRepairService.batchEdit(repairPriceList);
         return RestResultGenerator.createOkResult(result);
     }
 

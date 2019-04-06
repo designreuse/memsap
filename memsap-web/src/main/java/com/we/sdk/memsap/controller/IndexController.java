@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -48,6 +49,7 @@ public class IndexController {
     @GetMapping("/detail")
     public String detail(Model model,@RequestParam("id") Integer id) {
         Phone phone = phoneService.getPhoneById(id);
+        phone.setPhoneColorList(Arrays.asList(phone.getPhoneColors().split(",")));
         List<Fault> faultList = phoneService.getFaultList();
         List<Repair> repairList = phoneService.getRepairList();
         model.addAttribute("phone",phone);

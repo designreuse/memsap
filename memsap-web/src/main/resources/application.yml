@@ -17,7 +17,7 @@ spring:
       max-file-size: 100MB # 设置单个文件的最大长度
       max-request-size: 100MB # 设置最大的请求文件的大小
       file-size-threshold: 10MB  # 当上传文件达到1MB的时候进行磁盘写入
-      location: C:/We/We/memsap/memsap-web/src/main/resources/static/img/phone/  # 上传的临时目录
+      location: C:/We/We/memsap/memsap-web/src/main/resources/static/img/Phone_img/  # 上传的临时目录
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html

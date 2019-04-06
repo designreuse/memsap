@@ -55,4 +55,4 @@ mybatis:
 
 logging:
   level:
-    com.we.sdk.memsap.phone.dao: trace
+    com.we.sdk.memsap.dao: trace

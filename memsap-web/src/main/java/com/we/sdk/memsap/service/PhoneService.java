@@ -63,6 +63,8 @@ public interface PhoneService {
 
     List<Brand> getBrandList();
 
+    Integer batchEdit(List<RepairPrice> repairPriceList);
+
 
 }
 

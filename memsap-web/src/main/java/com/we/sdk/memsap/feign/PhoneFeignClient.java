@@ -25,9 +25,6 @@ public interface PhoneFeignClient {
     @PostMapping(value = "/phone/update")
     RestResult<Integer> update(@RequestBody Phone phone);
 
-    /*条件查询列表*/
-//    @PostMapping(value = "/phone/getPhoneListByConditions/{pn}/{pageSize}")
-//    RestResult<Page<Phone>> getPhoneListByConditions(@RequestBody SearchVo searchVo, @PathVariable Integer pn, @PathVariable Integer pageSize);
 
     @PostMapping(value = "/phone/getPhoneListByConditions")
     RestResult<Page<Phone>> getPhoneListByConditions(@RequestBody SearchVo searchVo);
@@ -45,6 +42,9 @@ public interface PhoneFeignClient {
     @PostMapping(value = "/repairPrice/getFaultRepairPriceListByCondition")
     RestResult<List<RepairPrice>> getFaultRepairPriceByCondition(@RequestBody RepairPrice repairPrice);
 
+    @PostMapping(value = "/repairPrice/batchEdit")
+    RestResult<Integer> batchEdit(@RequestBody List<RepairPrice> repairPriceList);
+
 
     @GetMapping(value = "/fault/getFaultList")
     RestResult<List<Fault>> getFaultList();
@@ -54,6 +54,27 @@ public interface PhoneFeignClient {
 
     @GetMapping(value = "/brand/getBrands")
     RestResult<List<Brand>> getBrandList();
+
+    ///////////////////////////// series
+    /*新增*/
+    @PostMapping(value = "/series/save")
+    RestResult<Integer> saveSeries(@RequestBody Series series);
+
+    /*删除*/
+    @DeleteMapping(value = "/series/delete/{id}")
+    RestResult<Integer> deleteSeries(@PathVariable Integer id);
+
+    /*修改*/
+    @PostMapping(value = "/series/update")
+    RestResult<Integer> updateSeries(@RequestBody Series series);
+
+
+    @GetMapping(value = "/series/getSeriesList")
+    RestResult<List<Series>> getSeriesList();
+
+    /*根据id获取系列*/
+    @GetMapping(value = "/series/getSeriesById/{id}")
+    RestResult<Series> getSeriesById(@PathVariable Integer id);
 
 
 }

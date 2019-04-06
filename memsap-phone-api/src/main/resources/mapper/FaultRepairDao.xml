@@ -32,6 +32,19 @@
         </trim>
     </insert>
 
+    <insert id="batchSave" parameterType="java.util.List">
+        INSERT INTO MODEL_REPAIR_PRICE
+        (phone_id,repair_id,price)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.phoneId},
+            #{item.repairId},
+            #{item.price}
+            )
+        </foreach>
+    </insert>
+
     <!-- 删除 -->
     <delete id="delete">
         DELETE
@@ -49,6 +62,26 @@
         WHERE phone_id = #{phoneId} AND repair_id = #{repairId}
     </update>
 
+    <!-- 批量修改 -->
+    <update id="batchUpdate" parameterType="java.util.List">
+        update MODEL_REPAIR_PRICE
+        set price =
+        <foreach collection="list" item="item"
+                 separator=" " open="case repair_id" close="end">
+            <if test="item.price != null and item.price != ''">
+                when #{item.repairId} then #{item.price}
+            </if>
+            <if test="item.price == null or item.price == ''">
+                when #{item.repairId} then MODEL_REPAIR_PRICE.price
+            </if>
+        </foreach>
+        where phone_id = #{phoneId} AND repair_id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item.repairId}
+        </foreach>
+    </update>
+
+
     <!-- 查询 -->
     <select id="getFaultRepairPriceByCondition" resultMap="FaultRepairMapper">
         SELECT
@@ -60,11 +93,11 @@
         </where>
     </select>
 
-   <!--  查询全部维修价格
-    <select id="getFaultRepairPriceList" resultMap="FaultRepairMapper">
-        SELECT
-        <include refid="field"/>
-        FROM MODEL_REPAIR_PRICE
-    </select>-->
+    <!--  查询全部维修价格
+     <select id="getFaultRepairPriceList" resultMap="FaultRepairMapper">
+         SELECT
+         <include refid="field"/>
+         FROM MODEL_REPAIR_PRICE
+     </select>-->
 
 </mapper>

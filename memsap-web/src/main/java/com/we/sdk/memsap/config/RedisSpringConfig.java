@@ -1,4 +1,5 @@
 package com.we.sdk.memsap.config;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,9 @@ public class RedisSpringConfig {
     @Value("${redis.node.port}")
     private Integer redisNodePort;
 
+    @Value("${redis.node.password}")
+    private String redisNodePassword;
+
     private JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(redisMaxTotal);
@@ -33,7 +37,7 @@ public class RedisSpringConfig {
 
     @Bean
     public JedisPool getJedisPool(){    // 省略第一个参数则是采用 Protocol.DEFAULT_DATABASE
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig(), redisNodeHost, redisNodePort);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig(), redisNodeHost, redisNodePort,1000,redisNodePassword);
         return jedisPool;
     }
 

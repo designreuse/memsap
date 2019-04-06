@@ -1,7 +1,7 @@
 package com.we.sdk.memsap.service.impl;
 
 import com.we.sdk.memsap.bean.Series;
-import com.we.sdk.memsap.feign.SeriesFeignClient;
+import com.we.sdk.memsap.feign.PhoneFeignClient;
 import com.we.sdk.memsap.service.SeriesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,31 +12,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SeriesServiceImpl implements SeriesService {
 
-    private final SeriesFeignClient seriesFeignClient;
+    private final PhoneFeignClient phoneFeignClient;
 
     @Override
-    public Integer save(Series series) {
-        return seriesFeignClient.save(series).getData();
+    public Integer saveSeries(Series series) {
+        return phoneFeignClient.saveSeries(series).getData();
     }
 
     @Override
-    public Integer delete(Integer id) {
-        return seriesFeignClient.delete(id).getData();
+    public Integer deleteSeries(Integer id) {
+        return phoneFeignClient.delete(id).getData();
     }
 
     @Override
-    public Integer update(Series series) {
-        return seriesFeignClient.update(series).getData();
+    public Integer updateSeries(Series series) {
+        return phoneFeignClient.updateSeries(series).getData();
     }
 
     @Override
     public Series getSeriesById(Integer id){
-        return seriesFeignClient.getSeriesById(id).getData();
+        return phoneFeignClient.getSeriesById(id).getData();
     }
 
     @Override
     public List<Series> getSeriesList() {
-        return seriesFeignClient.getSeriesList().getData();
+        return phoneFeignClient.getSeriesList().getData();
     }
 
 }

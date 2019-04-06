@@ -24,5 +24,4 @@ public class Phone {
 
     private Integer brandId;
 
-
 }

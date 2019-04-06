@@ -34,7 +34,7 @@
                         <a>商品管理</a>
                     </li>
                     <li class="active">
-                        <strong>商品管理</strong>
+                        <strong>手机管理</strong>
                     </li>
                 </ol>
             </div>
@@ -44,41 +44,66 @@
 
         <div class="wrapper wrapper-content animated fadeInRight">
             <!--<form action="listByCondition">-->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>搜索&amp;操作</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>搜索&amp;操作</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
                             </div>
-                            <div class="ibox-content" style="display: block;">
-                                <form action="listByCondition">
+                        </div>
+                        <div class="ibox-content" style="display: block;">
+                            <form action="listByCondition">
                                 <div class="row">
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="phoneNumber" name="phoneNumber" placeholder="手机ID"
-                                               class="form-control"
-                                               type="text" th:value="${searchVo.phoneNumber}"/>
-                                    </div>
-                                    <div class="col-sm-2 m-b-xs">
-                                        <input id="phoneName" name="phoneName" placeholder="手机型号" class="form-control"
-                                               type="text" th:value="${searchVo.phoneName}"/>
+                                        <a th:href="@{itemEdit}" class="btn btn-primary btn-block" data-toggle="tooltip"
+                                           data-placement="left" title="" data-original-title="Refresh inbox"><i
+                                                class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;新增手机&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
                                         <select name="brandName" id="brandName" class="form-control">
-                                            <option value="" th:selected="${searchVo.brandName==null}">--手机品牌--</option>
-                                            <option th:selected="${searchVo.brandName=='苹果'}" value="苹果">苹果</option>
-                                            <option th:selected="${searchVo.brandName=='三星'}" value="三星">三星</option>
-                                            <option th:selected="${searchVo.brandName=='华为'}" value="华为">华为</option>
-                                            <option th:selected="${searchVo.brandName=='小米'}" value="小米">小米</option>
-                                            <option th:selected="${searchVo.brandName=='OPPO'}" value="OPPO">OPPO
+                                            <option value=""
+                                                    th:selected="${searchVo==null || searchVo.brandName==null}">--手机品牌--
                                             </option>
-                                            <option th:selected="${searchVo.brandName=='vivo'}" value="vivo">vivo
+                                            <option th:selected="${searchVo.brandName=='苹果'}" value="苹果" th:name="1">
+                                                苹果
+                                            </option>
+                                            <option th:selected="${searchVo.brandName=='三星'}" value="三星" th:name="2">
+                                                三星
+                                            </option>
+                                            <option th:selected="${searchVo.brandName=='华为'}" value="华为" th:name="3">
+                                                华为
+                                            </option>
+                                            <option th:selected="${searchVo.brandName=='小米'}" value="小米" th:name="4">
+                                                小米
+                                            </option>
+                                            <option th:selected="${searchVo.brandName=='OPPO'}" value="OPPO"
+                                                    th:name="5">OPPO
+                                            </option>
+                                            <option th:selected="${searchVo.brandName=='vivo'}" value="vivo"
+                                                    th:name="6">vivo
                                             </option>
                                         </select>
+                                    </div>
+                                    <div class="col-sm-2 m-b-xs">
+                                        <select name="seriesName" id="seriesName" class="form-control">
+                                            <th:block th:if="${searchVo==null ||searchVo.seriesName==null}">
+                                                <option value="" selected>--手机系列--
+                                                </option>
+                                            </th:block>
+                                            <th:block th:if="${searchVo==null ||searchVo.seriesName!=null}">
+                                                <option th:value="${searchVo.seriesName}" selected>
+                                                    [[${searchVo.seriesName}]]
+                                                </option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 m-b-xs">
+                                        <input id="phoneName" name="phoneName" placeholder="手机型号" class="form-control"
+                                               type="text" th:value="${searchVo==null}?'':${searchVo.phoneName}"/>
                                     </div>
 
                                     <div class="col-sm-2 m-b-xs">
@@ -87,69 +112,73 @@
                                         </button>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
-                                        <a th:href="@{itemEdit}" class="btn btn-primary btn-block" data-toggle="tooltip"
-                                           data-placement="left" title="" data-original-title="Refresh inbox"><i
-                                                class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;新增手机&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                        <button class="btn btn-primary btn-block reset" type="button"
+                                                style="background-color: #888888;border-color:#888888"><i
+                                                class="glyphicon glyphicon-refresh"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>重置</strong>
+                                        </button>
                                     </div>
                                 </div>
-                                </form>
-                            </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>手机列表</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>手机列表</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
                             </div>
-                            <div class="ibox-content">
-                                <div class="table-responsive">
-                                    <table class=" table table-hover" data-page-size="10">
-                                        <thead>
-                                        <tr>
-                                            <th width="15%">ID</th>
-                                            <!--<th width="8%">分类</th>-->
-                                            <th width="10%">手机型号</th>
-                                            <th width="15%">颜色</th>
-                                            <th width="15%">品牌</th>
-                                            <th width="15%">系列</th>
-                                            <th>操作</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="item : ${phoneList}">
-                                            <td th:text="${item.id}">1</td>
-                                            <td th:text="${item.phoneName}">iPhone6</td>
-                                            <td th:text="${item.phoneColors}">黑色,白色</td>
-                                            <td th:text="${item.brandId}">苹果</td>
-                                            <td th:text="${item.seriesId}">iPhone</td>
-
-                                            <td>
-                                                <a th:href="@{'toEdit?id='+${item.id}}" title="修改"><i
-                                                        class="fa fa-edit text-navy"></i></a>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                                <a href="#" th:onclick="'javascript:updateState('+${item.id}+',2,0);'"
-                                                   title="删除"><i class="fa fa-trash-o text-navy"></i></a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <td colspan="10">
-                                                <div id="pageToolbar"></div>
-                                            </td>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class=" table table-hover" data-page-size="10">
+                                    <thead>
+                                    <tr>
+                                        <th width="15%">ID</th>
+                                        <!--<th width="8%">分类</th>-->
+                                        <th width="10%">手机型号</th>
+                                        <th width="15%">颜色</th>
+                                        <th width="15%">品牌</th>
+                                        <th width="15%">系列</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item : ${phoneList}">
+                                        <td th:text="${item.id}">1</td>
+                                        <td th:text="${item.phoneName}">iPhone6</td>
+                                        <td th:text="${item.phoneColors}">黑色,白色</td>
+                                        <div th:each="brand :${brands}">
+                                            <td th:if="${brand.id==item.brandId}" th:text="${brand.brandName}">苹果</td>
+                                        </div>
+                                        <div th:each="s :${seriesList}">
+                                            <td th:if="${s.id==item.seriesId}" th:text="${s.seriesName}">iPhone</td>
+                                        </div>
+                                        <td>
+                                            <a th:href="@{'toEdit?id='+${item.id}}" title="修改"><i
+                                                    class="fa fa-edit text-navy"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="#" th:onclick="'javascript:updateState('+${item.id}+',2,0);'"
+                                               title="删除"><i class="fa fa-trash-o text-navy"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="10">
+                                            <div id="pageToolbar"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             <!--</form>-->
         </div>
         <div class="footer" th:include="footer :: copyright"></div>
@@ -208,10 +237,21 @@
             toolbar: true,
             hash: true,
             callback: function (pagecount, size, count) {
-                var phoneNumber = $("#phoneNumber").val();
                 var phoneName = $("#phoneName").val();
                 var brandName = $("#brandName").val();
-                location.href = 'listByCondition?pn=' + pagecount + '&pageSize=' + size + '&phoneNumber=' + phoneNumber + '&phoneName=' + phoneName + '&brandName=' + brandName;
+                var seriesName = $("#seriesName").val();
+                location.href = 'listByCondition?pn=' + pagecount + '&pageSize=' + size + '&phoneName=' + phoneName + '&brandName=' + brandName + '&seriesName=' + seriesName;
+            }
+        });
+
+        var seriesList = [[${seriesList}]];
+        $("#brandName").change(function () {
+            $("#seriesName").empty();
+            $("#seriesName").html('<option value="">--选择手机系列--</option>');
+            var now_brand = $("#brandName option:selected").attr("name");
+            for (var k in seriesList) {
+                if (seriesList[k].brandId == now_brand)
+                    $("#seriesName").append('<option value="' + seriesList[k].seriesName + '">' + seriesList[k].seriesName + '</option>');
             }
         });
     });
@@ -239,6 +279,19 @@
             });
         }
     }
+
+    $(".reset").click(function () {
+        $("#phoneName").val("");
+        $("#brandName").find("option:selected").attr("selected", false);
+        $("#brandName").find("option").first().attr("selected", true);
+
+       /* $("#seriesName").find("option:selected").attr("selected", false);
+        $("#seriesName").find("option").first().attr("selected", true);*/
+        $("#seriesName").html('<option value="">--手机系列--</option>');
+
+        $("#phoneName").find("option:selected").attr("selected", false);
+        $("#phoneName").find("option").first().attr("selected", true);
+    });
 
     /*]]>*/
 </script>

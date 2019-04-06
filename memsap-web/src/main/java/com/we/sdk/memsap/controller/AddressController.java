@@ -23,8 +23,8 @@ public class AddressController {
     private UserService userService;
 
     @GetMapping("/list")
-    public String addressList(Model model) {
-        List<Address> addressList = addressService.getAddressList();
+    public String addressList(Model model, @RequestParam String phoneNumber) {
+        List<Address> addressList = addressService.getAddressByPhoneNumber(phoneNumber);
         List<User> userList = userService.getUserList();
         for (Address address : addressList) {
             for (User user : userList) {
@@ -34,6 +34,7 @@ public class AddressController {
             }
         }
         model.addAttribute("addressList", addressList);
+        model.addAttribute("phoneNumber", phoneNumber);
         return "address/list";
     }
 
@@ -45,19 +46,19 @@ public class AddressController {
             address.setUserName(userName);
         }
         model.addAttribute("addressList", addressList);
+        model.addAttribute("phoneNumber", phoneNumber);
         return "address/list";
     }
 
 
     @GetMapping("/toUpdate")
-    public String toUpdate(Model model, @RequestParam(required = false) Integer id) {
-        if (id == null) {
-            return "address/add";
-        } else {
+    public String toUpdate(Model model, @RequestParam(required = false) Integer id, @RequestParam(required = false) String phoneNumber) {
+        if (id != null) {
             Address address = addressService.getAddressById(id);
             model.addAttribute("address", address);
-            return "address/edit";
         }
+        model.addAttribute("phoneNumber", phoneNumber);
+        return "address/add";
     }
 
     @PostMapping("/update")
@@ -67,7 +68,7 @@ public class AddressController {
         } else {
             addressService.update(address);
         }
-        return "redirect:list";
+        return "redirect:list?phoneNumber=" + address.getUserId();
     }
 
     @ResponseBody

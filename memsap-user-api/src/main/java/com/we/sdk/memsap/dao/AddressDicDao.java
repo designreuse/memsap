@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author ${author}
+ * @author SDK
  * @date 2019-02-23 17:21:29
  */
 @Mapper

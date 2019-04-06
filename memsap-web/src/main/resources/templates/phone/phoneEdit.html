@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <title>后台信息管理系统</title>
 
@@ -15,6 +15,8 @@
     <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/plugins/summernote/summernote.css}" rel="stylesheet"/>
     <link th:href="@{/css/plugins/summernote/summernote-bs3.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/mycss/square/green.css}" rel="stylesheet"/>
 
 
 </head>
@@ -59,33 +61,38 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form id="formTag" action="edit" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                            <form id="formTag" action="edit" method="POST" class="form-horizontal"
+                                  enctype="multipart/form-data">
 
                                 <div class="form-group"><label class="col-sm-2 control-label">手机id：</label>
                                     <div class="col-sm-10">
-                                        <input id="phone_id" name="phone_id" readonly="readonly" type="text" class="form-control" th:value="${phone.id}"/>
+                                        <input id="phone_id" name="id" readonly="readonly" type="text"
+                                               class="form-control" th:value="${phone.id}"/>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
 
                                 <div class="form-group"><label class="col-sm-2 control-label">手机名称：</label>
                                     <div class="col-sm-10">
-                                        <input id="phone_name" name="phone_name" type="text" class="form-control" th:value="${phone.phoneName}"/>
+                                        <input id="phone_name" name="phoneName" type="text" class="form-control"
+                                               th:value="${phone.phoneName}"/>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
 
                                 <div id="imageCell" class="form-group"><label class="col-sm-2 control-label">图片：</label>
-                                    <div class="col-sm-10">
-                                        <img  th:src="@{'/'+${phone.phoneImage}}" height="250px" width="200px" />
+                                    <div class="col-sm-10 imgdiv">
+                                        <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}"
+                                             height="100%"/>
                                         <button id="imageCellBut" type="button" class="btn btn-white btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;</button>
                                     </div>
                                 </div>
 
                                 <div id="imputCell" class="form-group"><label class="col-sm-2 control-label">图片：</label>
+                                    <label class="col-sm-2 control-label"></label>
                                     <div class="col-sm-10">
-                                        <input id="file" name="file" type="file" />
+                                        <input id="file" name="file" type="file"/>
                                     </div>
                                 </div>
 
@@ -93,7 +100,7 @@
 
                                 <div class="form-group"><label class="col-sm-2 control-label">品牌：</label>
                                     <div class="col-sm-10">
-                                        <select name="brand_name" id="brand_name" class="form-control" >
+                                        <select name="brandName" id="brand_name" class="form-control">
                                             <option value="0">--请选择品牌--</option>
                                             <!--<option value="1">苹果</option>-->
                                             <!--<option value="2">华为</option>-->
@@ -105,7 +112,7 @@
 
                                 <div class="form-group"><label class="col-sm-2 control-label">系列：</label>
                                     <div class="col-sm-10">
-                                        <select name="series_name" id="series_name" class="form-control" >
+                                        <select name="seriesName" id="series_name" class="form-control">
                                             <option value="0">--请选择系列--</option>
                                         </select>
                                     </div>
@@ -113,21 +120,36 @@
                                 <div class="hr-line-dashed"></div>
 
                                 <div class="form-group"><label class="col-sm-2 control-label">颜色：</label>
-                                    <div class="col-sm-10 phone-color-checkbox" >
-                                        <label><input type="checkbox" name="black"/>黑色</label>
-                                        <label><input type="checkbox" name="white"/>白色</label>
-                                        <label><input type="checkbox" name="green"/>绿色</label>
-                                        <label><input type="checkbox" name="red"/>红色</label>
-                                        <label><input type="checkbox" name="golden"/>金色</label>
-                                        <label><input type="checkbox" name="pink"/>粉色</label>
+                                    <div class="col-sm-10 phone-color-checkbox">
+                                        <input class="color-checkbox" type="checkbox" value="黑色" name="phoneColorList"
+                                               id="square-checkbox-1"/>
+                                        <label for="square-checkbox-1" class="">黑色</label>
+                                        <input class="color-checkbox" type="checkbox" value="白色" name="phoneColorList"
+                                               id="square-checkbox-2"/>
+                                        <label for="square-checkbox-2" class="">白色</label>
+                                        <input class="color-checkbox" type="checkbox" value="绿色" name="phoneColorList"
+                                               id="square-checkbox-3"/>
+                                        <label for="square-checkbox-3" class="">绿色</label>
+                                        <input class="color-checkbox" type="checkbox" value="红色" name="phoneColorList"
+                                               id="square-checkbox-4"/>
+                                        <label for="square-checkbox-4" class="">红色</label>
+                                        <input class="color-checkbox" type="checkbox" value="金色" name="phoneColorList"
+                                               id="square-checkbox-5"/>
+                                        <label for="square-checkbox-5" class="">金色</label>
+                                        <input class="color-checkbox" type="checkbox" value="粉色" name="phoneColorList"
+                                               id="square-checkbox-6"/>
+                                        <label for="square-checkbox-6" class="">粉色</label>
+                                        <input class="color-checkbox" type="checkbox" value="紫色" name="phoneColorList"
+                                               id="square-checkbox-7"/>
+                                        <label for="square-checkbox-7" class="">紫色</label>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
 
-                                <div class="form-group"><label class="col-sm-2 control-label">故障大类：</label>
+                                <div class="form-group"><label class="col-sm-2 control-label">故障：</label>
                                     <div class="col-sm-10">
-                                        <select name="fault_type" id="fault_type" class="form-control" >
+                                        <select name="" id="fault_type" class="form-control">
                                             <option value="">--请选择故障--</option>
                                             <!--<option value="1">屏幕</option>-->
                                             <!--<option value="2">充电</option>-->
@@ -137,9 +159,9 @@
 
                                 <div class="hr-line-dashed"></div>
 
-                                <div class="form-group"><label class="col-sm-2 control-label">故障小类：</label>
+                                <div class="form-group"><label class="col-sm-2 control-label">维修方案：</label>
                                     <div class="col-sm-10">
-                                        <select name="repair_name" id="repair_name" class="form-control" >
+                                        <select name="" id="repair_name" class="form-control">
                                             <option value="">--请选择故障--</option>
                                         </select>
                                     </div>
@@ -148,13 +170,25 @@
                                 <div class="hr-line-dashed"></div>
 
 
-                                <div class="form-group"><label class="col-sm-2 control-label">价格：</label>
-                                    <div class="col-sm-10">
-                                        <input id="price" name="price" type="text" class="form-control" />
+                                <div th:each="repair : ${repairList}"
+                                     th:class="'form-group price_div price_box'+${repair.id}">
+                                    <label class="col-sm-2 control-label">价格：</label>
+                                    <div class="col-sm-5">
+                                        <input name="price" type="text" class="form-control price_text" value=""
+                                               oninput="value=value.replace(/[^\d]/g,'')"/>
+                                        <input name="repairId" class="form-control price_repairId" value=""
+                                               type="hidden"/>
+                                    </div>
+                                    <div class="col-sm-5 price_checkbox">
+                                        <input type="checkbox" name="price_check" class="price_check"
+                                               th:id="'price_check'+${repair.id}"/>
+                                        <label th:for="'price_check'+${repair.id}" class="">暂存</label>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
+
+                                <input type="text" id="price_value" name="price_value" style="display:none">
 
 
                                 <div class="form-group">
@@ -162,7 +196,9 @@
                                         <button id="submitButton" class="btn btn-primary" type="button">&nbsp;&nbsp;&nbsp;&nbsp;提&nbsp;&nbsp;&nbsp;&nbsp;交&nbsp;&nbsp;&nbsp;&nbsp;</button>
                                     </div>
                                     <div class="col-sm-4">
-                                        <button id="backButton" class="btn btn-primary" type="button"  onclick="javascript:history.back(-1);" style="background-color: #888888;border-color:#888888" >
+                                        <button id="backButton" class="btn btn-primary" type="button"
+                                                onclick="javascript:history.back(-1);"
+                                                style="background-color: #888888;border-color:#888888">
                                             &nbsp;&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;&nbsp;
                                         </button>
                                     </div>
@@ -201,37 +237,70 @@
 <script th:src="@{/js/plugins/footable/footable.all.min.js}"></script>
 
 <!-- common -->
-<script th:src="@{/js/common.js}"></script>
+<!--<script th:src="@{/js/common.js}"></script>-->
 
 <!-- SUMMERNOTE -->
 <script th:src="@{/js/plugins/summernote/summernote.min.js}"></script>
 
+<script th:src="@{/js/icheck.js}"></script>
+
 <style type="text/css">
+    .imgdiv {
+        height: 250px;
+    }
+
     .phone-color-checkbox {
-        text-align: center;
+        padding: 6px 12px;
     }
-    .phone-color-checkbox label{
-        padding-left: 50px;
+
+    .price_checkbox {
+        padding: 6px 12px;
+
     }
+
+    /*div[class*= "price_box"]{
+        display: none;
+    }
+    div[class*= "price_div cur"]{
+               display:block;
+    }
+    */
+    .price_div {
+        display: none;
+    }
+
+    .price_div.cur {
+        display: block;
+    }
+
+
+    /*.price_box*{
+        display: none;
+    }
+
+    .price_box*.cur{
+        visibility: visible;
+    }
+*/
+
+
 </style>
 
-<script >
-  /*  var image = [[${phone.phoneImage}]];
-    $(document).ready(function () {
-        if(image==null || image==""){
-            $("#imageCell").hide();
-            $("#imputCell").show();
-        } else {
-            $("#imageCell").show();
-            $("#imputCell").hide();
-        }
-        $("#imageCellBut").click(function(){
-            $("#imageCell").hide();
-            $("#imputCell").show();
-        });
-    });*/
-</script>
-<script >
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+
+    var image = [[${phone.phoneImage}]];
+
+    var phone = [[${phone}]];
+    var brandList = [[${brandList}]];
+    var seriesList = [[${seriesList}]];
+    var faultList = [[${faultList}]];
+    var repairList = [[${repairList}]];
+    var repairPriceList = [[${repairPriceList}]];
+
+
     $(document).ready(function () {
         //初始化编辑器
         $('#summernote').summernote({
@@ -245,78 +314,136 @@
         });
         //编辑器赋值
 
+        if (image == null || image == "") {
+            $("#imageCell").hide();
+            $("#imputCell").show();
+        } else {
+            $("#imageCell").show();
+            $("#imputCell").hide();
+        }
+        $("#imageCellBut").click(function () {
+            $("#imageCell").hide();
+            $("#imputCell").show();
+        });
+
+
+        $(".phone-color-checkbox input").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            /*increaseArea: '20%' // optional*/
+        });
+
+        $(".price_checkbox input").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            /*increaseArea: '20%' // optional*/
+        });
+
+
         //提交
-        $("#submitButton").click(function(){
-            /*if($("#title").val() == ""){
-                toastr.error('请输入商品标题','提示');
-                return;
-            }
-            if($("#category").val() == 0){
-                toastr.error('请选择商品分类','提示');
-                return;
-            }
-            if($("#price").val() == 0){
-                toastr.error('请输入商品价格','提示');
-                return;
-            }
-            if($("#num").val() == 0){
-                toastr.error('请输入库存数量','提示');
-                return;
-            }*/
+        $("#submitButton").click(function () {
+            var price_div = $(".price_div");
+            price_div.each(function () {
+                if (!$(this).find(".price_check").prop('checked')) {//非选中
+                    $(this).find(".price_text").attr("name", "");
+                    $(this).find(".price_repairId").attr("name", "");
+                }
+
+            })
+
+
             $("#formTag").submit();
         });
 
-
-        //获取一级二级联动下拉菜单数据
-        $.ajax({
-            type: "GET",
-            url: "../package.json",
-            dataType: "json",
-            success: function(res) {
-                /*一级二级联动下拉菜单*/
-                //console.log(res);
-                var brand = res.phone_brand.option;
-                //console.log(typeof(res));
-                for(var key in brand) {
-                    //console.log(data[i].id + "===" + data[i].options[0].name)
-                    $("#brand_name").append("<option value='" + key + "'>" + brand[key].name + "</option>");
-                }
-                $("#brand_name").change(function() {
-                    var now_brand = $(this).val();
-                     $("#series_name").html('<option value="">选择二级分类</option>');
-                    for(var k in brand[now_brand].options) {
-                        var now_series = brand[now_brand].options[k];
-                        $("#series_name").append('<option value="' + k + '">' + now_series.name + '</option>');
+        $(".color-checkbox").each(function () {
+            var color_name = $(this).val();
+            if (phone != null) {
+                for (var k in phone.phoneColorList) {
+                    if (phone.phoneColorList[k] == color_name) {
+                        $(this).iCheck('check');
                     }
-                });
+                }
             }
         });
 
-        $.ajax({
-            type: "GET",
-            url: "../package.json",
-            dataType: "json",
-            success: function(res) {
-                /*一级二级联动下拉菜单*/
-                //console.log(res);
-                var repair = res.model_repair.option;
-                //console.log(typeof(res));
-                for(var key in repair) {
-                    //console.log(data[i].id + "===" + data[i].options[0].name)
-                    $("#fault_type").append("<option value='" + key + "'>" + repair[key].name + "</option>");
+
+        var now_series;
+        var now_repair;
+        var now_brand;
+
+        //品牌名和系列
+        for (var key in brandList) {
+            // console.log(key);
+            $("#brand_name").append('<option value="' + brandList[key].id + '">' + brandList[key].brandName + '</option>');
+        }
+        $("#brand_name").change(function () {
+            now_series = null;
+
+            $("div[class*='price_box']").removeClass("cur");
+
+            now_brand = $(this).val();
+            $("#series_name").html('<option value="">选择手机系列</option>');
+            $("#fault_type").html('<option value="">选择需要维修的问题</option>');
+            $("#repair_name").html('<option value="">选择需要维修的问题</option>');
+            for (var k in seriesList) {
+                if (seriesList[k].brandId == now_brand)
+                // var now_series = brand[now_brand].options[k];
+                    $("#series_name").append('<option value="' + seriesList[k].id + '">' + seriesList[k].seriesName + '</option>');
+            }
+            $("#series_name").change(function () {
+                now_repair = null;
+
+                $("div[class*='price_box']").removeClass("cur");
+
+                now_series = $(this).val();
+                //维修问题
+                $("#fault_type").html('<option value="">选择需要维修的问题</option>');
+                $("#repair_name").html('<option value="">选择需要维修的问题</option>');
+                for (var key in faultList) {
+                    $("#fault_type").append('<option value="' + faultList[key].id + '">' + faultList[key].faultType + '</option>');
                 }
-                $("#fault_type").change(function() {
+                $("#fault_type").change(function () {
+                    now_repair = null;
+
+                    $("div[class*='price_box']").removeClass("cur");
+
                     var now_type = $(this).val();
-                    $("#repair_name").html('<option value="">选择二级分类</option>');
-                    for(var k in repair[now_type].options) {
-                        var now_repair = repair[now_type].options[k];
-                        $("#repair_name").append('<option value="' + k + '">' + now_repair.name + '</option>');
+                    $("#repair_name").html('<option value="">选择需要维修的问题</option>');
+                    for (var k in repairList) {
+                        if (repairList[k].faultId == now_type)
+                        // var now_series = brand[now_brand].options[k];
+                            $("#repair_name").append('<option value="' + repairList[k].id + '">' + repairList[k].repairName + '</option>');
                     }
-                });
-            }
+                    $("#repair_name").change(function () {
+                        now_repair = $(this).val();
+                        $("div[class*='price_box']").removeClass("cur");
+                        $(".price_box" + now_repair).addClass("cur");
+                        $(".price_box" + now_repair + " .price_repairId").val(now_repair);
+                        /* console.log(phone.id);
+                         console.log(now_repair);*/
+                        for (var key in repairPriceList) {
+                            // $(".price_box"+now_repair).addClass("cur");
+                            if (repairPriceList[key].phoneId == phone.id && repairPriceList[key].repairId == now_repair) {
+                                // $(".price_box"+now_repair).addClass("cur");
+
+                                if (!$("#price_check" + now_repair).prop('checked')) {//是否勾选暂存 没有勾选则把数据库里的价格传入price输入框
+                                    $(".price_box" + now_repair + " .price_text").val(repairPriceList[key].price);
+                                    /*$(".price_box" + now_repair + " .price_repairId").val(now_repair);*/
+                                }
+
+                            }
+                        }
+
+                    });
+
+                })
+
+            })
+
         });
+
 
     });
+
+    /*]]>*/
 </script>
 
 </body>

@@ -56,6 +56,11 @@ public class HystrixFallbackFactory implements FallbackFactory<PhoneFeignClient>
             }
 
             @Override
+            public RestResult<Integer> batchEdit(List<RepairPrice> repairPriceList) {
+                return null;
+            }
+
+            @Override
             public RestResult<List<Fault>> getFaultList() {
                 return null;
             }
@@ -67,6 +72,31 @@ public class HystrixFallbackFactory implements FallbackFactory<PhoneFeignClient>
 
             @Override
             public RestResult<List<Brand>> getBrandList() {
+                return null;
+            }
+
+            @Override
+            public RestResult<Integer> saveSeries(Series series) {
+                return null;
+            }
+
+            @Override
+            public RestResult<Integer> deleteSeries(Integer id) {
+                return null;
+            }
+
+            @Override
+            public RestResult<Integer> updateSeries(Series series) {
+                return null;
+            }
+
+            @Override
+            public RestResult<List<Series>> getSeriesList() {
+                return null;
+            }
+
+            @Override
+            public RestResult<Series> getSeriesById(Integer id) {
                 return null;
             }
         };

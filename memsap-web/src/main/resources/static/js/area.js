@@ -26,7 +26,7 @@
 							(function(i) {
 								setTimeout(function() {
 									for (var j = 0, len = item.length; j < len; j++) {
-										var p = $('<li data-value="' + provinceData[i][j].id + '">' + provinceData[i][j].name + '</li>');
+										var p = $('<li data-value="' + provinceData[i][j].name + '">' + provinceData[i][j].name + '</li>');
 										row.append(p);
 										var citylist = provinceData[i][j].child || [];
 										p.data("child", citylist);
@@ -44,7 +44,7 @@
 											downtown.children().hide();
 											city.html('');
 											$.each($(this).data('child') || [], function() {
-												var c = $('<li data-value="' + this.id + '" >' + this.name + '</li>');
+												var c = $('<li data-value="' + this.name + '" >' + this.name + '</li>');
 												city.append(c);
 												c.data('child', this.child);
 												c.click(function(e, args) {
@@ -55,7 +55,7 @@
 													$(area2.children('span')).html('-- 市区 --');
 													downtown.children().remove();
 													$.each($(this).data('child') || [], function() {
-														var d = $('<li data-value="' + this.id + '" >' + this.name + '</li>');
+														var d = $('<li data-value="' + this.name + '" >' + this.name + '</li>');
 														downtown.append(d);
 														var input = $('#hd_downtown', _this);
 														if (input.val() == this.id) {

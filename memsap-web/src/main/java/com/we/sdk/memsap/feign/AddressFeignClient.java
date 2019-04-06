@@ -32,6 +32,12 @@ public interface AddressFeignClient {
     @GetMapping(value = "/address/getUserAddressById/{id}")
     RestResult<Address> getAddressById(@PathVariable Integer id);
 
+    @PostMapping(value = "/address/save")
+    RestResult<Integer> saveAddress(@RequestBody Address address);
+
+    @PostMapping(value = "/address/update")
+    RestResult<Integer> updateAddress(@RequestBody Address address);
+
 
     //////////////////////////////////////////////////  AddressDic
 

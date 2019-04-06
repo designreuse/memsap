@@ -18,7 +18,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Integer save(Address address) {
-        return null;// addressDao.save(address);
+        return addressFeignClient.saveAddress(address).getData();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Integer update(Address address) {
-        return null;// addressDao.update(address);
+        return  addressFeignClient.updateAddress(address).getData();
     }
 
     @Override

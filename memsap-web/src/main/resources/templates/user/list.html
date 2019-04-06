@@ -126,7 +126,7 @@
                                             2019.01.01
                                         </td>
                                         <td><a class="fa fa-tag text-navy"
-                                               th:href="@{'/address/toAddress?userName='+${user.userName}+'&phoneNumber='+${user.phoneNumber}}"
+                                               th:href="@{/address/toAddress(userName=${user.userName},phoneNumber=${user.phoneNumber})}"
                                                title="查看地址"></a>
                                         </td>
                                         <td>

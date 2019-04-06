@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <title>后台信息管理系统</title>
 
@@ -23,8 +23,7 @@
     <!-- Sweet Alert -->
     <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet"/>
 
-    <link th:href="@{/css/mycss/area.cs}" rel="stylesheet"/>
-
+    <link th:href="@{/css/mycss/area.css}" rel="stylesheet"/>
 
 
 </head>
@@ -69,13 +68,22 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form id="formTag" action="itemEdit" method="POST" class="form-horizontal" enctype="multipart/form-data">
-
+                            <form id="formTag" action="update" method="POST" class="form-horizontal">
+                                <input type="hidden" id="id" name="id" th:value="${address!=null}?${address.id}:''">
                                 <div class="form-group"><label class="col-sm-2 control-label">手机号：</label>
-                                    <div class="col-sm-10">
-                                        <input id="phoneNumber" name="phoneNumber" type="text" class="form-control"
-                                               readonly="readonly" th:value="${user.phoneNumber}"/>
-                                    </div>
+                                    <th:block th:if="${phoneNumber != null}">
+                                        <div class="col-sm-10">
+                                            <input id="phoneNumber" name="userId" type="text" class="form-control"
+                                                   readonly="readonly" th:value="${phoneNumber}"/>
+                                        </div>
+                                    </th:block>
+                                    <th:block th:if="${phoneNumber == null}">
+                                        <div class="col-sm-10">
+                                            <input id="phoneNumber" name="userId" type="text"
+                                                   class="form-control"/>
+                                        </div>
+                                    </th:block>
+
                                 </div>
                                 <div class="hr-line-dashed"></div>
 
@@ -86,26 +94,31 @@
                                             <div class="form-input">
                                                 <div class="area-input">
                                                     <div class="area province">
-                                                        <input type="hidden" id="hd_province">
-                                                        <span>-- 省份 --</span><i></i>
+                                                        <input type="hidden" id="province" name="province" th:value="${address!=null}?${address.province}:''">
+                                                        <span class="provinceSpan">-- 省份 --</span><i></i>
                                                         <div class="area-content"></div>
                                                     </div>
                                                     <div class="area city">
-                                                        <input type="hidden" id="hd_city">
-                                                        <span>-- 城市 --</span><i></i>
-                                                        <div class="area-content"><ul></ul></div>
+                                                        <input type="hidden" id="city" name="city" th:value="${address!=null}?${address.city}:''">
+                                                        <span class="citySpan">-- 城市 --</span><i></i>
+                                                        <div class="area-content">
+                                                            <ul></ul>
+                                                        </div>
                                                     </div>
                                                     <div class="area downtown">
-                                                        <input type="hidden" id="hd_downtown">
-                                                        <span>-- 市区 --</span><i></i>
-                                                        <div class="area-content"><ul></ul></div>
+                                                        <input type="hidden" id="county" name="county"  th:value="${address!=null}?${address.county}:''">
+                                                        <span class="countySpan">-- 市区 --</span><i></i>
+                                                        <div class="area-content">
+                                                            <ul></ul>
+                                                        </div>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
                                         <div class=" col-sm-6">
-                                            <input id="address_name" name="address_name" type="text" class="form-control"/>
+                                            <input id="detailAddress" name="detailAddress" type="text"
+                                                   class="form-control" th:value="${address!=null}?${address.detailAddress}:''"/>
                                         </div>
                                     </div>
 
@@ -117,7 +130,9 @@
                                         <button id="submitButton" class="btn btn-primary" type="button">&nbsp;&nbsp;&nbsp;&nbsp;提&nbsp;&nbsp;&nbsp;&nbsp;交&nbsp;&nbsp;&nbsp;&nbsp;</button>
                                     </div>
                                     <div class="col-sm-4">
-                                        <button id="backButton" class="btn btn-primary" type="button"  onclick="javascript:history.back(-1);" style="background-color: #888888;border-color:#888888" >
+                                        <button id="backButton" class="btn btn-primary" type="button"
+                                                onclick="javascript:history.back(-1);"
+                                                style="background-color: #888888;border-color:#888888">
                                             &nbsp;&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;&nbsp;
                                         </button>
                                     </div>
@@ -166,8 +181,7 @@
 </script>
 
 
-
-<script >
+<script th:inline="javascript">
     $(document).ready(function () {
         //初始化编辑器
         $('#summernote').summernote({
@@ -179,24 +193,36 @@
                 theme: 'monokai'
             }
         });
+
+        var address = [[${address}]];
+        if(address != null){
+            $(".provinceSpan").html(address.province);
+            $(".citySpan").html(address.city);
+            $(".countySpan").html(address.county);
+        }
+
         //编辑器赋值
 
         //提交
-        $("#submitButton").click(function(){
-            if($("#address_name").val() == ""){
-                toastr.error('请输入地址','提示');
+        $("#submitButton").click(function () {
+            var phoneNumber = [[${phoneNumber}]];
+            if (phoneNumber == null && $("#phoneNumber").val() == "") {
+                toastr.error('请输入手机号', '提示');
+                return;
+            } else if ($("#province").val() == "") {
+                toastr.error('请选择省份', '提示');
+                return;
+            }else if ($("#city").val() == "") {
+                toastr.error('请选择城市', '提示');
+                return;
+            }else if ($("#detailAddress").val() == "") {
+                toastr.error('请选择填写详细地址', '提示');
                 return;
             }
 
-            /*if($("#imageCell").val() == 0){
-                toastr.error('请输入商品图片','提示');
-                return;
-            }*/
 
             $("#formTag").submit();
         });
-
-
 
 
     });

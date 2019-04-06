@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface SeriesService {
 
-    Integer save(Series series);
+    Integer saveSeries(Series series);
 
-    Integer delete(Integer id);
+    Integer deleteSeries(Integer id);
 
-    Integer update(Series series);
+    Integer updateSeries(Series series);
 
     Series getSeriesById(Integer id);
 

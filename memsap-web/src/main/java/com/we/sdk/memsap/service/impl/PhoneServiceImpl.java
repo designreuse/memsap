@@ -40,6 +40,13 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     public Integer update(Phone phone) {
+        List<String> phoneColorList = phone.getPhoneColorList();
+        String color = "";
+        for (String phoneColor : phoneColorList) {
+            color += phoneColor + ",";
+        }
+        color.substring(0, color.length() - 1);
+        phone.setPhoneColors(color);
         RestResult<Integer> result = phoneFeignClient.update(phone);
         if (result == null || result.getCode() != 0) {
             return null;
@@ -109,6 +116,11 @@ public class PhoneServiceImpl implements PhoneService {
             return new ArrayList<>();
         }
         return result.getData();
+    }
+
+    @Override
+    public Integer batchEdit(List<RepairPrice> repairPriceList) {
+        return phoneFeignClient.batchEdit(repairPriceList).getData();
     }
 
 }
