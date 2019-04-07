@@ -90,11 +90,13 @@
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
                                         <select name="seriesName" id="seriesName" class="form-control">
-                                            <th:block th:if="${searchVo==null ||searchVo.seriesName==null}">
+                                            <th:block
+                                                    th:if="${searchVo==null ||searchVo.seriesName==null||searchVo.seriesName==''}">
                                                 <option value="" selected>--手机系列--
                                                 </option>
                                             </th:block>
-                                            <th:block th:if="${searchVo==null ||searchVo.seriesName!=null}">
+                                            <th:block
+                                                    th:if="${searchVo!=null && searchVo.seriesName!=null && searchVo.seriesName!=''}">
                                                 <option th:value="${searchVo.seriesName}" selected>
                                                     [[${searchVo.seriesName}]]
                                                 </option>
@@ -139,8 +141,8 @@
                                     <tr>
                                         <th width="15%">ID</th>
                                         <!--<th width="8%">分类</th>-->
-                                        <th width="10%">手机型号</th>
-                                        <th width="15%">颜色</th>
+                                        <th width="20%">手机型号</th>
+                                        <th width="20%">颜色</th>
                                         <th width="15%">品牌</th>
                                         <th width="15%">系列</th>
                                         <th>操作</th>
@@ -285,8 +287,8 @@
         $("#brandName").find("option:selected").attr("selected", false);
         $("#brandName").find("option").first().attr("selected", true);
 
-       /* $("#seriesName").find("option:selected").attr("selected", false);
-        $("#seriesName").find("option").first().attr("selected", true);*/
+        /* $("#seriesName").find("option:selected").attr("selected", false);
+         $("#seriesName").find("option").first().attr("selected", true);*/
         $("#seriesName").html('<option value="">--手机系列--</option>');
 
         $("#phoneName").find("option:selected").attr("selected", false);
