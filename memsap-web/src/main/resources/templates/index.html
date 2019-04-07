@@ -8,11 +8,13 @@
 
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/mycss/home.css}"/>
+    <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet"/>
 </head>
 <body data-spy="scroll" data-target="#navigation-bar" data-offset-top="200">
 
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
 
 
 <script>
@@ -48,6 +50,34 @@
     <br>
     返回顶部
 </button>
+
+<!--登陆模态框-->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">登陆</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="user" class="control-label">用户名:</label>
+                        <input type="text" class="form-control" id="user">
+                    </div>
+                    <div class="form-group">
+                        <label for="user_password" class="control-label">密码:</label>
+                        <input type="password" class="form-control" id="user_password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default">注册</button>
+                <button type="button" class="btn btn-primary">登陆</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--导航条-->
 <nav class="navbar navbar-default navbar-fixed-top" id="navigation-bar">
@@ -85,7 +115,7 @@
 
             <ul class="nav navbar-nav navbar-right" id="login-ul">
                 <li>
-                    <a class="glyphicon glyphicon-user" href="#"></a>
+                    <a class="glyphicon glyphicon-user" href="#" data-toggle="modal" data-target="#loginModal"></a>
                     <!--<a href="#">预约电话：188xxxxxxxx</a>-->
                 </li>
             </ul>
@@ -607,6 +637,33 @@
                 })
             }
         });
+
+
+        $(".btn-primary").click(function () {
+            for(var k in userList){
+                if($("#user").val() == userList[k].phoneNumber && $("#user_password").val() == userList[k].password){
+                    $("#loginModal").modal('hide');
+                    $("#loginModal").on("hidden.bs.modal",function () {
+                        swal({
+                            title:"登陆成功",
+                            text:"返回首页",
+                            icon: "success",
+                            button: "好的"
+                        })
+                    })
+                }
+                else {
+                    swal({
+                        title:"登陆失败",
+                        text:"用户名或者密码错误",
+                        icon: "error",
+                        button: "好的"
+                    })
+                }
+
+            }
+
+        })
 
     })
 
