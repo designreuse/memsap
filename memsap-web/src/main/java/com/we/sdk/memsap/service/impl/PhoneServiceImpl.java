@@ -19,8 +19,21 @@ public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private PhoneFeignClient phoneFeignClient;
 
+    private void setColor(Phone phone) {
+        List<String> phoneColorList = phone.getPhoneColorList();
+        String color = "";
+        if (phoneColorList != null) {
+            for (String phoneColor : phoneColorList) {
+                color += phoneColor + ",";
+            }
+            color = color.substring(0, color.length() - 1);
+        }
+        phone.setPhoneColors(color);
+    }
+
     @Override
     public Integer save(Phone phone) {
+        this.setColor(phone);
         RestResult<Integer> result = phoneFeignClient.save(phone);
         if (result == null || result.getCode() != 0) {
             return null;
@@ -40,13 +53,7 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     public Integer update(Phone phone) {
-        List<String> phoneColorList = phone.getPhoneColorList();
-        String color = "";
-        for (String phoneColor : phoneColorList) {
-            color += phoneColor + ",";
-        }
-        color.substring(0, color.length() - 1);
-        phone.setPhoneColors(color);
+        this.setColor(phone);
         RestResult<Integer> result = phoneFeignClient.update(phone);
         if (result == null || result.getCode() != 0) {
             return null;
