@@ -72,7 +72,8 @@
                                         </button>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
-                                        <button class="btn btn-primary btn-block reset" type="button"><i
+                                        <button class="btn btn-primary btn-block reset" type="button"
+                                                style="background-color: #888888;border-color:#888888"><i
                                                 class="glyphicon glyphicon-refresh"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>重置</strong>
                                         </button>
                                     </div>
@@ -96,14 +97,14 @@
                                 <table class=" table table-hover" data-page-size="10">
                                     <thead>
                                     <tr>
-                                        <th width="10%">ID</th>
-                                        <th width="5%">总价</th>
-                                        <th width="20%">创建时间</th>
+                                        <th width="5%">ID</th>
+                                        <th width="10%">总价</th>
+                                        <th width="15%">创建时间</th>
                                         <th width="10%">用户姓名</th>
-                                        <th width="10%">用户电话</th>
-                                        <th width="35%">用户地址</th>
-                                        <th width="5%">查看详情</th>
-                                        <th>操作</th>
+                                        <th width="15%">用户电话</th>
+                                        <th width="30%">用户地址</th>
+                                        <th width="5%">详情</th>
+                                        <th>点击以修改状态</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -120,8 +121,9 @@
                                                title="查看详情"></a>
                                         </td>
                                         <td>
-                                            <a th:href="@{'toEdit?phoneNumber='+1}" title="修改状态"><i
-                                                    class="fa fa-edit text-navy"></i></a>
+                                            <!--<a th:href="@{'toEdit?phoneNumber='+1}" title="修改状态"><i
+                                                    class="fa fa-edit text-navy"></i></a>-->
+                                            <a title="修改状态"><span>未完成</span></a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
 
                                         </td>
@@ -191,9 +193,8 @@
 
         //重置按钮
         $(".reset").click(function () {
-            $("#user_phone").val();
-            $("#user_address").val();
-            $("#user_name").val();
+            $("#user_phone").val("");
+            $("#user_name").val("");
         });
 
         var p = new Paging();
