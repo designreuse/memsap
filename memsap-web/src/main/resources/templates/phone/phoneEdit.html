@@ -17,6 +17,7 @@
     <link th:href="@{/css/plugins/summernote/summernote-bs3.css}" rel="stylesheet"/>
 
     <link th:href="@{/css/mycss/square/green.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet"/>
 
 
 </head>
@@ -100,7 +101,7 @@
 
                                 <div class="form-group"><label class="col-sm-2 control-label">品牌：</label>
                                     <div class="col-sm-10">
-                                        <select name="brandName" id="brand_name" class="form-control">
+                                        <select name="brandId" id="brand_name" class="form-control">
                                             <option value="0">--请选择品牌--</option>
                                             <!--<option value="1">苹果</option>-->
                                             <!--<option value="2">华为</option>-->
@@ -112,7 +113,7 @@
 
                                 <div class="form-group"><label class="col-sm-2 control-label">系列：</label>
                                     <div class="col-sm-10">
-                                        <select name="seriesName" id="series_name" class="form-control">
+                                        <select name="seriesId" id="series_name" class="form-control">
                                             <option value="0">--请选择系列--</option>
                                         </select>
                                     </div>
@@ -244,6 +245,8 @@
 
 <script th:src="@{/js/icheck.js}"></script>
 
+<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
+
 <style type="text/css">
     .imgdiv {
         height: 250px;
@@ -290,7 +293,7 @@
 
     /*<![CDATA[*/
 
-
+    var msg = [[${msg}]];
     var image = [[${phone.phoneImage}]];
 
     var phone = [[${phone}]];
@@ -302,6 +305,14 @@
 
 
     $(document).ready(function () {
+        if (msg != null) {
+            swal({
+                title: "温馨提示",
+                text: msg
+            });
+        }
+
+
         //初始化编辑器
         $('#summernote').summernote({
             height: 300,
@@ -311,6 +322,7 @@
                 lineNumbers: true,
                 theme: 'monokai'
             }
+
         });
         //编辑器赋值
 
@@ -428,10 +440,8 @@
                                     $(".price_box" + now_repair + " .price_text").val(repairPriceList[key].price);
                                     /*$(".price_box" + now_repair + " .price_repairId").val(now_repair);*/
                                 }
-
                             }
                         }
-
                     });
 
                 })

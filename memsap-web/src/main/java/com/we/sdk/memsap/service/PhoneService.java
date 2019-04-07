@@ -16,7 +16,7 @@ public interface PhoneService {
      * 新增Phone
      *
      * @param phone 新增的对象
-     * @return 新增成功条数
+     * @return 新增成功对象的ID
      */
     Integer save(Phone phone);
 

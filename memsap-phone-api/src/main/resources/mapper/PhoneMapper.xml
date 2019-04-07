@@ -3,7 +3,13 @@
 <mapper namespace="com.we.sdk.memsap.dao.PhoneDao">
     <!-- 列名 -->
     <sql id="field">
-        id,phone_name,phone_image,phone_colors,series_id,brand_id
+        id
+        ,
+        phone_name,
+        phone_image,
+        phone_colors,
+        series_id,
+        brand_id
     </sql>
     <!-- 查询条件 -->
     <sql id="queryConditions">
@@ -15,13 +21,14 @@
                 AND brand_id in (SELECT id FROM MODEL_BRAND where brand_name like concat('%',#{searchVo.brandName},'%'))
             </if>
             <if test="searchVo.seriesName != null and searchVo.seriesName != ''">
-                AND series_id in (SELECT id FROM MODEL_SERIES where series_name like concat('%',#{searchVo.seriesName},'%'))
+                AND series_id in (SELECT id FROM MODEL_SERIES where series_name like
+                concat('%',#{searchVo.seriesName},'%'))
             </if>
             AND is_delete != 1
         </where>
     </sql>
 
-	<!-- resultMap -->
+    <!-- resultMap -->
     <resultMap type="com.we.sdk.memsap.bean.Phone" id="phoneMapper">
         <result property="id" column="id"/>
         <result property="phoneName" column="phone_name"/>
@@ -32,7 +39,8 @@
     </resultMap>
 
     <!-- 新增 -->
-    <insert id="save" parameterType="com.we.sdk.memsap.bean.Phone" useGeneratedKeys="true">
+    <insert id="save" parameterType="com.we.sdk.memsap.bean.Phone" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
         INSERT INTO MODEL_PHONE
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="phoneName != null">phone_name,</if>
@@ -53,7 +61,9 @@
 
     <!-- 删除 -->
     <update id="delete">
-      UPDATE MODEL_PHONE SET is_delete = 1 WHERE id = #{id}
+        UPDATE MODEL_PHONE
+        SET is_delete = 1
+        WHERE id = #{id}
     </update>
 
 
@@ -81,11 +91,11 @@
     <!-- 根据条件查询List -->
     <select id="getPhoneListByConditions" parameterType="com.we.sdk.memsap.base.vo.SearchVo" resultMap="phoneMapper">
         SELECT T.* FROM(
-            SELECT
-            <include refid="field"/>
-            FROM MODEL_PHONE A
-            <include refid="queryConditions"/>
-            ) T
+        SELECT
+        <include refid="field"/>
+        FROM MODEL_PHONE A
+        <include refid="queryConditions"/>
+        ) T
         limit ${(page.pn-1)*page.pageSize} , ${page.pageSize}
     </select>
 
@@ -101,10 +111,10 @@
     <!-- 查询数量 -->
     <select id="getPhoneListCount" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM(
-            SELECT
-            <include refid="field"/>
-            FROM MODEL_PHONE A
-            <include refid="queryConditions"/>
+        SELECT
+        <include refid="field"/>
+        FROM MODEL_PHONE A
+        <include refid="queryConditions"/>
         ) T
     </select>
 </mapper>

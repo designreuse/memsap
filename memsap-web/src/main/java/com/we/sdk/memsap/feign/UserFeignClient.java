@@ -28,7 +28,7 @@ public interface UserFeignClient {
     @PostMapping(value = "/user/getUsersByCondition")
     RestResult<Page<User>> getUserListByCondition(@RequestBody SearchVo searchVo);
 
-    /*条件查询列表*/
+    /*查询列表*/
     @GetMapping(value = "/user/getUserList")
     RestResult<List<User>> getUserList();
 

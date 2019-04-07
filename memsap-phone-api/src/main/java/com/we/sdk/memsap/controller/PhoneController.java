@@ -32,7 +32,7 @@ public class PhoneController {
     @PostMapping(value = "/save")
     public RestResult<Integer> save(@RequestBody Phone phone) {
         Integer result = phoneService.save(phone);
-        return RestResultGenerator.createOkResult(result);
+        return RestResultGenerator.createOkResult(phone.getId());
     }
 
     /**

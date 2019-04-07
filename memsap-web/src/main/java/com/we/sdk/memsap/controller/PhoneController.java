@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,16 +47,18 @@ public class PhoneController {
 
     @GetMapping("/toEdit")
     public String toEdit(Model model, @RequestParam(value = "id", required = false) Integer id) {
-       /* if (ObjectUtils.equals(id, null)) {
-
-        }*/
-        Phone phone = phoneService.getPhoneById(id);
-        phone.setPhoneColorList(Arrays.asList(phone.getPhoneColors().split(",")));
+        Phone phone = new Phone();
+        if (id != null) {
+            phone = phoneService.getPhoneById(id);
+            phone.setPhoneColorList(Arrays.asList(phone.getPhoneColors().split(",")));
+        }
         List<Brand> brandList = phoneService.getBrandList();
+        List<Series> seriesList = seriesService.getSeriesList();
         List<Fault> faultList = phoneService.getFaultList();
+
         List<Repair> repairList = phoneService.getRepairList();
         List<RepairPrice> repairPriceList = phoneService.getFaultRepairPriceByCondition(new RepairPrice(id));
-        List<Series> seriesList = seriesService.getSeriesList();
+
         model.addAttribute("phone", phone);
         model.addAttribute("brandList", brandList);
         model.addAttribute("seriesList", seriesList);
@@ -71,10 +74,10 @@ public class PhoneController {
     }
 
     @PostMapping("/edit")
-    public String phoneAdd(Model model, @RequestParam("file") MultipartFile file, Phone phone, String[] repairId, String[] price) {
+    public String phoneAdd(@RequestParam("file") MultipartFile file, Phone phone, String[] repairId, String[] price, RedirectAttributes redirectAttributes) {
         if (ObjectUtils.isEmpty(phone.getId()) && file.isEmpty()) {
-            model.addAttribute("msg", "没有找到相对应的文件");
-            return "phoneEdit";
+            redirectAttributes.addFlashAttribute("msg", "没有找到相对应的文件");
+            return "redirect:toEdit";
         } else {
             try {
                 String fileName = file.getOriginalFilename();
@@ -84,22 +87,28 @@ public class PhoneController {
                         File tempFile = new File(fileName);
                         file.transferTo(tempFile);
                         phone.setPhoneImage(fileName);
+                    } else {
+                        redirectAttributes.addFlashAttribute("msg", "不是我们想要的文件类型,请按要求重新上传");
+                        return "redirect:toEdit";
                     }
-                } else {
-                    model.addAttribute("msg", "不是我们想要的文件类型,请按要求重新上传");
-                    return "phone/phoneShow";
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             } finally {
+                Integer result = 0;
+                if (phone.getId() != null) {
+                    result = phoneService.update(phone);
+                } else {
+                    result = phoneService.save(phone);
+                    phone.setId(result);
+                }
                 List<RepairPrice> repairPriceList = new ArrayList<>();
                 if (!ObjectUtils.isEmpty(repairId) && !ObjectUtils.isEmpty(price)) {
                     for (int i = 0; i < repairId.length; i++) {
                         repairPriceList.add(new RepairPrice(phone.getId(), Integer.parseInt(repairId[i]), Double.parseDouble(price[i])));
                     }
                 }
-                Integer result = phoneService.update(phone);
-                if (result > 0) {
+                if (result > 0 && !repairPriceList.isEmpty()) {
                     phoneService.batchEdit(repairPriceList);
                 }
             }
