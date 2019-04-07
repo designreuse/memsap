@@ -59,7 +59,7 @@
                             <form action="listByCondition">
                                 <div class="row">
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="user_phone" name="phoneNumber" placeholder="用户手机" class="form-control"
+                                        <input id="user_phone" name="phoneNumber" placeholder="用户手机号码" class="form-control"
                                                type="text" th:value="${searchVo.phoneNumber}"/>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
@@ -117,7 +117,7 @@
                                         <td th:text="${item.userAddress}">test</td>
                                         <td>
                                             <a class="fa fa-tag text-navy"
-                                               th:href="@{'/address/toAddress?userName='+1+'&phoneNumber='+1}"
+                                               th:href="@{/order/getOrderDetail(id=${item.id})}"
                                                title="查看详情"></a>
                                         </td>
                                         <td>
@@ -207,10 +207,9 @@
             toolbar: true,
             hash: true,
             callback: function (pagecount, size, count) {
-                var phoneNumber = $("#phoneNumber").val();
-                var phoneName = $("#phoneName").val();
-                var brandName = $("#brandName").val();
-                location.href = 'listByCondition?pn=' + pagecount + '&pageSize=' + size + '&phoneNumber=' + phoneNumber + '&phoneName=' + phoneName + '&brandName=' + brandName;
+                var phoneNumber = $("#user_phone").val();
+                var userName = $("#user_name").val();
+                location.href = 'listByCondition?pn=' + pagecount + '&pageSize=' + size + '&phoneNumber=' + phoneNumber + '&userName=' + userName;
             }
         });
 

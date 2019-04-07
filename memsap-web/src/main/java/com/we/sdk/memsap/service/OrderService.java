@@ -4,6 +4,9 @@ package com.we.sdk.memsap.service;//package com.we.sdk.memsap.service;
 import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
 import com.we.sdk.memsap.bean.Order;
+import com.we.sdk.memsap.bean.OrderDetail;
+
+import java.util.List;
 
 /**
  * @author SDK
@@ -50,6 +53,9 @@ public interface OrderService {
      * @return List
      */
     Page<Order> getOrderListByCondition(SearchVo searchVo, Page page);
+
+
+    List<OrderDetail> getOrderDetailsByOrderIds(List<Integer> orderIds);
 
 }
 

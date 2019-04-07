@@ -24,7 +24,7 @@
     </sql>
 
     <!-- resultMap -->
-    <resultMap type="Order" id="orderMapper">
+    <resultMap type="com.we.sdk.memsap.bean.Order" id="orderMapper">
         <result property="id" column="id"/>
         <result property="payment" column="payment"/>
         <result property="creatTime" column="creat_time"/>
@@ -34,7 +34,7 @@
     </resultMap>
 
     <!-- 新增 -->
-    <insert id="save" parameterType="Order" useGeneratedKeys="true"
+    <insert id="save" parameterType="com.we.sdk.memsap.bean.Order" useGeneratedKeys="true"
             keyProperty="id" keyColumn="ID">
         INSERT INTO `ORDER`
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -61,7 +61,7 @@
 
 
     <!-- 修改(默认只能修改用户收获地址) -->
-    <update id="update" parameterType="Order">
+    <update id="update" parameterType="com.we.sdk.memsap.bean.Order">
         UPDATE `ORDER`
         <set>
             <if test="userAddress != null">user_address = #{userAddress}</if>
@@ -111,7 +111,7 @@
     </sql>
 
     <!-- resultMap -->
-    <resultMap type="OrderDetail" id="orderDetailMapper">
+    <resultMap type="com.we.sdk.memsap.bean.OrderDetail" id="orderDetailMapper">
         <result property="id" column="id"/>
         <result property="orderId" column="order_id"/>
         <result property="phoneDetail" column="phone_detail"/>

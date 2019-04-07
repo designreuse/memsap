@@ -3,11 +3,15 @@ package com.we.sdk.memsap.controller;//package com.we.sdk.memsap.controller;
 import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
 import com.we.sdk.memsap.bean.Order;
+import com.we.sdk.memsap.bean.OrderDetail;
 import com.we.sdk.memsap.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/order")
@@ -52,5 +56,15 @@ public class OrderController {
     public Integer saveOrder(@PathVariable Integer id) {
         return orderService.delete(id);
     }
+
+    @GetMapping("/getOrderDetail")
+    public String getOrderDetailById(Model model, @RequestParam("id") Integer id) {
+        List<Integer> orderIds = new ArrayList<>();
+        orderIds.add(id);
+        List<OrderDetail> orderDetails = orderService.getOrderDetailsByOrderIds(orderIds);
+        model.addAttribute("orderDetails", orderDetails);
+        return "order/orderDetails";
+    }
+
 }
 

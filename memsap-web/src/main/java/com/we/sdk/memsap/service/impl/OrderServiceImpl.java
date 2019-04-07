@@ -3,10 +3,13 @@ package com.we.sdk.memsap.service.impl;//package com.we.sdk.memsap.service.impl;
 import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
 import com.we.sdk.memsap.bean.Order;
+import com.we.sdk.memsap.bean.OrderDetail;
 import com.we.sdk.memsap.feign.OrderFeignClient;
 import com.we.sdk.memsap.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +41,11 @@ public class OrderServiceImpl implements OrderService {
     public Page<Order> getOrderListByCondition(SearchVo searchVo, Page page) {
         searchVo.setPage(page);
         return orderFeignClient.getOrderListByCondition(searchVo).getData();
+    }
+
+    @Override
+    public List<OrderDetail> getOrderDetailsByOrderIds(List<Integer> orderIds) {
+        return orderFeignClient.getOrderDetailsByOrderIds(orderIds).getData();
     }
 
 }
