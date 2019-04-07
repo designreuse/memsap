@@ -68,7 +68,7 @@
                                                type="text" th:value="${searchVo.userName}"/>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
-                                        <button class="btn btn-primary btn-block" type="submit"><i
+                                        <button id="sub" class="btn btn-primary btn-block" type="submit"><i
                                                 class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>搜索</strong>
                                         </button>
                                     </div>
@@ -196,6 +196,7 @@
         $(".reset").click(function () {
             $("#user_phone").val("");
             $("#user_name").val("");
+            $("#sub").click();
         });
 
         var p = new Paging();
