@@ -102,9 +102,14 @@
                                 <div class="form-group"><label class="col-sm-2 control-label">品牌：</label>
                                     <div class="col-sm-10">
                                         <select name="brandId" id="brand_name" class="form-control">
-                                            <option value="0">--请选择品牌--</option>
-                                            <!--<option value="1">苹果</option>-->
-                                            <!--<option value="2">华为</option>-->
+                                            <th:block th:each="brand : ${brandList}" th:if="${phone.id != null && brand.id == phone.brandId}" >
+                                                <option th:value="${phone.brandId}" th:text="${brand.brandName}" selected="selected"></option>
+                                            </th:block>
+                                            <th:block th:if="${phone.id == null}">
+                                                <option value="">--请选择品牌--</option>
+                                            </th:block>
+
+
                                         </select>
                                     </div>
                                 </div>
@@ -114,7 +119,16 @@
                                 <div class="form-group"><label class="col-sm-2 control-label">系列：</label>
                                     <div class="col-sm-10">
                                         <select name="seriesId" id="series_name" class="form-control">
-                                            <option value="0">--请选择系列--</option>
+                                            <th:block th:each="brand : ${brandList}" th:if="${phone.id != null && brand.id == phone.brandId}">
+                                                <th:block th:each="series : ${seriesList}" th:if="${brand.id == series.brandId}" >
+                                                    <option th:value="${series.id}" th:text="${series.seriesName}"></option>
+                                                </th:block>
+                                            </th:block>
+
+                                            <th:block th:if="${phone.id == null}">
+                                                <option value="">--请选择系列--</option>
+                                            </th:block>
+
                                         </select>
                                     </div>
                                 </div>
@@ -151,7 +165,7 @@
                                 <div class="form-group"><label class="col-sm-2 control-label">故障：</label>
                                     <div class="col-sm-10">
                                         <select name="" id="fault_type" class="form-control">
-                                            <option value="">--请选择故障--</option>
+                                            <option value="0">--请选择故障--</option>
                                             <!--<option value="1">屏幕</option>-->
                                             <!--<option value="2">充电</option>-->
                                         </select>
@@ -163,7 +177,7 @@
                                 <div class="form-group"><label class="col-sm-2 control-label">维修方案：</label>
                                     <div class="col-sm-10">
                                         <select name="" id="repair_name" class="form-control">
-                                            <option value="">--请选择故障--</option>
+                                            <option value="0">--请选择故障--</option>
                                         </select>
                                     </div>
                                 </div>
@@ -359,7 +373,21 @@
                     $(this).find(".price_repairId").attr("name", "");
                 }
 
-            })
+            });
+
+            if($("#phone_name").val().trim() == ""){
+                toastr.error('请输入手机型号','提示');
+                return;
+            }
+
+            if($("#brand_name").val() == ""){
+                toastr.error('请选择品牌','提示');
+                return;
+            }
+            if($("#series_name").val() == ""){
+                toastr.error('请选择系列','提示');
+                return;
+            }
 
 
             $("#formTag").submit();
@@ -386,12 +414,15 @@
             // console.log(key);
             $("#brand_name").append('<option value="' + brandList[key].id + '">' + brandList[key].brandName + '</option>');
         }
+
+        /*$("#brand_name").html('<option value="">选择手机品牌</option>');*/
         $("#brand_name").change(function () {
             now_series = null;
 
             $("div[class*='price_box']").removeClass("cur");
 
             now_brand = $(this).val();
+
             $("#series_name").html('<option value="">选择手机系列</option>');
             $("#fault_type").html('<option value="">选择需要维修的问题</option>');
             $("#repair_name").html('<option value="">选择需要维修的问题</option>');
@@ -400,55 +431,71 @@
                 // var now_series = brand[now_brand].options[k];
                     $("#series_name").append('<option value="' + seriesList[k].id + '">' + seriesList[k].seriesName + '</option>');
             }
-            $("#series_name").change(function () {
+        });
+
+        if($("#series_name").find("option:selected").val() != null) {
+            repairSelectAndPrice();
+        }
+
+        $("#series_name").change(function () {
+            if($("#series_name").find("option:selected").val() != "") {
+                repairSelectAndPrice();
+            }else {
+                // console.log($("#series_name").find("option:selected").val()+"空");
+                $("#fault_type").empty();
+                $("#fault_type").html('<option value="">选择需要维修的问题</option>');
+            }
+        });
+
+
+        function repairSelectAndPrice() {
+            // console.log($("#series_name").find("option:selected").val());
+            now_repair = null;
+
+            $("div[class*='price_box']").removeClass("cur");
+
+            /*now_series = $(this).val();*/
+            //维修问题
+            $("#fault_type").html('<option value="">选择需要维修的问题</option>');
+            $("#repair_name").html('<option value="">选择需要维修的问题</option>');
+            for (var key in faultList) {
+                $("#fault_type").append('<option value="' + faultList[key].id + '">' + faultList[key].faultType + '</option>');
+            }
+            $("#fault_type").change(function () {
+
                 now_repair = null;
 
                 $("div[class*='price_box']").removeClass("cur");
 
-                now_series = $(this).val();
-                //维修问题
-                $("#fault_type").html('<option value="">选择需要维修的问题</option>');
+                var now_type = $(this).val();
                 $("#repair_name").html('<option value="">选择需要维修的问题</option>');
-                for (var key in faultList) {
-                    $("#fault_type").append('<option value="' + faultList[key].id + '">' + faultList[key].faultType + '</option>');
+                for (var k in repairList) {
+                    if (repairList[k].faultId == now_type)
+                    // var now_series = brand[now_brand].options[k];
+                        $("#repair_name").append('<option value="' + repairList[k].id + '">' + repairList[k].repairName + '</option>');
                 }
-                $("#fault_type").change(function () {
-                    now_repair = null;
-
+                $("#repair_name").change(function () {
+                    now_repair = $(this).val();
                     $("div[class*='price_box']").removeClass("cur");
-
-                    var now_type = $(this).val();
-                    $("#repair_name").html('<option value="">选择需要维修的问题</option>');
-                    for (var k in repairList) {
-                        if (repairList[k].faultId == now_type)
-                        // var now_series = brand[now_brand].options[k];
-                            $("#repair_name").append('<option value="' + repairList[k].id + '">' + repairList[k].repairName + '</option>');
-                    }
-                    $("#repair_name").change(function () {
-                        now_repair = $(this).val();
-                        $("div[class*='price_box']").removeClass("cur");
-                        $(".price_box" + now_repair).addClass("cur");
-                        $(".price_box" + now_repair + " .price_repairId").val(now_repair);
-                        /* console.log(phone.id);
-                         console.log(now_repair);*/
-                        for (var key in repairPriceList) {
+                    $(".price_box" + now_repair).addClass("cur");
+                    $(".price_box" + now_repair + " .price_repairId").val(now_repair);
+                    /* console.log(phone.id);
+                     console.log(now_repair);*/
+                    for (var key in repairPriceList) {
+                        // $(".price_box"+now_repair).addClass("cur");
+                        if (repairPriceList[key].phoneId == phone.id && repairPriceList[key].repairId == now_repair) {
                             // $(".price_box"+now_repair).addClass("cur");
-                            if (repairPriceList[key].phoneId == phone.id && repairPriceList[key].repairId == now_repair) {
-                                // $(".price_box"+now_repair).addClass("cur");
 
-                                if (!$("#price_check" + now_repair).prop('checked')) {//是否勾选暂存 没有勾选则把数据库里的价格传入price输入框
-                                    $(".price_box" + now_repair + " .price_text").val(repairPriceList[key].price);
-                                    /*$(".price_box" + now_repair + " .price_repairId").val(now_repair);*/
-                                }
+                            if (!$("#price_check" + now_repair).prop('checked')) {//是否勾选暂存 没有勾选则把数据库里的价格传入price输入框
+                                $(".price_box" + now_repair + " .price_text").val(repairPriceList[key].price);
+                                /*$(".price_box" + now_repair + " .price_repairId").val(now_repair);*/
                             }
                         }
-                    });
-
-                })
-
+                    }
+                });
             })
+        }
 
-        });
 
 
     });
