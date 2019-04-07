@@ -22,7 +22,7 @@ public interface OrderService {
 
     Order getOrderById(Integer id);
 
-    List<Order> getOrderListByCondition(SearchVo searchVo, Page page);
+    Page<Order> getOrderListByCondition(SearchVo searchVo, Page page);
 
     Integer getOrderListCount(SearchVo searchVo);
 

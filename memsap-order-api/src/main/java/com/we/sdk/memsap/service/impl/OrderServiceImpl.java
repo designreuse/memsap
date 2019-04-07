@@ -1,9 +1,9 @@
 package com.we.sdk.memsap.service.impl;
 
+import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
 import com.we.sdk.memsap.bean.Order;
 import com.we.sdk.memsap.bean.OrderDetail;
-import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.dao.OrderDao;
 import com.we.sdk.memsap.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +40,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrderListByCondition(SearchVo searchVo, Page page) {
+    public Page<Order> getOrderListByCondition(SearchVo searchVo, Page page) {
         Integer count = orderDao.getOrderListCount(searchVo);
         page.setTotalCount(count);
-        return orderDao.getOrderListByCondition(searchVo, page);
+        page.calculate();
+        page.setData(orderDao.getOrderListByCondition(searchVo, page));
+        return page;
     }
 
     @Override

@@ -1,11 +1,11 @@
 package com.we.sdk.memsap.controller;
 
 import com.we.sdk.memsap.base.result.RestResult;
+import com.we.sdk.memsap.base.result.RestResultGenerator;
+import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
 import com.we.sdk.memsap.bean.Order;
 import com.we.sdk.memsap.bean.OrderDetail;
-import com.we.sdk.memsap.base.vo.Page;
-import com.we.sdk.memsap.base.result.RestResultGenerator;
 import com.we.sdk.memsap.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,8 +60,8 @@ public class OrderController {
      */
     @ApiOperation(value = "查询Order列表", notes = "查询Order列表")
     @PostMapping("/getOrderListByCondition")
-    public RestResult<List<Order>> getOrderListByCondition(@RequestParam("searchVo") SearchVo searchVo, @RequestBody(required = false) Page page) {
-        List<Order> OrderList = orderService.getOrderListByCondition(searchVo, Page.initPage(page));
+    public RestResult<Page<Order>> getOrderListByCondition(@RequestBody SearchVo searchVo) {
+        Page<Order> OrderList = orderService.getOrderListByCondition(searchVo, Page.initPage(searchVo.getPage()));
         return RestResultGenerator.createOkResult(OrderList);
     }
 

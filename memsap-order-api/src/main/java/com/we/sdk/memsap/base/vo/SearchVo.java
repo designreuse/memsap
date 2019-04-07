@@ -9,4 +9,6 @@ public class SearchVo {
 
     private String userName;
 
+    private Page page;
+
 }
