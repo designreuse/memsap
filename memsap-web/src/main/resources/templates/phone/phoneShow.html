@@ -109,7 +109,7 @@
                                     </div>
 
                                     <div class="col-sm-2 m-b-xs">
-                                        <button class="btn btn-primary btn-block" type="submit"><i
+                                        <button id="sub" class="btn btn-primary btn-block" type="submit"><i
                                                 class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>搜索</strong>
                                         </button>
                                     </div>
@@ -293,6 +293,7 @@
 
         $("#phoneName").find("option:selected").attr("selected", false);
         $("#phoneName").find("option").first().attr("selected", true);
+        $("#sub").click();
     });
 
     /*]]>*/
