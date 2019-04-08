@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>手机维修分类</title>
+    <!--<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css"/>-->
+    <!--<link rel="stylesheet" type="text/css" href="../static/css/mycss/home.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="../static/css/mycss/phoneClassification.css"/>-->
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mycss/home.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mycss/phoneClassification.css}"/>
+</head>
+<body>
+<!--<script src="../static/js/jquery-2.1.1.js"></script>-->
+<!--<script src="../static/js/bootstrap.js"></script>-->
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script>
+    $(function ($) {
+        $(window).scroll(function () {
+            //var top = $("#navigation-bar").offset().top;
+            //无法获取到导航栏到顶部的距离，top为滚动条距离
+
+            var scrollTop = $(document.documentElement).scrollTop();
+            if (scrollTop > 50) {
+                $("#navigation-bar").css("opacity", "0.7");//设置导航栏透明度
+                $("#return-top-btn").fadeIn(500);//淡出显示 返回顶部 的按钮
+            } else {
+                $("#navigation-bar").css("opacity", "1");
+                $("#return-top-btn").fadeOut(500);
+            }
+
+
+        })
+
+        $("#return-top-btn").click(function () {
+            $('body,html').animate({scrollTop: 0}, 1000);//缓缓返回顶部
+        })
+
+    })
+</script>
+
+<!--返回顶部-->
+<button id="return-top-btn">
+    <span class="glyphicon glyphicon glyphicon-menu-up" aria-hidden="true"></span>
+    <br>
+    返回顶部
+</button>
+
+<!--导航条-->
+<nav class="navbar navbar-default navbar-fixed-top" id="navigation-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <nav class="navbar navbar-default" id="logo-nav">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#" id="logo">
+                            <img alt="Brand" th:src="@{/img/保时捷.png}">
+                        </a>
+
+                        <a class="navbar-brand" th:href="@{/}" id="logo-text">手机维修砖家</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+        <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
+        <!--<ul class="nav navbar-nav" id="bar-text">-->
+        <!--<li><a href="#">首页 <span class="sr-only">(current)</span></a></li>-->
+        <!--<li><a href="#repair-quotation">众多机型</a></li>-->
+        <!--<li><a href="#subscribe">预约下单</a></li>-->
+        <!--<li><a href="#six-specialty">六大特点</a></li>-->
+        <!--<li><a href="#question">常见问题</a></li>-->
+        <!--</ul>-->
+
+        <!--<ul class="nav navbar-nav navbar-right">-->
+        <!--<li><a href="#">预约电话：188xxxxxxxx</a></li>-->
+
+        <!--</ul>-->
+    </div>
+    </div>
+</nav>
+
+<div class="modle-wap wrap">
+    <h1>选择品牌</h1>
+    <ul class="brand-all" id="brand_name">
+        <li class="brand-li cur">
+            <a class="li-a">
+                <img th:src="@{img/brand/iPhone.png}" alt="苹果">
+                <!--src="../static/img/brand/iPhone.png"-->
+
+                <p>苹果</p>
+            </a>
+        </li>
+        <li class="brand-li ">
+            <a class="li-a">
+                <img th:src="@{img/brand/Samsung.png}" alt="三星">
+                <!--<img src="../static/img/brand/Samsung.png" alt="三星">-->
+                <p>三星</p>
+            </a>
+        </li>
+        <li class="brand-li ">
+            <a class="li-a">
+                <img th:src="@{img/brand/huawei.png}" alt="华为">
+                <!--<img src="../static/img/brand/huawei.png"-->
+                <!--alt="华为">-->
+                <p>华为</p>
+            </a>
+        </li>
+        <li class="brand-li ">
+            <a class="li-a">
+                <img th:src="@{img/brand/mi.png}" alt="小米">
+                <!--<img src="../static/img/brand/mi.png"-->
+                <!--alt="小米">-->
+                <p>小米</p>
+            </a>
+        </li>
+        <li class="brand-li ">
+            <a class="li-a">
+                <img th:src="@{img/brand/OPPO.png}" alt="OPPO">
+                <!--<img src="../static/img/brand/OPPO.png"-->
+                <!--alt="OPPO">-->
+                <p>OPPO</p>
+            </a>
+        </li>
+        <li class="brand-li ">
+            <a class="li-a">
+                <img th:src="@{img/brand/vivo.png}" alt="vivo">
+                <!--<img src="../static/img/brand/vivo.png"-->
+                <!--alt="vivo">-->
+                <p>vivo</p>
+            </a>
+        </li>
+    </ul>
+
+    <h1>选择机型</h1>
+
+    <ul class="phone-tit" id="series_name">
+        <li class="cur">全系列</li>
+        <li>iPhone</li>
+    </ul>
+    <div class="all-phone">
+        <ul class="phone-all cur" th:each="brand,brandState : ${brandList}">
+            <li class="phone-li" th:each="phone : ${phoneList}" th:if="${phone.brandId == brandState.index+1}">
+                <a class="li-a" href="#">
+                    <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
+                    <p th:text="${phone.phoneName}"></p>
+                </a>
+            </li>
+        </ul>
+
+        <div class="phone-brand-list cur" th:each="brand,brandState : ${brandList}">
+            <ul class="phone-list cur" th:each="series,seriesState : ${seriesList}"
+                th:if="${brandState.index + 1 == series.getBrandId()}">
+                <li class="phone-li" th:each="phone : ${phoneList}"
+                    th:if="${phone.seriesId == seriesState.index+1 and phone.brandId == brandState.index+1}">
+                    <a class="li-a" href="#">
+                        <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
+                        <p th:text="${phone.phoneName}"></p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!--<div class="clear"></div>-->
+
+</body>
+<script th:inline="javascript">
+    $(document).ready(function () {
+
+        var phoneList = [[${phoneList}]];
+        var brandList = [[${brandList}]];
+        var seriesList = [[${seriesList}]];
+
+        //品牌名和系列
+        $("#brand_name>li").click(function () {
+            var now_brand = $(this).index() + 1;
+            $("#series_name").empty();
+            // $(".phone-all").remove();
+            $("#series_name").append("<li class=\"cur\">全系列</li>");
+            // $(".all-phone").append("<ul class=\"phone-all cur\">");
+
+
+            for (var k in seriesList) {
+                if (seriesList[k].brandId == now_brand) {
+                    $("#series_name").append('<li>' + seriesList[k].seriesName + '</li>');
+                    // $(".all-phone").append("<ul class=\"phone-all cur\"></ul>");
+                }
+
+            }
+        });
+
+
+        //选择品牌 显示系列
+        /*  $.ajax({
+              type: "GET",
+              url: "package.json",
+              dataType: "json",
+              success: function (res) {
+                  /!*一级二级联动下拉菜单*!/
+                  var brand = res.phone_brand.option;
+                  $("#brand_name>li").click(function () {
+                      var now_type = $(this).index();
+                      $("#series_name").empty();
+                      $(".phone-all").remove();
+                      $("#series_name").append("<li class=\"cur\">全系列</li>");
+                      $(".all-phone").append("<ul class=\"phone-all cur\">ul-all</ul>");
+                      for (var k in brand[now_type].options) {
+                          var now_series = brand[now_type].options[k];
+                          var text = "<li>" + now_series.name + "</li>";
+                          $("#series_name").append(text);
+                          $(".all-phone").append("<ul class=\"phone-all cur\">ul" + k + "</ul>");
+                      }
+                  });
+              }
+          });*/
+
+
+        var now_brand = 0;
+        var now_series = 0;
+        $(".phone-all").removeClass("cur");
+        $(".phone-all").eq(now_brand).addClass("cur");
+        $(".phone-brand-list").removeClass("cur");
+        $(".phone-list").removeClass("cur");
+
+        $("#brand_name").on("click", "li", function () {
+            $("#brand_name>li").removeClass("cur");
+            $(this).addClass("cur");
+
+            $("#all-phone>ul").removeClass("cur");
+            now_brand = $(this).index();
+            $(".phone-all").removeClass("cur");
+            $(".phone-all").eq(now_brand).addClass("cur");
+
+            $(".phone-brand-list").removeClass("cur");
+            $(".phone-brand-list").eq(now_brand).addClass("cur");
+        });
+
+        $("#series_name").on("click", "li", function () {
+            $("#series_name>li").removeClass("cur");
+            $(this).addClass("cur");
+
+
+            now_series = $(this).index() - 1;
+            if(now_brand == 0){
+                $(".phone-brand-list").eq(now_brand).addClass("cur");
+            }
+            $(".phone-all").removeClass("cur");
+            if (now_series < 0) {
+                $(".phone-all").eq(now_brand).addClass("cur");
+            } else {
+                $(".phone-list").removeClass("cur");
+                $(".phone-brand-list.cur > .phone-list").eq(now_series).addClass("cur");
+            }
+
+
+        });
+
+
+    });
+
+</script>
+
+
+</html>
