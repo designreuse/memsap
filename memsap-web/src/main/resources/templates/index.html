@@ -116,7 +116,8 @@
 
             <ul class="nav navbar-nav navbar-right" id="login-ul">
                 <li>
-                    <a class="glyphicon glyphicon-user" href="#" data-toggle="modal" data-target="#loginModal">[[${session.user !=null ? session.user.userName : ''}]]</a>
+                    <a class="glyphicon glyphicon-user" href="#" data-toggle="modal" data-target="#loginModal"></a>
+                    <!--<a href="#">预约电话：188xxxxxxxx</a>-->
                 </li>
             </ul>
         </div>
@@ -211,7 +212,8 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 1} and ${phoneState.index} lt 10">
+                    <a th:href="@{/detail(id=${phone.getId()})}"
+                       th:if="${phone.brandId == 1} and ${phoneState.index} lt 10">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -227,7 +229,7 @@
             <div class=" model-table-div">
 
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 3}">
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 3}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -241,7 +243,7 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 2}">
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 2}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -255,7 +257,7 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 4}">
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 4}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -268,7 +270,7 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 5}">
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 5}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -281,7 +283,7 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 6}">
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 6}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -522,6 +524,7 @@
     var seriesList = [[${seriesList}]];
     var faultList = [[${faultList}]];
     var repairList = [[${repairList}]];
+    var userList = [[${userList}]];
 
 
     $(document).ready(function () {
@@ -586,6 +589,31 @@
         })
 
 
+        //维修问题
+        /*$.ajax({
+            type: "GET",
+            url: "package.json",
+            dataType: "json",
+            success: function(res) {
+                /!*一级二级联动下拉菜单*!/
+                //console.log(res);
+                var repair = res.model_repair.option;
+                //console.log(typeof(res));
+                for(var key in repair) {
+                    //console.log(data[i].id + "===" + data[i].options[0].name)
+                    $("#fault_type").append("<option value='" + key + "'>" + repair[key].name + "</option>");
+                }
+                $("#fault_type").change(function() {
+                    var now_type = $(this).val();
+                    $("#repair_name").html('<option value="">选择需要维修的问题</option>');
+                    for(var k in repair[now_type].options) {
+                        var now_repair = repair[now_type].options[k];
+                        $("#repair_name").append('<option value="' + k + '">' + now_repair.name + '</option>');
+                    }
+                });
+            }
+        });*/
+
         //省市
         $.ajax({
             type: "GET",
@@ -613,6 +641,37 @@
             }
         });
 
+
+        $(".btn-primary").on("click", function () {
+
+
+            $.ajax({
+                url: "/login",
+                type: "post",
+                data: {"phoneNumber": $("#user").val(), "password": $("#user_password").val()},
+                dataType: "json",
+                success: function (result) {
+                    if (result.code == 0) {//登陆成功
+                        swal({
+                            title: "登陆成功",
+                            text: "返回首页",
+                            icon: "success",
+                            button: "好的"
+                        })
+                        $("#loginModal").modal('hide');
+                    } else {
+                        swal({
+                            title: "登陆失败",
+                            text: "用户名或者密码错误",
+                            icon: "error",
+                            button: "好的"
+                        })
+                    }
+                }
+            });
+
+
+        });
 
     })
 

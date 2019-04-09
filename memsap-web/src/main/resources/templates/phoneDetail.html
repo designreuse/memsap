@@ -58,30 +58,15 @@
             <nav class="navbar navbar-default" id="logo-nav">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#" id="logo">
+                        <a class="navbar-brand" th:href="@{/index}" id="logo">
                             <img alt="Brand" th:src="@{/img/保时捷.png}">
                         </a>
 
-                        <a class="navbar-brand" href="#" id="logo-text">手机维修砖家</a>
+                        <a class="navbar-brand" th:href="@{/index}" id="logo-text">手机维修砖家</a>
                     </div>
                 </div>
             </nav>
         </div>
-
-
-        <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
-        <!--<ul class="nav navbar-nav" id="bar-text">-->
-        <!--<li><a href="#">首页 <span class="sr-only">(current)</span></a></li>-->
-        <!--<li><a href="#repair-quotation">众多机型</a></li>-->
-        <!--<li><a href="#subscribe">预约下单</a></li>-->
-        <!--<li><a href="#six-specialty">六大特点</a></li>-->
-        <!--<li><a href="#question">常见问题</a></li>-->
-        <!--</ul>-->
-
-        <!--<ul class="nav navbar-nav navbar-right">-->
-        <!--<li><a href="#">预约电话：188xxxxxxxx</a></li>-->
-
-        <!--</ul>-->
     </div>
     </div>
 </nav>
@@ -90,14 +75,14 @@
 <div class="mal-wap">
     <!--图片-->
     <div class="img-wrap">
-        <img th:src="@{/img/Phone_img/iPhone6.png}">
+        <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
     </div>
 
     <!--详情-->
     <div class="mal-con">
         <h1>品牌机型
-            <span id="phone_name">iPhone 6 Plus</span>
-            <a href="#">【更改机型】</a>
+            <span id="phone_name" th:text="${phone.getPhoneName()}">iPhone 6 Plus</span>
+            <a href="@{phoneClassification}">【更改机型】</a>
         </h1>
         <p class="sub-title">
             <span class="glyphicon glyphicon-ok">免费上门</span>
@@ -105,14 +90,24 @@
             <span class="glyphicon glyphicon-ok">修完后付款</span></p>
         <h2>机型颜色</h2>
         <ul class="color-ul clearfix" id="colorCon">
-            <li class="color-li ul-li" data-id="1">黑色</li>
+            <th:block th:each="color,colorState :${phone.phoneColorList}">
+                <li class="color-li ul-li" data-id="1" th:value="${colorState.index}" th:text="${color}">黑色</li>
+            </th:block>
+            <!--<li class="color-li ul-li" data-id="1">黑色</li>
             <li class="color-li ul-li" data-id="2">白色</li>
             <li class="color-li ul-li" data-id="3">绿色</li>
-            <li class="color-li ul-li" data-id="4">红色</li>
+            <li class="color-li ul-li" data-id="4">红色</li>-->
 
         </ul>
         <h2>故障类型</h2>
         <ul class="mal-ul clearfix" id="fault_type">
+            <!--<th:block th:each="fault : ${faultList}">
+                <li class="mal-li ul-li" th:text="${fault.faultType}" th:value="${fault.id}">
+                    电池/充电问题
+                    <span class="repair-sel-span" th:value="${fault.id}"></span>
+                </li>
+
+            </th:block>-->
             <!--<li class="mal-li ul-li cur">屏幕问题(更换总成 旧屏回收)<span></span></li>-->
             <!--<li class="mal-li ul-li">电池/充电问题<span></span></li>-->
             <!--<li class="mal-li ul-li">内存升级/更换硬盘<span></span></li>-->
@@ -128,27 +123,57 @@
         <div class="repair-ul-wrap"><h2>维修方案</h2>
             <div class="repair-ul-all">
                 <ul class="repair-ul clearfix cur" data-pid="0" id="repair_name">
-                    <!--<li class="mal-li mal-sub-li ul-li cur">-->
-                    <!--<div class="mal-name">外屏碎(显示正常)</div>-->
-                    <!--<div class="mal-money">-->
-                    <!--<p class="ac-money">¥229.00</p>-->
-                    <!--</div>-->
-                    <!--</li>-->
-                    <!--<li class="mal-li mal-sub-li ul-li">-->
-                    <!--<div class="mal-name">内屏显示异常</div>-->
-                    <!--<div class="mal-money">-->
-                    <!--<p class="ac-money">¥449.00</p>-->
-                    <!--</div>-->
-                    <!--</li>-->
+                    <th:block th:each="repair : ${repairList}">
+                        <li class="mal-li mal-sub-li ul-li" th:data-faultId="${repair.faultId}" th:value="${repair.id}">
+                            <div class="mal-name" th:value="${repair.id}"
+                                 th:text="${repair.repairName}"></div>
+                            <div class="mal-money">
+                                <p class="ac-money" th:value="${repair.id}">229.00</p>
+                            </div>
+                        </li>
+                    </th:block>
+
+                    <!-- <li class="mal-li mal-sub-li ul-li">
+                         <div class="mal-name">内屏显示异常</div>
+                         <div class="mal-money">
+                             <p class="ac-money">¥449.00</p>
+                         </div>
+                     </li>-->
                 </ul>
             </div>
         </div>
-        <div class="repair-con"><h3>iPhone 6 Plus <span class="color-data">灰色</span></h3>
-            <ul class="repair-mal" id="repairMal"></ul>
+
+        <div class="repair-con">
+            <h3>
+                <span class="phone_data"></span>
+                <span class="color-data"></span>
+            </h3>
+            <ul class="repair-mal" id="repairMal">
+
+                <li class="repair-mal-li" th:each="repair : ${repairList}">
+                    <th:block th:each="fault : ${faultList}" th:if="${fault.id == repair.faultId}">
+                        <span class="fault-data" th:text="${fault.faultType}"></span>
+                        <span class="repair-data" th:text="${repair.repairName}"></span>
+                        <th:block th:each="Price : ${faultRepairPrice}" th:if="${Price.repairId == repair.id}">
+                            <span class="price-data" th:text="${Price.price}">0</span>
+                        </th:block>
+
+                    </th:block>
+                </li>
+
+            </ul>
             <div class="money-div">应付金额：<span class="money" id="money">0</span><span>元</span></div>
         </div>
+        <form action="">
+            <input type="hidden" name="userPhone" id="userPhone" value="">
+            <input type="hidden" name="payment" id="payment" value="">
+            <!--<input type="hidden" name="phoneDetail" id="phoneDetail" value="">
+            <input type="hidden" name="repairDetails" id="repairDetails" value="">
+            <input type="hidden" name="price" id="price" value="">-->
+        </form>
+
         <div class="btn-wrap">
-            <button class="submit-btn" id="submitBtn" data-brandid="1" data-id="33">确认</button>
+            <button class="submit-btn" id="submitBtn" data-brandid="1" data-id="33" onclick="submitOrder()">确认</button>
         </div>
 
 
@@ -159,76 +184,146 @@
 <!--<div class="clear"></div>-->
 
 </body>
-<script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
     $(document).ready(function () {
 
+        var phone = [[${phone}]];
+        var faultList = [[${faultList}]];
+        var repairList = [[${repairList}]];
+        var faultRepairPrice = [[${faultRepairPrice}]];
+
+        var nowFault = 0;
+        var nowRepair = 0;
+
+
         //维修问题
-        $.ajax({
-            type: "GET",
-            url: "package.json",
-            dataType: "json",
-            success: function (res) {
-                /*一级二级联动下拉菜单*/
-                //console.log(res);
-                var repair = res.model_repair.option;
-                //console.log(typeof(res));
-                for (var key in repair) {
-                    //console.log(data[i].id + "===" + data[i].options[0].name)
-                    // $("#fault_type").append("<option value='" + key + "'>" + repair[key].name + "</option>");
-                    $("#fault_type").append("<li class='mal-li ul-li'>" + repair[key].name + "<span></span></li>");
+        for (var key in faultList) {
+            $("#fault_type").append("<li class='mal-li ul-li' value='" + faultList[key].id + "'> " + faultList[key].faultType + " <span  value='" + faultList[key].id + "'></span></li>");
+        }
+        /*$("#fault_type>li").click(function () {
+            // var now_type = $(this).val();
+            var now_type = $(this).index() + 1;
+            $("#repair_name").empty();
+
+            for (var k in repairList) {
+                if (repairList[k].faultId == now_type) {
+                    var text = "<li class=\"mal-li mal-sub-li ul-li\">\n" +
+                        "                        <div class=\"mal-name\">"
+                        + repairList[k].repairName + "</div>\n" +
+                        "                        <div class=\"mal-money\">\n" +
+                        "                            <p class=\"ac-money\">¥229.00</p>\n" +
+                        "                        </div>\n" +
+                        "                    </li>"
+                    $("#repair_name").append(text);
                 }
-                $("#fault_type>li").click(function () {
-                    // var now_type = $(this).val();
-                    var now_type = $(this).index();
-                    $("#repair_name").empty();
-                    // console.log(now_type);
-                    for (var k in repair[now_type].options) {
-                        var now_repair = repair[now_type].options[k];
+                // var now_series = brand[now_brand].options[k];
 
-                        // var text1 = "<li class='mal-li mal-sub-li ul-li'>";
-                        // var text2 = "<div class='mal-name'>";
-                        // var text3 = "</div>";
-                        // var text4 = "<div class='mal-money'>";
-                        // var text5 = "<p class='ac-money'>¥666.00</p>";
-                        // var text6 = "</div>";
-                        // var text7 = "</li>";
-
-                        var text = "<li class=\"mal-li mal-sub-li ul-li\">\n" +
-                            "                        <div class=\"mal-name\">"
-                            + now_repair.name + "</div>\n" +
-                            "                        <div class=\"mal-money\">\n" +
-                            "                            <p class=\"ac-money\">¥229.00</p>\n" +
-                            "                        </div>\n" +
-                            "                    </li>"
-                        // $("#repair_name").append('<option value="' + k + '">' + now_repair.name + '</option>');
-                        // $("#repair_name").append(text1,text2,text3 + now_repair.name + text4,text5,text6,text7);
-                        $("#repair_name").append(text);
-                    }
-                });
             }
-        });
+        })*/
+
+
+        $(".phone_data").text(phone.phoneName);
 
 
         $(".color-li").on("click", function () {
             $(".color-li").removeClass("cur");
             $(this).addClass("cur");
+            $(".color-data").text($(this).text());
         });
 
 
         $("#fault_type").on("click", "li", function () {
+            nowFault = $(this).val();
+            $("#repair_name>li").removeClass("show");
+
             $("#fault_type>li").removeClass("cur");
+
             $(this).addClass("cur");
+
+            $("#repair_name>li[data-faultId='" + nowFault + "']").addClass("show");
+
+            //给维修方案添加价格
+            for (var k in faultRepairPrice) {
+                $(".mal-money>.ac-money[value = '" + faultRepairPrice[k].repairId + "']").text("￥" + faultRepairPrice[k].price);
+            }
+
+
         });
 
         $("#repair_name").on("click", "li", function () {
-            $("#repair_name>li").removeClass("cur");
-            $(this).addClass("cur");
-            // console.log($(this).find(".ac-money").text());
-            $("#money").text($(this).find(".ac-money").text());
+            nowRepair = $(this).val();
+
+            if ($(this).hasClass("cur")) {
+                $(this).removeClass("cur");
+                $("#repairMal>li").eq(nowRepair - 1).removeClass("cur");
+            } else {
+                $(this).addClass("cur");
+                $("#repairMal>li").eq(nowRepair - 1).addClass("cur");
+            }
+
+            $("#fault_type>li[value='" + nowFault + "']>span")
+                .addClass("cur")
+                .text($(".mal-sub-li.cur[data-faultId='" + nowFault + "']").length);
+            if ($(".mal-sub-li.cur[data-faultId='" + nowFault + "']").length == 0) {
+                $("#fault_type>li[value='" + nowFault + "']>span").removeClass("cur")
+            }
+
+            var len = $(".repair-mal-li.cur>.price-data").length;
+            $("#money").text(0);
+            for (var i = 0; i < len; i++) {
+                $("#money").text(Number($("#money").text()) + Number($(".repair-mal-li.cur>.price-data").eq(i).text()));
+            }
         });
 
 
     });
+
+    function submitOrder() {
+
+        var len = $(".repair-mal-li.cur>.price-data").length;
+
+        var userPhone = $("#phone_name").text();
+        var payment = parseFloat($("#money").text());
+
+        var phoneDetail = userPhone + " " + $(".color-data").text();
+        /*var repairDetails = new Array();
+        for (var i = 0; i < len; i++) {
+             repairDetails.push($(".repair-data").eq(i).text());
+        }
+        var price = new Array();
+        for (var i = 0; i < len; i++) {
+            price.push( parseFloat($(".price-data").eq(i).text()));
+        }*/
+
+        var orderDetailList = new Array();
+        for (var i = 0; i < len; i++) {
+            var a ={};
+            a.phoneDetail = phoneDetail;
+            a.repairDetails = $(".repair-data").eq(i).text();
+            a.price = parseFloat($(".price-data").eq(i).text());
+            orderDetailList.push(a);
+        }
+        $.ajax({
+            type: "post",
+            url: "saveOrder",
+            contentType: 'application/json;charset=UTF-8',
+            dataType: "json",
+            data: JSON.stringify({
+                order: {
+                    "userPhone": userPhone,
+                    "payment": payment
+                }, orderDetailList: orderDetailList
+            }),
+            success: function (data) {
+
+            }
+        })
+    }
+
+    /*]]>*/
 
 </script>
 

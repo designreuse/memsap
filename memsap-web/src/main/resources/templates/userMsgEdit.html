@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>手机维修分类</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mycss/home.css}"/>
+    <link th:href="@{/css/mycss/area.css}" rel="stylesheet"/>
+    <link th:href="@{/css/mycss/userMsgEdit.css}" rel="stylesheet"/>
+
+</head>
+<body>
+
+
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/area-data.js}"></script>
+<script th:src="@{/js/area.js}"></script>
+<!--返回顶部JS-->
+<script>
+    $(function ($) {
+        $(window).scroll(function () {
+            //var top = $("#navigation-bar").offset().top;
+            //无法获取到导航栏到顶部的距离，top为滚动条距离
+
+            var scrollTop = $(document.documentElement).scrollTop();
+            if (scrollTop > 50) {
+                $("#navigation-bar").css("opacity", "0.7");//设置导航栏透明度
+                $("#return-top-btn").fadeIn(500);//淡出显示 返回顶部 的按钮
+            } else {
+                $("#navigation-bar").css("opacity", "1");
+                $("#return-top-btn").fadeOut(500);
+            }
+
+
+        })
+
+        $("#return-top-btn").click(function () {
+            $('body,html').animate({scrollTop: 0}, 1000);//缓缓返回顶部
+        })
+
+    })
+</script>
+
+<!--返回顶部-->
+<button id="return-top-btn">
+    <span class="glyphicon glyphicon glyphicon-menu-up" aria-hidden="true"></span>
+    <br>
+    返回顶部
+</button>
+
+<!--导航条-->
+<nav class="navbar navbar-default navbar-fixed-top" id="navigation-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <nav class="navbar navbar-default" id="logo-nav">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#" id="logo">
+                            <img alt="Brand" th:src="@{/img/保时捷.png}">
+                        </a>
+
+                        <a class="navbar-brand" th:href="@{/}" id="logo-text">手机维修砖家</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+    </div>
+    </div>
+</nav>
+
+<div class="user-login-address">
+    <!--登陆输入框-->
+    <form id="user-login" action="" method="post" class="form-horizontal user-login cur">
+        <div class="form-group">
+            <label for="InputPhoneNumber">手机号</label>
+            <input type="text" class="form-control" id="InputPhoneNumber" name="phoneNumber" placeholder="手机号码">
+        </div>
+        <div class="form-group">
+            <label for="InputPassword">密码</label>
+            <input type="password" class="form-control" id="InputPassword" name="password" placeholder="密码">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+    <!--该用户地址展示-->
+    <form id="address-list" action="" method="POST" class="form-horizontal address-list cur">
+        <div class="form-group">
+            <label  class="col-sm-2 control-label">联系手机:</label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" th:value="${user.phoneNumber}">
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-2 control-label">联系人</label>
+            <input type="password" class="form-control" id="userName" name="userName" th:value="${user.userName}" >
+        </div>
+        <th:block th:if="${addressList != null}" th:each="add : ${addressList}" >
+            <div class="form-group">
+                <div class="address-list-box">
+                    <label class="col-sm-2 control-label">地址：</label>
+                    <div class="col-sm-10">
+                        <input id="address" name="userId" type="text" class="form-control"
+                               readonly="readonly"
+                               th:text="${add.province + add.city+add.county}+'--'+${add.detailAddress}"/>
+                        <a th:href="@{toUpdate(id=${add.id},phoneNumber=${phoneNumber})}"
+                           title="修改地址"><i class="glyphicon glyphicon-pencil"></i></a>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+        <th:block th:if="${addressList == null}">
+            <div class="form-group">
+                <h2>暂无地址，速去添加</h2>
+                <a th:href="@{toUpdate(phoneNumber=${phoneNumber})}"
+                   title="添加地址"><i class="glyphicon glyphicon-asterisk"></i></a>
+            </div>
+        </th:block>
+    </form>
+
+    <!--新增地址/修改地址-->
+    <form id="address-edit" action="" method="POST" class="form-horizontal address-edit">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">地址：</label>
+            <div class="col-sm-10">
+                <div class="form-row clearfix area-row col-sm-6">
+                    <div class="form-input">
+                        <div class="area-input">
+                            <div class="area province">
+                                <input type="hidden" id="province" name="province"
+                                       th:value="${address!=null}?${address.province}:''">
+                                <span class="provinceSpan">-- 省份 --</span><i></i>
+                                <div class="area-content"></div>
+                            </div>
+                            <div class="area city">
+                                <input type="hidden" id="city" name="city"
+                                       th:value="${address!=null}?${address.city}:''">
+                                <span class="citySpan">-- 城市 --</span><i></i>
+                                <div class="area-content">
+                                    <ul></ul>
+                                </div>
+                            </div>
+                            <div class="area downtown">
+                                <input type="hidden" id="county" name="county"
+                                       th:value="${address!=null}?${address.county}:''">
+                                <span class="countySpan">-- 市区 --</span><i></i>
+                                <div class="area-content">
+                                    <ul></ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-6">
+                    <input id="detailAddress" name="detailAddress" type="text"
+                           class="form-control" th:value="${address!=null}?${address.detailAddress}:''"/>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <!--订单详情-->
+    <div class="repair-con">
+        <h3>
+            <span class="phone_data"></span>
+            <span class="color-data"></span>
+        </h3>
+        <ul class="repair-mal" id="repairMal">
+
+            <li class="repair-mal-li" th:each="">
+                <th:block th:each="" th:if="">
+                    <span class="fault-data" th:text="${fault.faultType}"></span>
+                    <span class="repair-data" th:text="${repair.repairName}"></span>
+                    <span class="price-data" th:text="${repair.id}">0</span>
+                </th:block>
+            </li>
+
+        </ul>
+        <div class="money-div">应付金额：<span class="money" id="money">0</span><span>元</span></div>
+    </div>
+
+</div>
+
+
+<!--<div class="clear"></div>-->
+
+</body>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    Area.init(AreaData);
+
+    $(document).ready(function () {
+
+        var order = [[${order}]];
+        var OrderDetail = [[${OrderDetail}]];
+
+        $("#address-list").on("click", "#address-list-box", function () {
+            if ($(this).hasClass("cur")) {
+                $(this).removeClass("cur");
+            } else {
+                $(this).addClass("cur");
+            }
+        });
+
+    });
+
+    /*]]>*/
+
+</script>
+
+
+</html>
