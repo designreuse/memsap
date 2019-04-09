@@ -22,7 +22,7 @@ public class IndexController {
     private final SeriesService seriesService;
 
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String index(Model model) {
         List<Brand> brandList = phoneService.getBrandList();
         List<Phone> phoneList = phoneService.getPhoneList();

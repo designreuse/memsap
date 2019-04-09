@@ -116,8 +116,7 @@
 
             <ul class="nav navbar-nav navbar-right" id="login-ul">
                 <li>
-                    <a class="glyphicon glyphicon-user" href="#" data-toggle="modal" data-target="#loginModal"></a>
-                    <!--<a href="#">预约电话：188xxxxxxxx</a>-->
+                    <a class="glyphicon glyphicon-user" href="#" data-toggle="modal" data-target="#loginModal">[[${session.user !=null ? session.user.userName : ''}]]</a>
                 </li>
             </ul>
         </div>

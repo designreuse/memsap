@@ -37,7 +37,7 @@ public class SSOService {
     private String name;
 
     @Value("${administrator.password}")
-    private String password;
+    private String rootPassword;
 
     public RestResult<String> userLogin(String phoneNumber, String password,
                                         HttpServletRequest request, HttpServletResponse response) {
@@ -60,7 +60,8 @@ public class SSOService {
         // 添加写 cookie 的逻辑，cookie 的有效期是关闭浏览器就失效。
         CookieUtils.setCookie(request, response, "USER_TOKEN", token);
         // 返回token
-        if (name.equals(user.getUserName()) && password.equals(user.getPassword())) {
+        request.getSession().setAttribute("user", new User(user.getUserName()));
+        if (name.equals(user.getPhoneNumber()) && rootPassword.equals(user.getPassword())) {
             return RestResultGenerator.createOkResult("root", token);
         }
         return RestResultGenerator.createOkResult(token);
