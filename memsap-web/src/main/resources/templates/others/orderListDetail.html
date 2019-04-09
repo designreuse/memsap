@@ -15,8 +15,6 @@
 
     <link th:href="@{/css/mycss/paging.css}" rel="stylesheet"/>
 
-    <link th:href="@{/css/bootstrap-switch.min.css}" rel="stylesheet"/>
-
 
 </head>
 <body>
@@ -36,7 +34,7 @@
                         <a>订单管理</a>
                     </li>
                     <li class="active">
-                        <strong>订单管理</strong>
+                        <strong>订单详情管理</strong>
                     </li>
                 </ol>
             </div>
@@ -61,22 +59,20 @@
                             <form action="listByCondition">
                                 <div class="row">
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="user_phone" name="phoneNumber" placeholder="用户手机号码"
-                                               class="form-control"
-                                               type="text" th:value="${searchVo.phoneNumber}"/>
+                                        <input id="phone_detail" name="phone_detail" placeholder="手机详情" class="form-control"
+                                               type="text" th:value="${searchVo.phone_detail}"/>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="user_name" name="userName" placeholder="用户姓名" class="form-control"
-                                               type="text" th:value="${searchVo.userName}"/>
+                                        <input id="repair_details" name="repair_details" placeholder="维修详情" class="form-control"
+                                               type="text" th:value="${searchVo.repair_details}"/>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
-                                        <button id="sub" class="btn btn-primary btn-block" type="submit"><i
+                                        <button class="btn btn-primary btn-block" type="submit"><i
                                                 class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>搜索</strong>
                                         </button>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
-                                        <button class="btn btn-primary btn-block reset" type="button"
-                                                style="background-color: #888888;border-color:#888888"><i
+                                        <button class="btn btn-primary btn-block reset" type="button"><i
                                                 class="glyphicon glyphicon-refresh"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>重置</strong>
                                         </button>
                                     </div>
@@ -101,43 +97,25 @@
                                     <thead>
                                     <tr>
                                         <th width="5%">ID</th>
-                                        <th width="10%">总价</th>
-                                        <th width="10%">创建时间</th>
-                                        <th width="10%">用户姓名</th>
-                                        <th width="15%">用户电话</th>
-                                        <th width="30%">用户地址</th>
-                                        <th width="5%">详情</th>
-                                        <th>点击以修改状态</th>
+                                        <th width="5%">订单ID</th>
+                                        <th width="20%">手机详情</th>
+                                        <th width="20%">维修详情</th>
+                                        <th width="10%">价格</th>
+                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="item : ${orderList}">
-                                        <td th:text="${item.id}">test</td>
-                                        <td th:text="${item.payment}">test</td>
-                                        <td th:text="${#dates.format(item.creatTime,'yyyy-MM-dd HH:mm:ss')}">test</td>
-                                        <td th:text="${item.userName}">test</td>
-                                        <td th:text="${item.userPhone}">test</td>
-                                        <td th:text="${item.userAddress}">test</td>
+                                    <tr th:each="item : ${order}">
+                                        <td th:text="${item.id}">1</td>
+                                        <td th:text="${item.orderId}">1</td>
+                                        <td th:text="${item.phoneDetail}">iPhone6666</td>
+                                        <td th:text="${item.repairDetails}">爆炸</td>
+                                        <td th:text="${item.price}">777777</td>
+
                                         <td>
-                                            <a class="fa fa-tag text-navy"
-                                               th:href="@{/order/getOrderDetail(id=${item.id})}"
-                                               title="查看详情"></a>
-                                        </td>
-                                        <td>
-                                            <!--<a th:href="@{'toEdit?phoneNumber='+1}" title="修改状态"><i
-                                                    class="fa fa-edit text-navy"></i></a>-->
-                                            <!--<a title="修改状态"><span>未完成</span></a>-->
-                                            <div class="switch has-switch" data-on="success" data-off="switch-danger">
-                                                <div class="switch-on switch-animate switch-small" style="">
-                                                    <input type="checkbox" checked="">
-                                                    <span class="switch-left switch-success">ON</span>
-                                                    <label>&nbsp;</label>
-                                                    <span class="switch-right switch-danger">OFF</span>
-                                                </div>
-                                            </div>
-                                            <!--<div class="switch switch-small">
-                                                <input type="checkbox" checked />
-                                            </div>-->
+                                            <a th:href="@{}" title="修改状态"><i
+                                                    class="fa fa-edit text-navy"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
 
                                         </td>
                                     </tr>
@@ -188,8 +166,6 @@
 
 <script th:src="@{/js/paging.js}"></script>
 
-<script th:src="@{/js/bootstrap-switch.min.js}"></script>
-
 
 <style type="text/css">
     .ibox-content th {
@@ -208,17 +184,11 @@
 
         //重置按钮
         $(".reset").click(function () {
-            $("#user_phone").val("");
-            $("#user_name").val("");
-            $("#sub").click();
+            $("#phone_detail").val();
+            $("#repair_details").val();
         });
 
-
-            $(".switch").bootstrapSwitch();
-
-
-
-       /* var p = new Paging();
+        var p = new Paging();
         var page = [[${page}]];
         p.init({
             target: $('#pageToolbar'),
@@ -228,14 +198,17 @@
             toolbar: true,
             hash: true,
             callback: function (pagecount, size, count) {
-                var phoneNumber = $("#user_phone").val();
-                var userName = $("#user_name").val();
-                location.href = 'listByCondition?pn=' + pagecount + '&pageSize=' + size + '&phoneNumber=' + phoneNumber + '&userName=' + userName;
+                var phoneNumber = $("#phoneNumber").val();
+                var phoneName = $("#phoneName").val();
+                var brandName = $("#brandName").val();
+                location.href = 'listByCondition?pn=' + pagecount + '&pageSize=' + size + '&phoneNumber=' + phoneNumber + '&phoneName=' + phoneName + '&brandName=' + brandName;
             }
-        });*/
+        });
 
 
     });
+
+
 
 
     /*]]>*/

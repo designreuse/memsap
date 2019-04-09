@@ -154,7 +154,7 @@
     <div class="all-phone">
         <ul class="phone-all cur" th:each="brand,brandState : ${brandList}">
             <li class="phone-li" th:each="phone : ${phoneList}" th:if="${phone.brandId == brandState.index+1}">
-                <a class="li-a" href="#">
+                <a class="li-a" th:href="@{/detail(id=${phone.getId()})}">
                     <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                     <p th:text="${phone.phoneName}"></p>
                 </a>
@@ -166,7 +166,7 @@
                 th:if="${brandState.index + 1 == series.getBrandId()}">
                 <li class="phone-li" th:each="phone : ${phoneList}"
                     th:if="${phone.seriesId == seriesState.index+1 and phone.brandId == brandState.index+1}">
-                    <a class="li-a" href="#">
+                    <a class="li-a" th:href="@{/detail(id=${phone.getId()})}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>

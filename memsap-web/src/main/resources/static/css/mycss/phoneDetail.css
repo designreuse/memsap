@@ -5,6 +5,10 @@ body {
     background-color: #fff;
 }
 
+li{
+    list-style:none;
+}
+
 .clear{
     clear: both;
 }
@@ -100,16 +104,41 @@ body {
     color: #e70;
 }
 
+.mal-wap .mal-con .ul-li.show {
+    display: block;
+}
+
 .mal-wap .mal-con .mal-li {
     position: relative;
     width: 200px;
 }
+
+.mal-wap .mal-con .mal-li span {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: #e70;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+    border-radius: 50%;
+    top: 9px;
+    right: 20px;
+    display: none;
+}
+
+.mal-wap .mal-con .mal-li span.cur{
+    display: block;
+}
+
 
 .mal-wap .mal-con .mal-li.mal-sub-li {
     height: 62px;
     line-height: 60px;
     text-align: left;
     padding-left: 20px;
+    display: none;
 }
 
 .mal-wap .mal-con .mal-li .mal-name {
@@ -161,3 +190,15 @@ body {
     color: #fff;
     cursor: pointer;
 }
+
+.mal-wap .mal-con .repair-con .repair-mal .repair-mal-li {
+    line-height: 20px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.mal-wap .mal-con .repair-con .repair-mal .repair-mal-li.cur {
+    display: block;
+}
+
+

@@ -8,11 +8,13 @@
 
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/mycss/home.css}"/>
+    <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet"/>
 </head>
 <body data-spy="scroll" data-target="#navigation-bar" data-offset-top="200">
 
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
 
 
 <script>
@@ -37,8 +39,6 @@
         })
 
 
-
-
     })
 
 
@@ -50,6 +50,35 @@
     <br>
     返回顶部
 </button>
+
+<!--登陆模态框-->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">登陆</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="user" class="control-label">用户名:</label>
+                        <input type="text" class="form-control" id="user">
+                    </div>
+                    <div class="form-group">
+                        <label for="user_password" class="control-label">密码:</label>
+                        <input type="password" class="form-control" id="user_password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default">注册</button>
+                <button type="button" class="btn btn-primary">登陆</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--导航条-->
 <nav class="navbar navbar-default navbar-fixed-top" id="navigation-bar">
@@ -87,7 +116,7 @@
 
             <ul class="nav navbar-nav navbar-right" id="login-ul">
                 <li>
-                    <a class="glyphicon glyphicon-user" href="#"></a>
+                    <a class="glyphicon glyphicon-user" href="#" data-toggle="modal" data-target="#loginModal"></a>
                     <!--<a href="#">预约电话：188xxxxxxxx</a>-->
                 </li>
             </ul>
@@ -181,9 +210,9 @@
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade in active" id="apple">
         <div class="container-fluid model-table">
-            <div class=" model-table-div" >
+            <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 1} and ${phoneState.index} lt 10" >
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 1} and ${phoneState.index} lt 10">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -199,7 +228,7 @@
             <div class=" model-table-div">
 
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 3}" >
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 3}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -213,7 +242,7 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 2}" >
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 2}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -227,7 +256,7 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 4}" >
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 4}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -240,7 +269,7 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 5}" >
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 5}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -253,7 +282,7 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a href="#" th:if="${phone.brandId == 6}" >
+                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 6}">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -320,9 +349,9 @@
 <!--预约下单-->
 <div class="subscribe-title" id="subscribe">我要预约</div>
 <div class="subscribe-form">
-    <div class="list-box" >
+    <div class="list-box">
         <div class="series-box box">
-            <div class="select-div" >
+            <div class="select-div">
                 <select name="brand_name" id="brand_name" class="form-control">
                     <option>--手机品牌--</option>
                 </select>
@@ -343,7 +372,7 @@
                     <!--</div>-->
                 </select>
             </div>
-            <div class="select-div" >
+            <div class="select-div">
                 <select name="phone_colors" id="phone_colors" class="form-control">
                     <option>--请选择颜色--</option>
                     <option>黑色</option>
@@ -355,7 +384,7 @@
         </div>
 
         <div class="fault-box box">
-            <div class="select-div" >
+            <div class="select-div">
                 <select name="fault_type" id="fault_type" class="form-control">
                     <option>--故障大类--</option>
                 </select>
@@ -368,16 +397,16 @@
         </div>
 
         <div class="name-box box">
-            <div class="select-div" >
+            <div class="select-div">
                 <input type="text" id="user_name" placeholder="姓名">
             </div>
-            <div class="select-div" >
+            <div class="select-div">
                 <input type="text" id="phone_number" placeholder="电话号码">
             </div>
         </div>
 
         <div class="city-box box">
-            <div class="select-div" >
+            <div class="select-div">
                 <select name="province" id="province" class="form-control">
                     <option>--请选择省份--</option>
                 </select>
@@ -390,7 +419,7 @@
         </div>
 
         <div class="address-box box">
-            <div class="select-div" >
+            <div class="select-div">
                 <input type="text" id="user_address" placeholder="请输入地址">
             </div>
         </div>
@@ -492,32 +521,33 @@
     var phoneList = [[${phoneList}]];
     var brandList = [[${brandList}]];
     var seriesList = [[${seriesList}]];
-    var faultList  = [[${faultList}]];
+    var faultList = [[${faultList}]];
     var repairList = [[${repairList}]];
+    var userList = [[${userList}]];
 
 
     $(document).ready(function () {
 
         //品牌名和系列
-        for(var key in brandList) {
+        for (var key in brandList) {
             // console.log(key);
             $("#brand_name").append('<option value="' + brandList[key].id + '">' + brandList[key].brandName + '</option>');
         }
-        $("#brand_name").change(function() {
+        $("#brand_name").change(function () {
             var now_brand = $(this).val();
             $("#series_name").html('<option value="">选择手机系列</option>');
-            for(var k in seriesList) {
-                if(seriesList[k].brandId == now_brand)
+            for (var k in seriesList) {
+                if (seriesList[k].brandId == now_brand)
                 // var now_series = brand[now_brand].options[k];
-                    $("#series_name").append('<option value="' +  seriesList[k].id + '">' + seriesList[k].seriesName + '</option>');
+                    $("#series_name").append('<option value="' + seriesList[k].id + '">' + seriesList[k].seriesName + '</option>');
             }
             $("#series_name").change(function () {
                 var now_series = $(this).val();
                 $("#phone_name").html('<option value="">选择手机型号</option>');
-                for(var k in phoneList) {
-                    if(phoneList[k].seriesId == now_series)
+                for (var k in phoneList) {
+                    if (phoneList[k].seriesId == now_series)
                     // var now_series = brand[now_brand].options[k];
-                        $("#phone_name").append('<option value="' +  phoneList[k].id + '">' + phoneList[k].phoneName + '</option>');
+                        $("#phone_name").append('<option value="' + phoneList[k].id + '">' + phoneList[k].phoneName + '</option>');
                 }
 
             })
@@ -525,12 +555,12 @@
                 var now_phone = $(this).val();
                 // console.log(now_phone);
                 $("#phone_colors").html('<option value="">选择手机颜色</option>');
-                for(var k in phoneList) {
-                    if(phoneList[k].id == now_phone){
+                for (var k in phoneList) {
+                    if (phoneList[k].id == now_phone) {
                         var colorList = phoneList[k].phoneColorList;
                         // console.log(colorList);
                         for (var key in colorList) {
-                            $("#phone_colors").append('<option value="' +  key + '">' + colorList[key] + '</option>');
+                            $("#phone_colors").append('<option value="' + key + '">' + colorList[key] + '</option>');
                         }
                     }
 
@@ -541,23 +571,21 @@
         });
 
 
-
         //维修问题
-        for(var key in faultList) {
+        for (var key in faultList) {
             $("#fault_type").append('<option value="' + faultList[key].id + '">' + faultList[key].faultType + '</option>');
         }
-        $("#fault_type").change(function() {
+        $("#fault_type").change(function () {
             var now_type = $(this).val();
             $("#repair_name").html('<option value="">选择需要维修的问题</option>');
-            for(var k in repairList) {
-                if(repairList[k].faultId == now_type)
+            for (var k in repairList) {
+                if (repairList[k].faultId == now_type)
                 // var now_series = brand[now_brand].options[k];
-                    $("#repair_name").append('<option value="' +  repairList[k].id + '">' + repairList[k].repairName + '</option>');
+                    $("#repair_name").append('<option value="' + repairList[k].id + '">' + repairList[k].repairName + '</option>');
             }
 
 
         })
-
 
 
         //维修问题
@@ -590,13 +618,13 @@
             type: "GET",
             url: "package.json",
             dataType: "json",
-            success: function(res) {
+            success: function (res) {
                 /*一级二级联动下拉菜单*/
                 //console.log(res);
                 var province = res.provinces;
                 // var city = res.provinces.citys;
                 //console.log(typeof(res));
-                for(var key in province) {
+                for (var key in province) {
                     //console.log(data[i].id + "===" + data[i].options[0].name)
                     $("#province").append("<option value='" + key + "'>" + province[key].provinceName + "</option>");
                 }
@@ -604,12 +632,49 @@
                     // var now_province = $(this).prop('selectedIndex');
                     var now_province = $(this).val();
                     $("#city").html('<option value="">选择城市</option>');
-                    for(var k in province[now_province].citys) {
+                    for (var k in province[now_province].citys) {
                         var now_city = province[now_province].citys[k];
                         $("#city").append('<option value="' + k + '">' + now_city.citysName + '</option>');
                     }
                 })
             }
+        });
+
+
+        $(".btn-primary").on("click", function () {
+
+
+
+            $.ajax({
+                url:"/login",
+                type:"post",
+                data:{"phoneNumber":$("#user").val(),"password":$("#user_password").val()},
+                dataType:"json",
+                success:function (result) {
+                    if(){//登陆成功
+                        swal({
+                            title: "登陆成功",
+                            text: "返回首页",
+                            icon: "success",
+                            button: "好的"
+                        })
+                        $("#loginModal").modal('hide');
+                    }
+                    else {
+                        swal({
+                            title: "登陆失败",
+                            text: "用户名或者密码错误",
+                            icon: "error",
+                            button: "好的"
+                        })
+                    }
+                }
+            });
+
+
+
+
+
         });
 
     })
