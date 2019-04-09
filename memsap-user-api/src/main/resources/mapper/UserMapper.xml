@@ -24,7 +24,7 @@
             <if test="searchVo.sex != null and searchVo.sex != ''">
                 AND sex = #{searchVo.sex}
             </if>
-            AND is_delete != 1
+            AND is_delete = 0
         </where>
     </sql>
 
@@ -131,6 +131,6 @@
     <select id="getUsers" resultMap="userMapper">
         SELECT
         <include refid="field"/>
-        FROM USER WHERE is_delete != 1
+        FROM USER WHERE is_delete = 0
     </select>
 </mapper>

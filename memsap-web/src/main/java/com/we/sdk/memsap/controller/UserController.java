@@ -47,7 +47,7 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/list")
+    @RequestMapping("/background/list")
     public String getUserListByCondition(Model model, SearchVo searchVo, Page page) {
         Page<User> userList = userService.getUserListByCondition(searchVo, page);
         model.addAttribute("userList", userList.getData());
@@ -110,7 +110,7 @@ public class UserController {
             return "user/edit";
         }
         model.addAttribute("msg", "修改成功");
-        return "redirect:list";
+        return "redirect:background/list";
     }
 
     @RequestMapping(value = "/logout")

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@FeignClient(name = "memsap-phone-api", fallbackFactory = HystrixFallbackFactory.class)
-@FeignClient(name = "memsap-phone-api", url = "http://localhost:8080")
+//@FeignClient(name = "memsap-phone-api", fallbackFactory = HystrixFallbackFactory.class, url = "http://localhost:8080")
+@FeignClient(name = "memsap-phone-api")
 @RequestMapping("/memsap-phone-api")
 public interface PhoneFeignClient {
     /*新增*/

@@ -17,9 +17,11 @@ public class MyAdapterConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 判断用户是否登录的拦截器
         registry.addInterceptor(userLoginHandlerInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/user/toForget", "/user/forget", "/user/toLogin*", "/user/login*",
+                .addPathPatterns("/**/background/**");
+
+ /*               .excludePathPatterns("/user/toForget", "/user/forget", "/user/toLogin*", "/user/login*",
                         "/user/toRegister*", "/user/register*", "/error", "/css/**", "/img/**", "/js/**", "/font-awesome/**", "/**.ico");
+*/
     }
 
     @Override

@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="ibox-content" style="display: block;">
-                            <form action="listByCondition">
+                            <form action="list">
                                 <div class="row">
                                     <div class="col-sm-2 m-b-xs">
                                         <input id="user_phone" name="phoneNumber" placeholder="用户手机号码"
@@ -118,7 +118,7 @@
                                         <td th:text="${item.userAddress}">test</td>
                                         <td>
                                             <a class="fa fa-tag text-navy"
-                                               th:href="@{/order/getOrderDetail(id=${item.id})}"
+                                               th:href="@{getOrderDetail(id=${item.id})}"
                                                title="查看详情"></a>
                                         </td>
                                         <td>
@@ -211,7 +211,7 @@
             callback: function (pagecount, size, count) {
                 var phoneNumber = $("#user_phone").val();
                 var userName = $("#user_name").val();
-                location.href = 'listByCondition?pn=' + pagecount + '&pageSize=' + size + '&phoneNumber=' + phoneNumber + '&userName=' + userName;
+                location.href = 'list?pn=' + pagecount + '&pageSize=' + size + '&phoneNumber=' + phoneNumber + '&userName=' + userName;
             }
         });
 

@@ -3,7 +3,6 @@ package com.we.sdk.memsap.controller;
 import com.we.sdk.memsap.bean.*;
 import com.we.sdk.memsap.service.PhoneService;
 import com.we.sdk.memsap.service.SeriesService;
-import com.we.sdk.memsap.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +21,6 @@ public class IndexController {
 
     private final SeriesService seriesService;
 
-    private final UserService userService;
-
 
     @GetMapping("/index")
     public String index(Model model) {
@@ -32,14 +29,11 @@ public class IndexController {
         List<Fault> faultList = phoneService.getFaultList();
         List<Repair> repairList = phoneService.getRepairList();
         List<Series> seriesList = seriesService.getSeriesList();
-        List<User> userList = userService.getUserList();
         model.addAttribute("brandList", brandList);
         model.addAttribute("phoneList", phoneList);
         model.addAttribute("faultList", faultList);
         model.addAttribute("repairList", repairList);
         model.addAttribute("seriesList", seriesList);
-        model.addAttribute("userList", userList);
-
         return "index";
     }
 

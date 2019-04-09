@@ -1,4 +1,4 @@
-package com.we.sdk.memsap.feign;//package com.we.sdk.memsap.feign;
+package com.we.sdk.memsap.feign;
 
 import com.we.sdk.memsap.base.result.RestResult;
 import com.we.sdk.memsap.base.vo.SearchVo;

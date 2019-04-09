@@ -1,8 +1,6 @@
 package com.we.sdk.memsap.controller;
 
-import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.bean.Address;
-import com.we.sdk.memsap.bean.AddressDic;
 import com.we.sdk.memsap.bean.User;
 import com.we.sdk.memsap.service.AddressService;
 import com.we.sdk.memsap.service.UserService;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/address")
+@RequestMapping("/background/address")
 public class AddressController {
 
     @Autowired
@@ -64,9 +62,9 @@ public class AddressController {
     @PostMapping("/update")
     public String update(Address address) {
         if (address.getId() == null) {
-            addressService.save(address);
+            addressService.saveAddress(address);
         } else {
-            addressService.update(address);
+            addressService.updateAddress(address);
         }
         return "redirect:list?phoneNumber=" + address.getUserId();
     }
@@ -74,10 +72,10 @@ public class AddressController {
     @ResponseBody
     @PostMapping("/delete")
     public Integer delete(@RequestParam("id") Integer id) {
-        return addressService.delete(id);
+        return addressService.deleteAddress(id);
     }
 
-    @PostMapping("/dicList")
+  /*  @PostMapping("/dicList")
     public String getAddressDicList(Model model, @RequestParam("address") String address, @RequestBody(required = false) Page<AddressDic> page) {
         Page<AddressDic> addressDicList = addressService.getAddressDicListByCondition(address, page);
         model.addAttribute("userList", addressDicList.getData());
@@ -108,7 +106,7 @@ public class AddressController {
         parentId = parentId < 0 ? 0 : parentId;
         List<AddressDic> addressDicList = addressService.getAddressDicByParentId(parentId);
         return addressDicList;
-    }
+    }*/
 
 }
 

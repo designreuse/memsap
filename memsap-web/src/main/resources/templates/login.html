@@ -74,11 +74,12 @@
 
         $.post("/memsap-web/user/login", $(".m-t").serialize(), function (data) {
             if (data.code == 0) {
-                // alert(redirectUrl);
                 if (redirectUrl == "" || redirectUrl == null) {
-                    location.href = "http://localhost:8084/memsap-web/user/list";//todo 去首页
-                } else {
+                    location.href = "http://localhost:8084/memsap-web/index"; //todo 去首页
+                } else if (data.msg == "root") {
                     location.href = redirectUrl;
+                } else if ((data.msg == "" || data.msg == null) && (redirectUrl == "" && redirectUrl == null)) {
+                    // location.href = ; 去付款界面
                 }
             } else {
                 swal({
