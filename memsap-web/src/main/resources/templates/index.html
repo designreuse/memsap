@@ -212,7 +212,8 @@
         <div class="container-fluid model-table">
             <div class=" model-table-div">
                 <div th:each="phone,phoneState : ${phoneList}">
-                    <a th:href="@{/detail(id=${phone.getId()})}" th:if="${phone.brandId == 1} and ${phoneState.index} lt 10">
+                    <a th:href="@{/detail(id=${phone.getId()})}"
+                       th:if="${phone.brandId == 1} and ${phoneState.index} lt 10">
                         <img th:src="@{/img/Phone_img/{phoneName}(phoneName=${phone.getPhoneImage()})}">
                         <p th:text="${phone.phoneName}"></p>
                     </a>
@@ -644,14 +645,13 @@
         $(".btn-primary").on("click", function () {
 
 
-
             $.ajax({
-                url:"/login",
-                type:"post",
-                data:{"phoneNumber":$("#user").val(),"password":$("#user_password").val()},
-                dataType:"json",
-                success:function (result) {
-                    if(){//登陆成功
+                url: "/login",
+                type: "post",
+                data: {"phoneNumber": $("#user").val(), "password": $("#user_password").val()},
+                dataType: "json",
+                success: function (result) {
+                    if (result.code == 0) {//登陆成功
                         swal({
                             title: "登陆成功",
                             text: "返回首页",
@@ -659,8 +659,7 @@
                             button: "好的"
                         })
                         $("#loginModal").modal('hide');
-                    }
-                    else {
+                    } else {
                         swal({
                             title: "登陆失败",
                             text: "用户名或者密码错误",
@@ -670,9 +669,6 @@
                     }
                 }
             });
-
-
-
 
 
         });

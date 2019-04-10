@@ -1,8 +1,6 @@
 package com.we.sdk.memsap.service;
 
-import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.bean.Address;
-import com.we.sdk.memsap.bean.AddressDic;
 
 import java.util.List;
 
@@ -12,11 +10,11 @@ import java.util.List;
  */
 public interface AddressService {
 
-    Integer save(Address address);
+    Integer saveAddress(Address address);
 
-    Integer delete(Integer id);
+    Integer deleteAddress(Integer id);
 
-    Integer update(Address address);
+    Integer updateAddress(Address address);
 
     Address getAddressById(Integer id);
 
@@ -26,7 +24,7 @@ public interface AddressService {
 
     ///////////////// AddressDic
 
-    Integer save(AddressDic addressDic);
+ /*   Integer save(AddressDic addressDic);
 
     Integer deleteAddressDic(Integer id);
 
@@ -34,6 +32,6 @@ public interface AddressService {
 
     List<AddressDic> getAddressDicByParentId(Integer parentId);
 
-    Page<AddressDic> getAddressDicListByCondition(String address, Page<AddressDic> page);
+    Page<AddressDic> getAddressDicListByCondition(String address, Page<AddressDic> page);*/
 }
 

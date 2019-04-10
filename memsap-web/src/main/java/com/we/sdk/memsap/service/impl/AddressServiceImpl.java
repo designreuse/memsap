@@ -1,9 +1,7 @@
 package com.we.sdk.memsap.service.impl;
 
-import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.bean.Address;
-import com.we.sdk.memsap.bean.AddressDic;
-import com.we.sdk.memsap.feign.AddressFeignClient;
+import com.we.sdk.memsap.feign.UserFeignClient;
 import com.we.sdk.memsap.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,20 +12,20 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
-    private AddressFeignClient addressFeignClient;
+    private UserFeignClient addressFeignClient;
 
     @Override
-    public Integer save(Address address) {
+    public Integer saveAddress(Address address) {
         return addressFeignClient.saveAddress(address).getData();
     }
 
     @Override
-    public Integer delete(Integer id) {
-        return addressFeignClient.delete(id).getData();
+    public Integer deleteAddress(Integer id) {
+        return addressFeignClient.deleteAddress(id).getData();
     }
 
     @Override
-    public Integer update(Address address) {
+    public Integer updateAddress(Address address) {
         return  addressFeignClient.updateAddress(address).getData();
     }
 
@@ -48,7 +46,7 @@ public class AddressServiceImpl implements AddressService {
 
     /////////////////// AddressDic
 
-    @Override
+/*    @Override
     public Integer save(AddressDic addressDic) {
         return addressFeignClient.saveAddressDic(addressDic).getData();
     }
@@ -71,7 +69,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Page<AddressDic> getAddressDicListByCondition(String address, Page<AddressDic> page) {
         return addressFeignClient.getAddressDicListByCondition(address, page).getData();
-    }
+    }*/
 
 
 }

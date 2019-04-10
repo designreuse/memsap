@@ -30,4 +30,7 @@ public class User {
 
     private String plainPassword;           // 登录时的密码，不持久化到数据库
 
+    public User(String userName) {
+        this.userName = userName;
+    }
 }

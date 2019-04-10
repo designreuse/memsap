@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/background/order")
 public class OrderController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class OrderController {
     /**
      * 列表
      */
-    @RequestMapping("/listByCondition")
+    @RequestMapping("/list")
     public String getOrderListByCondition(Model model, SearchVo searchVo, Page page) {
         Page<Order> orderList = orderService.getOrderListByCondition(searchVo, page);
         model.addAttribute("orderList", orderList.getData());
@@ -32,12 +32,12 @@ public class OrderController {
         return "order/orderList";
     }
 
-    @GetMapping("/get/{id}")
+  /*  @GetMapping("/get/{id}")
     public String getOrderById(Model model, @PathVariable Integer id) {
         Order order = orderService.getOrderById(id);
         model.addAttribute("order", order);
         return "order/orderManage";
-    }
+    }*/
 
     @RequestMapping("/update")
     @ResponseBody

@@ -37,33 +37,33 @@ public class SSOService {
     private String name;
 
     @Value("${administrator.password}")
-    private String password;
+    private String rootPassword;
 
     public RestResult<String> userLogin(String phoneNumber, String password,
                                         HttpServletRequest request, HttpServletResponse response) {
         // 判断账号密码是否正确
         User user = userFeignClient.getUserByPhoneNumber(phoneNumber).getData();
-//        if ((user == null) || !ItdragonUtils.decryptPassword(user, plainPassword)) {
         if ((user == null) | !password.equals(user.getPassword())) {
             return RestResultGenerator.createFailResult("账号名或密码错误");
         }
         // 生成token
         String token = UUID.randomUUID().toString();
-        // 清空密码和盐避免泄漏
+        // 清空密码泄漏
         String userPassword = user.getPassword();
-        String userSalt = user.getSalt();
         user.setPassword(null);
-        user.setSalt(null);
         // 把用户信息写入 redis
         jedisClient.set(REDIS_USER_SESSION_KEY + ":" + token, JsonUtils.objectToJson(user));
         // user 已经是持久化对象，被保存在session缓存当中，若user又重新修改属性值，那么在提交事务时，此时 hibernate对象就会拿当前这个user对象和保存在session缓存中的user对象进行比较，如果两个对象相同，则不会发送update语句，否则会发出update语句。
         user.setPassword(userPassword);
-        user.setSalt(userSalt);
         // 设置 session 的过期时间
         jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
         // 添加写 cookie 的逻辑，cookie 的有效期是关闭浏览器就失效。
         CookieUtils.setCookie(request, response, "USER_TOKEN", token);
         // 返回token
+        request.getSession().setAttribute("user", new User(user.getUserName()));
+        if (name.equals(user.getPhoneNumber()) && rootPassword.equals(user.getPassword())) {
+            return RestResultGenerator.createOkResult("root", token);
+        }
         return RestResultGenerator.createOkResult(token);
     }
 

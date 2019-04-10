@@ -1,14 +1,14 @@
 package com.we.sdk.memsap.controller;
 
 import com.we.sdk.memsap.bean.*;
+import com.we.sdk.memsap.service.OrderService;
 import com.we.sdk.memsap.service.PhoneService;
 import com.we.sdk.memsap.service.SeriesService;
 import com.we.sdk.memsap.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,22 +24,30 @@ public class IndexController {
 
     private final UserService userService;
 
+    private final OrderService orderService;
 
-    @GetMapping("/index")
+    @PostMapping("/login")
+    public String backLogin(Model model,User user) {
+        User user1 = userService.checkUser(user);
+        if(user1==null){
+            model.addAttribute("msg","账号密码不正确");
+        }
+        return "login2";
+    }
+
+
+    @GetMapping("/")
     public String index(Model model) {
         List<Brand> brandList = phoneService.getBrandList();
         List<Phone> phoneList = phoneService.getPhoneList();
         List<Fault> faultList = phoneService.getFaultList();
         List<Repair> repairList = phoneService.getRepairList();
         List<Series> seriesList = seriesService.getSeriesList();
-        List<User> userList = userService.getUserList();
         model.addAttribute("brandList", brandList);
         model.addAttribute("phoneList", phoneList);
         model.addAttribute("faultList", faultList);
         model.addAttribute("repairList", repairList);
         model.addAttribute("seriesList", seriesList);
-        model.addAttribute("userList", userList);
-
         return "index";
     }
 
@@ -53,14 +61,25 @@ public class IndexController {
     }
 
     @GetMapping("/detail")
-    public String detail(Model model,@RequestParam("id") Integer id) {
+    public String detail(Model model, @RequestParam("id") Integer id) {
         Phone phone = phoneService.getPhoneById(id);
         phone.setPhoneColorList(Arrays.asList(phone.getPhoneColors().split(",")));
         List<Fault> faultList = phoneService.getFaultList();
         List<Repair> repairList = phoneService.getRepairList();
-        model.addAttribute("phone",phone);
-        model.addAttribute("faultList",faultList);
-        model.addAttribute("repairList",repairList);
+        List<RepairPrice> faultRepairPrice = phoneService.getFaultRepairPriceByCondition(new RepairPrice(id));
+        model.addAttribute("phone", phone);
+        model.addAttribute("faultList", faultList);
+        model.addAttribute("repairList", repairList);
+        model.addAttribute("faultRepairPrice", faultRepairPrice);
         return "phoneDetail";
     }
+
+
+    @PostMapping("/saveOrder")
+    @ResponseBody
+    public Integer saveOrder(@RequestBody ShoppingCart shoppingCart) {
+
+        return null;
+    }
+
 }

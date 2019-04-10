@@ -128,7 +128,7 @@
                             <div class="mal-name" th:value="${repair.id}"
                                  th:text="${repair.repairName}"></div>
                             <div class="mal-money">
-                                <p class="ac-money">¥229.00</p>
+                                <p class="ac-money" th:value="${repair.id}">229.00</p>
                             </div>
                         </li>
                     </th:block>
@@ -143,24 +143,27 @@
             </div>
         </div>
 
-            <div class="repair-con">
-                <h3>
-                    <span class="phone_data"></span>
-                    <span class="color-data"></span>
-                </h3>
-                <ul class="repair-mal" id="repairMal">
+        <div class="repair-con">
+            <h3>
+                <span class="phone_data"></span>
+                <span class="color-data"></span>
+            </h3>
+            <ul class="repair-mal" id="repairMal">
 
-                    <li class="repair-mal-li" th:each="repair : ${repairList}">
-                        <th:block th:each="fault : ${faultList}" th:if="${fault.id == repair.faultId}">
-                            <span class="fault-data" th:text="${fault.faultType}"></span>
-                            <span class="repair-data" th:text="${repair.repairName}"></span>
-                            <span class="price-data" th:text="${repair.id}">0</span>
+                <li class="repair-mal-li" th:each="repair : ${repairList}">
+                    <th:block th:each="fault : ${faultList}" th:if="${fault.id == repair.faultId}">
+                        <span class="fault-data" th:text="${fault.faultType}"></span>
+                        <span class="repair-data" th:text="${repair.repairName}"></span>
+                        <th:block th:each="Price : ${faultRepairPrice}" th:if="${Price.repairId == repair.id}">
+                            <span class="price-data" th:text="${Price.price}">0</span>
                         </th:block>
-                    </li>
 
-                </ul>
-                <div class="money-div">应付金额：<span class="money" id="money">0</span><span>元</span></div>
-            </div>
+                    </th:block>
+                </li>
+
+            </ul>
+            <div class="money-div">应付金额：<span class="money" id="money">0</span><span>元</span></div>
+        </div>
         <form action="">
             <input type="hidden" name="userPhone" id="userPhone" value="">
             <input type="hidden" name="payment" id="payment" value="">
@@ -190,12 +193,10 @@
         var phone = [[${phone}]];
         var faultList = [[${faultList}]];
         var repairList = [[${repairList}]];
+        var faultRepairPrice = [[${faultRepairPrice}]];
 
         var nowFault = 0;
         var nowRepair = 0;
-
-        //维修问题
-
 
 
         //维修问题
@@ -223,6 +224,7 @@
             }
         })*/
 
+
         $(".phone_data").text(phone.phoneName);
 
 
@@ -243,6 +245,12 @@
 
             $("#repair_name>li[data-faultId='" + nowFault + "']").addClass("show");
 
+            //给维修方案添加价格
+            for (var k in faultRepairPrice) {
+                $(".mal-money>.ac-money[value = '" + faultRepairPrice[k].repairId + "']").text("￥" + faultRepairPrice[k].price);
+            }
+
+
         });
 
         $("#repair_name").on("click", "li", function () {
@@ -250,28 +258,25 @@
 
             if ($(this).hasClass("cur")) {
                 $(this).removeClass("cur");
-                $("#repairMal>li").eq(nowRepair-1).removeClass("cur");
+                $("#repairMal>li").eq(nowRepair - 1).removeClass("cur");
             } else {
                 $(this).addClass("cur");
-                $("#repairMal>li").eq(nowRepair-1).addClass("cur");
+                $("#repairMal>li").eq(nowRepair - 1).addClass("cur");
             }
 
             $("#fault_type>li[value='" + nowFault + "']>span")
                 .addClass("cur")
                 .text($(".mal-sub-li.cur[data-faultId='" + nowFault + "']").length);
-            if($(".mal-sub-li.cur[data-faultId='" + nowFault + "']").length == 0 ){
+            if ($(".mal-sub-li.cur[data-faultId='" + nowFault + "']").length == 0) {
                 $("#fault_type>li[value='" + nowFault + "']>span").removeClass("cur")
             }
 
             var len = $(".repair-mal-li.cur>.price-data").length;
             $("#money").text(0);
-            for (var i=0;i<len;i++) {
-                $("#money").text(Number($("#money").text())+Number($(".repair-mal-li.cur>.price-data").eq(i).text()));
+            for (var i = 0; i < len; i++) {
+                $("#money").text(Number($("#money").text()) + Number($(".repair-mal-li.cur>.price-data").eq(i).text()));
             }
         });
-
-
-
 
 
     });
@@ -281,28 +286,43 @@
         var len = $(".repair-mal-li.cur>.price-data").length;
 
         var userPhone = $("#phone_name").text();
-        var payment = Number($("#money").text());
-        var phoneDetail = userPhone + "-" + $(".color-data").text();
-        var repairDetails = "";
-        for (var i=0;i<len;i++) {
-            repairDetails = repairDetails + "-" + $(".repair-data").eq(i).text();
-        }
-        var price = "";
-        for (var i=0;i<len;i++) {
-            price = price + "-" + $(".price-data").eq(i).text();
-        }
-        console.log(userPhone,payment,phoneDetail,repairDetails,price);
+        var payment = parseFloat($("#money").text());
 
+        var phoneDetail = userPhone + " " + $(".color-data").text();
+        /*var repairDetails = new Array();
+        for (var i = 0; i < len; i++) {
+             repairDetails.push($(".repair-data").eq(i).text());
+        }
+        var price = new Array();
+        for (var i = 0; i < len; i++) {
+            price.push( parseFloat($(".price-data").eq(i).text()));
+        }*/
+
+        var orderDetailList = new Array();
+        for (var i = 0; i < len; i++) {
+            var a ={};
+            a.phoneDetail = phoneDetail;
+            a.repairDetails = $(".repair-data").eq(i).text();
+            a.price = parseFloat($(".price-data").eq(i).text());
+            orderDetailList.push(a);
+        }
         $.ajax({
-            url:"",
-            type:"post",
-            data:{"userPhone":userPhone,"payment":payment,"phoneDetail":phoneDetail,"repairDetails":repairDetails,"price":price},
-            dataType:"json",
-            success:function (data) {
+            type: "post",
+            url: "saveOrder",
+            contentType: 'application/json;charset=UTF-8',
+            dataType: "json",
+            data: JSON.stringify({
+                order: {
+                    "userPhone": userPhone,
+                    "payment": payment
+                }, orderDetailList: orderDetailList
+            }),
+            success: function (data) {
 
             }
         })
     }
+
     /*]]>*/
 
 </script>

@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="ibox-content" style="display: block;">
-                            <form action="listByCondition">
+                            <form action="list">
                                 <div class="row">
                                     <div class="col-sm-2 m-b-xs">
                                         <a th:href="@{toEdit}" class="btn btn-primary btn-block" data-toggle="tooltip"
@@ -242,7 +242,7 @@
                 var phoneName = $("#phoneName").val();
                 var brandName = $("#brandName").val();
                 var seriesName = $("#seriesName").val();
-                location.href = 'listByCondition?pn=' + pagecount + '&pageSize=' + size + '&phoneName=' + phoneName + '&brandName=' + brandName + '&seriesName=' + seriesName;
+                location.href = 'list?pn=' + pagecount + '&pageSize=' + size + '&phoneName=' + phoneName + '&brandName=' + brandName + '&seriesName=' + seriesName;
             }
         });
 

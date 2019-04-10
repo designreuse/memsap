@@ -26,13 +26,16 @@ spring:
     cache: false
     servlet:
       content-type: text/html
-#  redis:
-#    timeout: 1000
-#    jedis:
-#      pool:
-#        max-active: 20
-#        max-idle: 8
-#        min-idle: 0
+  redis:
+    timeout: 1000
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 8
+        min-idle: 0
+    host: 192.168.6.128
+    port: 6379
+    password: 123456
   mail:
     host: smtp.qq.com
     username: 1149650559@qq.com
@@ -104,5 +107,5 @@ eureka:
     leaseExpirationDurationInSeconds: 60
 
 administrator:
-  name: root
+  name: 13666666666
   password: 123456

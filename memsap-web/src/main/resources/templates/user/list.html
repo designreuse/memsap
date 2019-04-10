@@ -126,11 +126,11 @@
                                             2019.01.01
                                         </td>
                                         <td><a class="fa fa-tag text-navy"
-                                               th:href="@{/address/toAddress(userName=${user.userName},phoneNumber=${user.phoneNumber})}"
+                                               th:href="@{/background/address/toAddress(userName=${user.userName},phoneNumber=${user.phoneNumber})}"
                                                title="查看地址"></a>
                                         </td>
                                         <td>
-                                            <a th:href="@{'toEdit?phoneNumber='+${user.phoneNumber}}" title="修改"><i
+                                            <a th:href="@{'/user/toEdit?phoneNumber='+${user.phoneNumber}}" title="修改"><i
                                                     class="fa fa-edit text-navy"></i></a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
                                             <a href="#" th:value="${user.phoneNumber}" onclick="del(this,2,0)"
@@ -217,7 +217,7 @@
             $("#userName").val("");
             $("#sex").find("option:selected").attr("selected", false);
             $("#sex").find("option").first().attr("selected", true);
-            location.href = "http://localhost:8084/memsap-web/user/list";
+            location.href = "http://localhost:8084/memsap-web/user/background/list";
         })
         $('#pageTool').Paging({
             pagesize: 10, count: 85, toolbar: true, hash: true, changePagesize: function (ps) {
@@ -240,7 +240,7 @@
         if (deleteTag) {
             $.ajax({
                 type: "POST",
-                url: "delete?phoneNumber=" + phoneNumber,
+                url: "/memsap-web/user/delete?phoneNumber=" + phoneNumber,
                 contentType: "application/json; charset=utf-8",
                 success: function (msg) {
                     window.location.reload();

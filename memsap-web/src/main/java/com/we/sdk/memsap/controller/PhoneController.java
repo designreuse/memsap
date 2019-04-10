@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/phone")
+@RequestMapping("/background/phone")
 @RequiredArgsConstructor
 public class PhoneController {
 
@@ -28,7 +28,7 @@ public class PhoneController {
     private final SeriesServiceImpl seriesService;
 
 
-    @RequestMapping("/listByCondition")
+    @RequestMapping("/list")
     public String getPhoneListByCondition(Model model, SearchVo searchVo, Page page) {
         Page<Phone> pages = phoneService.getPhoneListByConditions(searchVo, page);
         List<Brand> brands = phoneService.getBrandList();
@@ -113,7 +113,7 @@ public class PhoneController {
                 }
             }
         }
-        return "redirect:listByCondition";
+        return "redirect:list";
     }
 
 
