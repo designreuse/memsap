@@ -11,13 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @FeignClient(name = "memsap-order-api")
-@RequestMapping("/memsap-order-api")
+@RequestMapping("/memsap-order-api/order")
 public interface OrderFeignClient {
-    /* *//*新增*//*
-    @PostMapping(value = "/order/save")
-    RestResult<Integer> save(@RequestBody Order order);
 
-    *//*删除*//*
+    /*//*删除*//*
     @DeleteMapping(value = "/order/delete/{id}")
     RestResult<Integer> delete(@PathVariable("id") Integer id);
 
@@ -25,16 +22,23 @@ public interface OrderFeignClient {
     @PostMapping(value = "/order/update")
     RestResult<Integer> update(@RequestBody Order order);*/
 
+    /*新增*/
+    @PostMapping(value = "/save")
+    RestResult<Integer> save(@RequestBody Order order);
+
     /*条件查询查询列表*/
-    @PostMapping(value = "/order/getOrderListByCondition")
+    @PostMapping(value = "/getOrderListByCondition")
     RestResult<Page<Order>> getOrderListByCondition(@RequestBody SearchVo searchVo);
 
     /*根据id获取Order*/
-    @GetMapping(value = "/order/getOrderById/{id}")
+    @GetMapping(value = "/getOrderById/{id}")
     RestResult<Order> getOrderById(@PathVariable("id") Integer id);
 
     /////////////////////////////////////////// orderDetail
     /*根据id获取OrderDetail*/
-    @PostMapping(value = "/order/getOrderDetailsByOrderIds")
+    @PostMapping(value = "/getOrderDetailsByOrderIds")
     RestResult<List<OrderDetail>> getOrderDetailsByOrderIds(@RequestBody List<Integer> orderIds);
+
+    @PostMapping(value = "/saveOrderDetails")
+    RestResult<Integer> save(@RequestBody List<OrderDetail> orderDetailList);
 }

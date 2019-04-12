@@ -1,5 +1,6 @@
 package com.we.sdk.memsap.service.impl;//package com.we.sdk.memsap.service.impl;
 
+import com.we.sdk.memsap.base.result.RestResult;
 import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
 import com.we.sdk.memsap.bean.Order;
@@ -19,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Integer save(Order order) {
-        return null;//orderFeignClient.save(order).getData();
+        return orderFeignClient.save(order).getData();
     }
 
     @Override
@@ -40,12 +41,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<Order> getOrderListByCondition(SearchVo searchVo, Page page) {
         searchVo.setPage(page);
-        return orderFeignClient.getOrderListByCondition(searchVo).getData();
+        RestResult<Page<Order>> result = orderFeignClient.getOrderListByCondition(searchVo);
+        System.out.println(result.getMsg());
+        return result.getData();
     }
 
     @Override
     public List<OrderDetail> getOrderDetailsByOrderIds(List<Integer> orderIds) {
         return orderFeignClient.getOrderDetailsByOrderIds(orderIds).getData();
+    }
+
+    @Override
+    public Integer saveOrderDetails(List<OrderDetail> orderDetailList) {
+        return orderFeignClient.save(orderDetailList).getData();
     }
 
 }

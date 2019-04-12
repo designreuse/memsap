@@ -8,10 +8,12 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/mycss/home.css}"/>
     <link rel="stylesheet" th:href="@{/css/mycss/phoneDetail.css}"/>
+    <link rel="stylesheet" th:href="@{/js/plugins/layer/layer.css}"/>
 </head>
 <body>
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/plugins/layer/layer.js}"></script>
 <script>
     $(function ($) {
         $(window).scroll(function () {
@@ -187,43 +189,18 @@
 <script th:inline="javascript">
 
     /*<![CDATA[*/
-
+    var user = [[${session.user}]];
     $(document).ready(function () {
 
         var phone = [[${phone}]];
         var faultList = [[${faultList}]];
-        var repairList = [[${repairList}]];
         var faultRepairPrice = [[${faultRepairPrice}]];
-
         var nowFault = 0;
         var nowRepair = 0;
-
-
         //维修问题
         for (var key in faultList) {
             $("#fault_type").append("<li class='mal-li ul-li' value='" + faultList[key].id + "'> " + faultList[key].faultType + " <span  value='" + faultList[key].id + "'></span></li>");
         }
-        /*$("#fault_type>li").click(function () {
-            // var now_type = $(this).val();
-            var now_type = $(this).index() + 1;
-            $("#repair_name").empty();
-
-            for (var k in repairList) {
-                if (repairList[k].faultId == now_type) {
-                    var text = "<li class=\"mal-li mal-sub-li ul-li\">\n" +
-                        "                        <div class=\"mal-name\">"
-                        + repairList[k].repairName + "</div>\n" +
-                        "                        <div class=\"mal-money\">\n" +
-                        "                            <p class=\"ac-money\">¥229.00</p>\n" +
-                        "                        </div>\n" +
-                        "                    </li>"
-                    $("#repair_name").append(text);
-                }
-                // var now_series = brand[now_brand].options[k];
-
-            }
-        })*/
-
 
         $(".phone_data").text(phone.phoneName);
 
@@ -281,7 +258,36 @@
 
     });
 
+    function close(u) {
+        user = u;
+        console.log(user)
+        layer.close(pic_index);
+    }
+
+
     function submitOrder() {
+        if (user == null) {
+            var height = $(window).height();
+            pic_index = layer.open({
+                type: 2,
+                title: "登入",
+                maxmin: false,
+                closeBtn: 1,
+                shade: 0.15,
+                move: false,
+                resize: false,
+                skin: 'hide',
+                isOutAnim: false,
+                anim: -1,
+                area: ['380px', height + "px"],
+                content: "/memsap-web/user/toLogin?redirect=pay",
+                success: function (layero, index) {
+                    layero.removeClass("hide").addClass("layerslideright");
+                }
+            });
+            return;
+        }
+
 
         var len = $(".repair-mal-li.cur>.price-data").length;
 
@@ -289,18 +295,10 @@
         var payment = parseFloat($("#money").text());
 
         var phoneDetail = userPhone + " " + $(".color-data").text();
-        /*var repairDetails = new Array();
-        for (var i = 0; i < len; i++) {
-             repairDetails.push($(".repair-data").eq(i).text());
-        }
-        var price = new Array();
-        for (var i = 0; i < len; i++) {
-            price.push( parseFloat($(".price-data").eq(i).text()));
-        }*/
 
         var orderDetailList = new Array();
         for (var i = 0; i < len; i++) {
-            var a ={};
+            var a = {};
             a.phoneDetail = phoneDetail;
             a.repairDetails = $(".repair-data").eq(i).text();
             a.price = parseFloat($(".price-data").eq(i).text());
@@ -314,7 +312,9 @@
             data: JSON.stringify({
                 order: {
                     "userPhone": userPhone,
-                    "payment": payment
+                    "payment": payment,
+                    "userName": user.userName,
+                    "userPhone": user.phoneNumber
                 }, orderDetailList: orderDetailList
             }),
             success: function (data) {

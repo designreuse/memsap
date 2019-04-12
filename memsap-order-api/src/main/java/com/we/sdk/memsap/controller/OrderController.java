@@ -31,8 +31,8 @@ public class OrderController {
     @ApiOperation(value = "新增Order", notes = "新增Order")
     @PostMapping(value = "/save")
     public RestResult<Integer> save(@RequestBody Order order) {
-        Integer result = orderService.save(order);
-        return RestResultGenerator.createOkResult(result);
+        orderService.save(order);
+        return RestResultGenerator.createOkResult(order.getId());
     }
 
     /**
@@ -62,7 +62,7 @@ public class OrderController {
     @PostMapping("/getOrderListByCondition")
     public RestResult<Page<Order>> getOrderListByCondition(@RequestBody SearchVo searchVo) {
         Page<Order> OrderList = orderService.getOrderListByCondition(searchVo, Page.initPage(searchVo.getPage()));
-        return RestResultGenerator.createOkResult(OrderList);
+        return RestResultGenerator.createOkResult("from 8083", OrderList);
     }
 
     /*
