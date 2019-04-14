@@ -31,7 +31,7 @@ public class PhoneController {
     @ApiOperation(value = "新增Phone", notes = "新增Phone")
     @PostMapping(value = "/save")
     public RestResult<Integer> save(@RequestBody Phone phone) {
-        Integer result = phoneService.save(phone);
+        phoneService.save(phone);
         return RestResultGenerator.createOkResult(phone.getId());
     }
 

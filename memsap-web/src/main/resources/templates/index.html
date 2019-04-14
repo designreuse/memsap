@@ -9,12 +9,14 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/mycss/home.css}"/>
     <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet"/>
 </head>
 <body data-spy="scroll" data-target="#navigation-bar" data-offset-top="200">
 
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/bootstrap.js}"></script>
 <script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/js/plugins/toastr/toastr.min.js}"></script>
 
 
 <script>
@@ -116,7 +118,7 @@
 
             <ul class="nav navbar-nav navbar-right" id="login-ul">
                 <li>
-                    <a class="glyphicon glyphicon-user" href="#" data-toggle="modal" data-target="#loginModal"></a>
+                    <a class="glyphicon glyphicon-user" href="#" th:href="@{/user/toLogin}"></a>
                     <!--<a href="#">预约电话：188xxxxxxxx</a>-->
                 </li>
             </ul>
@@ -186,11 +188,11 @@
             <p class="specialty-text">品质配件</p>
         </div>
         <div class="col-lg-2 col-md-4 col-xs-6">
-            <img th:src="@{/img/shezhi.png}">
+            <img th:src="@{/img/baojia.png}">
             <p class="specialty-text">透明报价</p>
         </div>
         <div class="col-lg-2 col-md-4 col-xs-6">
-            <img th:src="@{/img/shezhi.png}">
+            <img th:src="@{/img/paizhao.png}">
             <p class="specialty-text">全程录像</p>
         </div>
     </div>
@@ -387,12 +389,12 @@
         <div class="fault-box box">
             <div class="select-div">
                 <select name="fault_type" id="fault_type" class="form-control">
-                    <option>--故障大类--</option>
+                    <option>--故障分类--</option>
                 </select>
             </div>
             <div class="select-div">
                 <select name="repair_name" id="repair_name" class="form-control">
-                    <option>--故障小类--</option>
+                    <option>--维修方案--</option>
                 </select>
             </div>
         </div>
@@ -427,6 +429,11 @@
 
 
         <div class="submit_box box">
+            <div class="term">
+                <div class="price_box">￥
+                    <span class="price_text"></span>
+                </div>
+            </div>
             <button id="fixSubmit" class="submitbtn" type="submit">提交订单</button>
         </div>
 
@@ -524,7 +531,6 @@
     var seriesList = [[${seriesList}]];
     var faultList = [[${faultList}]];
     var repairList = [[${repairList}]];
-    var userList = [[${userList}]];
 
 
     $(document).ready(function () {
@@ -554,7 +560,6 @@
             })
             $("#phone_name").change(function () {
                 var now_phone = $(this).val();
-                // console.log(now_phone);
                 $("#phone_colors").html('<option value="">选择手机颜色</option>');
                 for (var k in phoneList) {
                     if (phoneList[k].id == now_phone) {
@@ -568,51 +573,52 @@
 
                 }
 
+                //维修问题
+                for (var key in faultList) {
+                    $("#fault_type").append('<option value="' + faultList[key].id + '">' + faultList[key].faultType + '</option>');
+                }
             })
+
         });
 
 
-        //维修问题
-        for (var key in faultList) {
-            $("#fault_type").append('<option value="' + faultList[key].id + '">' + faultList[key].faultType + '</option>');
-        }
-        $("#fault_type").change(function () {
+        $("#fault_type").off().on("change", function () {
             var now_type = $(this).val();
             $("#repair_name").html('<option value="">选择需要维修的问题</option>');
-            for (var k in repairList) {
-                if (repairList[k].faultId == now_type)
-                // var now_series = brand[now_brand].options[k];
-                    $("#repair_name").append('<option value="' + repairList[k].id + '">' + repairList[k].repairName + '</option>');
-            }
+            //点击故障以后 传一个手机phoneId异步获得该手机的维修报价
+            $.ajax({
+                url: "getRepairPrice",
+                type: "post",
+                // contentType:"application/json;charset=UTF-8",
+                dataType: "json",
+                data: {"phoneId": parseInt($("#phone_name option:selected").val())},
+                success: function (repairPriceList) {
+                    for (var key in repairPriceList) {
+                        for (var k in repairList) {
+                            if (repairPriceList[key].repairId == repairList[k].id && repairList[k].faultId == now_type) {
+                                //把维修问题添加到select中 并设置一个data-price值为维修价格 易便取得对应问题的价格
+                                $("#repair_name").append('' +
+                                    '<option value="' + repairList[k].id + '" ' +
+                                    'data-price = "' + repairPriceList[key].price + '">'
+                                    + repairList[k].repairName + '</option>');
+
+                            }
+
+                        }
+
+
+                    }
+                }
+            });
+
+            //给提交订单左侧的 ￥ 置值
+            $("#repair_name").change(function () {
+                $(".price_text").text($("#repair_name option:selected").data("price"));
+            })
 
 
         })
 
-
-        //维修问题
-        /*$.ajax({
-            type: "GET",
-            url: "package.json",
-            dataType: "json",
-            success: function(res) {
-                /!*一级二级联动下拉菜单*!/
-                //console.log(res);
-                var repair = res.model_repair.option;
-                //console.log(typeof(res));
-                for(var key in repair) {
-                    //console.log(data[i].id + "===" + data[i].options[0].name)
-                    $("#fault_type").append("<option value='" + key + "'>" + repair[key].name + "</option>");
-                }
-                $("#fault_type").change(function() {
-                    var now_type = $(this).val();
-                    $("#repair_name").html('<option value="">选择需要维修的问题</option>');
-                    for(var k in repair[now_type].options) {
-                        var now_repair = repair[now_type].options[k];
-                        $("#repair_name").append('<option value="' + k + '">' + now_repair.name + '</option>');
-                    }
-                });
-            }
-        });*/
 
         //省市
         $.ajax({
@@ -641,10 +647,126 @@
             }
         });
 
+        //输入框失去焦点手机号验证
+        $("#phone_number").blur(function () {
 
+            if (!isPoneAvailable($(this))) {
+                toastr.error('请输入正确的手机号', '提示');
+            }
+        });
+
+        //验证是否为手机号
+        function isPoneAvailable($poneInput) {
+            var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+            if (!myreg.test($poneInput.val())) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+
+        //点击 提交订单
+        $("#fixSubmit").on("click", function () {
+            //ajax需要传的值
+            var payment = parseFloat($(".price_text").text());
+            var userName = $("#user_name").val();
+            var userPhone = $("#phone_number").val();
+            var userAddress = $("#province option:selected").text() + "-" +
+                $("#city option:selected").text() + "-" +
+                $("#user_address").val();
+
+            var phoneDetail = $("#phone_name option:selected").text() + "-" + $("#phone_colors option:selected").text();
+            var repairDetails = $("#repair_name option:selected").text();
+            var price = parseFloat($(".price_text").text());
+
+
+            //判断一下哪个部分信息未选择
+            if ($("#user_name").val().trim() == "") {
+                toastr.error('请输入姓名', '提示');
+                return;
+            }
+            if ($("#phone_number").val().trim() == "") {
+                toastr.error('请输入手机号码', '提示');
+                return;
+            }
+            if (!isPoneAvailable($("#phone_number"))) {
+                toastr.error('请输入正确的手机号码', '提示');
+                return;
+            }
+            if ($("#phone_name").val() == "" || $("#phone_name").val() == "--手机型号--") {
+                toastr.error('请选择手机型号', '提示');
+                return;
+            }
+            if ($("#user_address").val().trim() == "") {
+                toastr.error('请输入详细地址', '提示');
+                return;
+            }
+            if ($("#repair_name").val() == "" || $("#repair_name").val() == "--维修方案--") {
+                toastr.error('请选择手机维修方案', '提示');
+                return;
+            }
+            if ($("#city").val() == "" || $("#city").val() == "--请选择城市--") {
+                toastr.error('请选择所在城市', '提示');
+                return;
+            }
+            if ($("#phone_colors").val() == "" || $("#phone_colors").val() == "--请选择颜色--") {
+                toastr.error('请选择手机颜色', '提示');
+                return;
+            }
+
+
+            //传值给order和orderDetail(预约下单无需登录 所以只能选择一种维修方案，只有一个orderDetail)
+            $.ajax({
+                url: "saveOrder",//todo
+                type: "post",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    order: {
+                        "userName": userName,
+                        "userPhone": userPhone,
+                        "userAddress": userAddress,
+                        "payment": payment
+                    },
+                    orderDetailList: [{
+                        "phoneDetail": phoneDetail,
+                        "repairDetails": repairDetails,
+                        "price": price
+                    }]
+                }),
+                success: function (data) {
+                    if (data > 0) {
+                        swal({
+                            title: "提交订单成功",
+                            text: "我们会上门为您服务，请保持电话畅通",
+                            icon: "success",
+                            button: "好的"
+                        })
+                    }else{
+                        swal({
+                            title: "提交订单失败",
+                            text: "订单出错请重新下单",
+                            icon: "error",
+                            button: "好的"
+                        })
+                    }
+                },
+                error: function (data) {
+                    swal({
+                        title: data,
+                        text: "订单出错请重新下单",
+                        icon: "error",
+                        button: "好的"
+                    })
+                }
+            })
+
+        });
+
+
+        //模态框点击登录 暂时废弃
         $(".btn-primary").on("click", function () {
-
-
             $.ajax({
                 url: "/login",
                 type: "post",
@@ -673,7 +795,9 @@
 
         });
 
+
     })
+
 
     /*]]>*/
 </script>

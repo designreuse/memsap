@@ -78,7 +78,9 @@
                     location.href = "http://localhost:8084/memsap-web/"; //todo 去首页
                 } else if (data.msg == "root") {
                     location.href = redirectUrl;
-                }else{
+                } else if (redirectUrl == "pay") {
+                    window.parent.close(data.data);
+                } else {
                     location.href = "http://localhost:8084/memsap-web/";
                 }
             } else {

@@ -35,7 +35,7 @@
 
     <!-- 新增 -->
     <insert id="save" parameterType="com.we.sdk.memsap.bean.Order" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="ID">
+            keyProperty="id" keyColumn="id">
         INSERT INTO `ORDER`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="payment != null">payment,</if>

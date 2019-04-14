@@ -41,9 +41,9 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public RestResult<String> backLogin(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password,
+    public RestResult<User> backLogin(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password,
                                         HttpServletRequest request, HttpServletResponse response) {
-        RestResult<String> result = ssoService.userLogin(phoneNumber, password, request, response);
+        RestResult<User> result = ssoService.userLogin(phoneNumber, password, request, response);
         return result;
     }
 

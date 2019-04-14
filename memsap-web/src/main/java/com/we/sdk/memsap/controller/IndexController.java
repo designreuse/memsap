@@ -1,10 +1,10 @@
 package com.we.sdk.memsap.controller;
 
 import com.we.sdk.memsap.bean.*;
+import com.we.sdk.memsap.service.AddressService;
 import com.we.sdk.memsap.service.OrderService;
 import com.we.sdk.memsap.service.PhoneService;
 import com.we.sdk.memsap.service.SeriesService;
-import com.we.sdk.memsap.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,19 +22,9 @@ public class IndexController {
 
     private final SeriesService seriesService;
 
-    private final UserService userService;
+    private final AddressService addressService;
 
     private final OrderService orderService;
-
-    @PostMapping("/login")
-    public String backLogin(Model model,User user) {
-        User user1 = userService.checkUser(user);
-        if(user1==null){
-            model.addAttribute("msg","账号密码不正确");
-        }
-        return "login2";
-    }
-
 
     @GetMapping("/")
     public String index(Model model) {
@@ -78,8 +68,39 @@ public class IndexController {
     @PostMapping("/saveOrder")
     @ResponseBody
     public Integer saveOrder(@RequestBody ShoppingCart shoppingCart) {
+        Order order = shoppingCart.getOrder();
+        List<OrderDetail> orderDetailList = shoppingCart.getOrderDetailList();
+        Integer result = orderService.save(order);
+        if (result > 0) {
+            for (OrderDetail orderDetail : orderDetailList) {
+                orderDetail.setOrderId(result);
+            }
+            result = orderService.saveOrderDetails(orderDetailList);
+        }
+        return result;
+    }
 
-        return null;
+
+    @PostMapping("/toPay")
+    public String toPay(@RequestBody ShoppingCart shoppingCart,Model model) {
+        Order order = shoppingCart.getOrder();
+        List<OrderDetail> orderDetailList = shoppingCart.getOrderDetailList();
+        List<Address> addressList = addressService.getAddressByPhoneNumber(order.getUserPhone());
+        model.addAttribute("order",order);
+        model.addAttribute("orderDetailList",orderDetailList);
+        model.addAttribute("addressList",addressList);
+        return "新地址";
+    }
+
+
+
+
+    @PostMapping("/getRepairPrice")
+    @ResponseBody
+    public List<RepairPrice> geetRepairPrice(Integer phoneId) {
+        List<RepairPrice> repairPriceList = phoneService.getFaultRepairPriceByCondition(new RepairPrice(phoneId));
+        return repairPriceList;
+
     }
 
 }

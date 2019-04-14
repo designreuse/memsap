@@ -57,5 +57,13 @@ public interface OrderService {
 
     List<OrderDetail> getOrderDetailsByOrderIds(List<Integer> orderIds);
 
+    /**
+     * 保存orderDetailList
+     *
+     * @param orderDetailList 保存的对象
+     * @return 修改成功条数
+     */
+    Integer saveOrderDetails(List<OrderDetail> orderDetailList);
+
 }
 

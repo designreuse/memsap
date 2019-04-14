@@ -39,8 +39,8 @@ public class SSOService {
     @Value("${administrator.password}")
     private String rootPassword;
 
-    public RestResult<String> userLogin(String phoneNumber, String password,
-                                        HttpServletRequest request, HttpServletResponse response) {
+    public RestResult<User> userLogin(String phoneNumber, String password,
+                                      HttpServletRequest request, HttpServletResponse response) {
         // 判断账号密码是否正确
         User user = userFeignClient.getUserByPhoneNumber(phoneNumber).getData();
         if ((user == null) | !password.equals(user.getPassword())) {
@@ -62,9 +62,9 @@ public class SSOService {
         // 返回token
         request.getSession().setAttribute("user", new User(user.getUserName()));
         if (name.equals(user.getPhoneNumber()) && rootPassword.equals(user.getPassword())) {
-            return RestResultGenerator.createOkResult("root", token);
+            return RestResultGenerator.createOkResult("root", new User());
         }
-        return RestResultGenerator.createOkResult(token);
+        return RestResultGenerator.createOkResult(new User(user.getPhoneNumber(), user.getUserName()));
     }
 
     public void logout(String token) {
