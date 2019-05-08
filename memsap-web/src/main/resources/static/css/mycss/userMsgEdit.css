@@ -1,0 +1,39 @@
+#address-list-box{
+    border: 1px solid #dfdfdf;
+}
+
+#address-list-box.cur{
+    border: 1px solid #e70;
+    color: #e70;
+}
+
+.user-login .address-list .address-edit{
+    display: none;
+}
+
+.user-login.cur .address-list.cur .address-edit.cur{
+    display: block;
+}
+
+.mal-con .repair-con h3 {
+    font-size: 20px;
+    color: #2c2c2c;
+    line-height: 28px;
+    margin-bottom: 13px;
+}
+
+.mal-con .repair-con .money-div {
+    text-align: right;
+    line-height: 28px;
+    margin-top: 51px;
+    font-size: 20px;
+    color: #333;
+}
+
+.repair-con .repair-mal .repair-mal-li {
+    line-height: 20px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+

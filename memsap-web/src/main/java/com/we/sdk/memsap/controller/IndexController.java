@@ -45,6 +45,8 @@ public class IndexController {
     public String des(Model model) {
         List<Brand> brandList = phoneService.getBrandList();
         List<Phone> phoneList = phoneService.getPhoneList();
+        List<Series> seriesList = seriesService.getSeriesList();
+        model.addAttribute("seriesList", seriesList);
         model.addAttribute("brandList", brandList);
         model.addAttribute("phoneList", phoneList);
         return "phoneClassification";
