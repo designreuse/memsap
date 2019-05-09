@@ -5,12 +5,13 @@ import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
 import com.we.sdk.memsap.bean.Order;
 import com.we.sdk.memsap.bean.OrderDetail;
+import com.we.sdk.memsap.feign.fallback.HystrixFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "memsap-order-api")
+@FeignClient(name = "memsap-order-api",fallbackFactory = HystrixFallbackFactory.class)
 @RequestMapping("/memsap-order-api/order")
 public interface OrderFeignClient {
 

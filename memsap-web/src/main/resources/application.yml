@@ -41,6 +41,10 @@ spring:
     username: 1149650559@qq.com
     password: jmafjlytihxsgdfi
     from: ${spring.mail.username}
+#  cloud:
+#    loadbalancer:
+#      retry:
+#        enabled: true
 server:
   port: 8084
   servlet:
@@ -72,39 +76,53 @@ feign:
 #        contract: com.example.SimpleContract
 
 # 设置；链接超时时长为5秒，超出5秒，熔断器生效，配合ribbon使用
-hystrix:
-  threadpool:
-    default:
-      coreSize: 1000 #并发执行的最大线程数，默认10
-      maxQueueSize: 1000 #BlockingQueue的最大队列数
-      queueSizeRejectionThreshold: 500 #即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 160000 #断路器的触发时间 要大于(ribbon.ReadTimeout+ribbon.ConnectTimeout)*(ribbon.MaxAutoRetries+1)*(ribbion.MaxAutoRetriesNextServer+1)
+#hystrix:
+#  threadpool:
+#    default:
+#      coreSize: 1000 #并发执行的最大线程数，默认10
+#      maxQueueSize: 1000 #BlockingQueue的最大队列数
+#      queueSizeRejectionThreshold: 500 #即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 160000 #断路器的触发时间 要大于(ribbon.ReadTimeout+ribbon.ConnectTimeout)*(ribbon.MaxAutoRetries+1)*(ribbion.MaxAutoRetriesNextServer+1)
 
 # FIXME  设置服务负载请求超时时长(根据业务需求设置时间长度)，以及重新请求间隔
-ribbon:
-  ReadTimeout: 3000
-  ConnectTimeout: 3000
-  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
-  MaxAutoRetriesNextServer: 1 #
-  OkToRetryOnAllOperations: false
+memsap-order-api:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule #轮询
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule 随机
+    eureka:
+      enable: false
+    ServerListRefreshInterval: 5000 #ribbon刷新时间
+    OkToRetryOnAllOperations: true
+    MaxAutoRetriesNextServer: 1
+    MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
+    ReadTimeout: 2000
+    ConnectTimeout: 3000
+#ribbon:
+#  ServerListRefreshInterval: 5000
+#  ReadTimeout: 3000
+#  ConnectTimeout: 3000
+#  MaxAutoRetries: 1 # 当前重试次数，这里配置1，就是重试1次，总共2此
+#  MaxAutoRetriesNextServer: 1 #
+#  OkToRetryOnAllOperations: false
 
 ######################## eureka配置 ############################
 eureka:
-  healthcheck:
-    enabled: true
   client:
+    healthcheck:
+      enabled: true
     serviceUrl:
-      defaultZone: http://localhost:8081/eureka
+      defaultZone: http://47.106.95.195:8081/eureka
+#    registryFetchIntervalSeconds: 5 # 拉服务列表时间间隔
   instance:
     prefer-ip-address: true
-    instance-id: localhost:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port
-    leaseRenewalIntervalInSeconds: 30
-    leaseExpirationDurationInSeconds: 60
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port
+#    leaseRenewalIntervalInSeconds: 30
+#    leaseExpirationDurationInSeconds: 60
 
 administrator:
   name: 13666666666
