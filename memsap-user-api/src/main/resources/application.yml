@@ -9,7 +9,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   datasource:
-    url: jdbc:mysql://localhost:3306/graduation_design?rewriteBatchedStatements=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://47.106.95.195:3306/graduation_design?rewriteBatchedStatements=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
     username: root
     password: 123456
     druid:
@@ -31,16 +31,16 @@ server:
 
 ####################### eureka配置 ############################
 eureka:
-  healthcheck:
-    enabled: true
   client:
     serviceUrl:
-      defaultZone: http://localhost:8081/eureka      # peer1 为10.1.8.120服务区器主机名
+      defaultZone: http://47.106.95.195:8081/eureka
+    healthcheck:
+      enabled: true
   instance:
     prefer-ip-address: true
-    instance-id: localhost:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port
-    leaseRenewalIntervalInSeconds: 30
-    leaseExpirationDurationInSeconds: 60
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path} #设置自己的实例ID，这样在eureka注册中心里显示的就是ip:port
+#    leaseRenewalIntervalInSeconds: 30
+#    leaseExpirationDurationInSeconds: 60
 
 #################### mybatis配置 #############################
 mybatis:

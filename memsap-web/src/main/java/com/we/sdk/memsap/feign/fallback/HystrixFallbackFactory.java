@@ -3,8 +3,9 @@ package com.we.sdk.memsap.feign.fallback;
 import com.we.sdk.memsap.base.result.RestResult;
 import com.we.sdk.memsap.base.vo.Page;
 import com.we.sdk.memsap.base.vo.SearchVo;
-import com.we.sdk.memsap.bean.*;
-import com.we.sdk.memsap.feign.PhoneFeignClient;
+import com.we.sdk.memsap.bean.Order;
+import com.we.sdk.memsap.bean.OrderDetail;
+import com.we.sdk.memsap.feign.OrderFeignClient;
 import feign.hystrix.FallbackFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,90 +14,37 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class HystrixFallbackFactory implements FallbackFactory<PhoneFeignClient> {
+public class HystrixFallbackFactory implements FallbackFactory<OrderFeignClient> {
     private static final Logger log = LoggerFactory.getLogger(HystrixFallbackFactory.class);
+
+
     @Override
-    public PhoneFeignClient create(Throwable throwable) {
+    public OrderFeignClient create(Throwable throwable) {
         log.info("回退原因：{}", throwable.getMessage());
-        return new PhoneFeignClient() {
+        return new OrderFeignClient() {
+
             @Override
-            public RestResult<Integer> save(Phone phone) {
+            public RestResult<Integer> save(Order order) {
                 return null;
             }
 
             @Override
-            public RestResult<Integer> delete(Integer id) {
+            public RestResult<Page<Order>> getOrderListByCondition(SearchVo searchVo) {
                 return null;
             }
 
             @Override
-            public RestResult<Integer> update(Phone phone) {
+            public RestResult<Order> getOrderById(Integer id) {
                 return null;
             }
 
             @Override
-            public RestResult<Page<Phone>> getPhoneListByConditions(SearchVo searchVo) {
-                return null;
-            }
-
-
-            @Override
-            public RestResult<Phone> getPhoneById(Integer id) {
+            public RestResult<List<OrderDetail>> getOrderDetailsByOrderIds(List<Integer> orderIds) {
                 return null;
             }
 
             @Override
-            public RestResult<List<Phone>> getPhoneList() {
-                return null;
-            }
-
-            @Override
-            public RestResult<List<RepairPrice>> getFaultRepairPriceByCondition(RepairPrice repairPrice) {
-                return null;
-            }
-
-            @Override
-            public RestResult<Integer> batchEdit(List<RepairPrice> repairPriceList) {
-                return null;
-            }
-
-            @Override
-            public RestResult<List<Fault>> getFaultList() {
-                return null;
-            }
-
-            @Override
-            public RestResult<List<Repair>> getRepairList() {
-                return null;
-            }
-
-            @Override
-            public RestResult<List<Brand>> getBrandList() {
-                return null;
-            }
-
-            @Override
-            public RestResult<Integer> saveSeries(Series series) {
-                return null;
-            }
-
-            @Override
-            public RestResult<Integer> deleteSeries(Integer id) {
-                return null;
-            }
-
-            @Override
-            public RestResult<Integer> updateSeries(Series series) {
-                return null;
-            }
-
-            @Override
-            public RestResult<List<Series>> getSeriesList() {
-                return null;
-            }
-
-            @Override
-            public RestResult<Series> getSeriesById(Integer id) {
+            public RestResult<Integer> save(List<OrderDetail> orderDetailList) {
                 return null;
             }
         };

@@ -37,7 +37,7 @@ public class RedisSpringConfig {
 
     @Bean
     public JedisPool getJedisPool(){    // 省略第一个参数则是采用 Protocol.DEFAULT_DATABASE
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig(), redisNodeHost, redisNodePort,1000,redisNodePassword);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig(), redisNodeHost, redisNodePort,1000);
         return jedisPool;
     }
 
