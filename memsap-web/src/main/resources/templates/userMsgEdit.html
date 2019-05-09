@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>手机维修分类</title>
+    <title>信息选择</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/mycss/home.css}"/>
     <link th:href="@{/css/mycss/area.css}" rel="stylesheet"/>
     <link th:href="@{/css/mycss/userMsgEdit.css}" rel="stylesheet"/>
+    <link th:href="@{/css/mycss/square/orange.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet"/>
+
+
 
 </head>
 <body>
@@ -17,6 +21,10 @@
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/area-data.js}"></script>
 <script th:src="@{/js/area.js}"></script>
+<script th:src="@{/js/icheck.js}"></script>
+<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
+
+
 <!--返回顶部JS-->
 <script>
     $(function ($) {
@@ -78,40 +86,33 @@
     </div>
 </nav>
 
-<div class="user-login-address">
-    <!--登陆输入框-->
-    <form id="user-login" action="" method="post" class="form-horizontal user-login cur">
-        <div class="form-group">
-            <label for="InputPhoneNumber">手机号</label>
-            <input type="text" class="form-control" id="InputPhoneNumber" name="phoneNumber" placeholder="手机号码">
-        </div>
-        <div class="form-group">
-            <label for="InputPassword">密码</label>
-            <input type="password" class="form-control" id="InputPassword" name="password" placeholder="密码">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+<div class="user-choose ">
+
 
     <!--该用户地址展示-->
     <form id="address-list" action="" method="POST" class="form-horizontal address-list cur">
         <div class="form-group">
             <label  class="col-sm-2 control-label">联系手机:</label>
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" th:value="${user.phoneNumber}">
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="userPhone" name="userPhone" th:value="${order.userPhone}">
+            </div>
         </div>
         <div class="form-group">
             <label  class="col-sm-2 control-label">联系人</label>
-            <input type="password" class="form-control" id="userName" name="userName" th:value="${user.userName}" >
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="userName" name="userName" th:value="${order.userName}" >
+            </div>
         </div>
         <th:block th:if="${addressList != null}" th:each="add : ${addressList}" >
             <div class="form-group">
                 <div class="address-list-box">
-                    <label class="col-sm-2 control-label">地址：</label>
+                    <div class="col-sm-2 address-checkbox" >
+                        <input  type="radio" name="iCheck" th:value="${add.province + add.city+add.county}+'--'+${add.detailAddress}"
+                               id="square-radio-1"/>
+                        <label class="control-label" for="square-radio-1">地址：</label>
+                    </div>
                     <div class="col-sm-10">
-                        <input id="address" name="userId" type="text" class="form-control"
-                               readonly="readonly"
-                               th:text="${add.province + add.city+add.county}+'--'+${add.detailAddress}"/>
-                        <a th:href="@{toUpdate(id=${add.id},phoneNumber=${phoneNumber})}"
-                           title="修改地址"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <input  name="address" type="text" class="form-control" readonly="readonly" th:value="${add.province + add.city+add.county}+'--'+${add.detailAddress}"/>
                     </div>
                 </div>
             </div>
@@ -119,37 +120,30 @@
         <th:block th:if="${addressList == null}">
             <div class="form-group">
                 <h2>暂无地址，速去添加</h2>
-                <a th:href="@{toUpdate(phoneNumber=${phoneNumber})}"
-                   title="添加地址"><i class="glyphicon glyphicon-asterisk"></i></a>
             </div>
         </th:block>
+
     </form>
 
-    <!--新增地址/修改地址-->
-    <form id="address-edit" action="" method="POST" class="form-horizontal address-edit">
+    <!--新增地址-->
+
         <div class="form-group">
-            <label class="col-sm-2 control-label">地址：</label>
+            <label class="col-sm-2 control-label">新的地址：</label>
             <div class="col-sm-10">
                 <div class="form-row clearfix area-row col-sm-6">
                     <div class="form-input">
                         <div class="area-input">
                             <div class="area province">
-                                <input type="hidden" id="province" name="province"
-                                       th:value="${address!=null}?${address.province}:''">
                                 <span class="provinceSpan">-- 省份 --</span><i></i>
                                 <div class="area-content"></div>
                             </div>
                             <div class="area city">
-                                <input type="hidden" id="city" name="city"
-                                       th:value="${address!=null}?${address.city}:''">
                                 <span class="citySpan">-- 城市 --</span><i></i>
                                 <div class="area-content">
                                     <ul></ul>
                                 </div>
                             </div>
                             <div class="area downtown">
-                                <input type="hidden" id="county" name="county"
-                                       th:value="${address!=null}?${address.county}:''">
                                 <span class="countySpan">-- 市区 --</span><i></i>
                                 <div class="area-content">
                                     <ul></ul>
@@ -160,16 +154,46 @@
                     </div>
                 </div>
                 <div class=" col-sm-6">
-                    <input id="detailAddress" name="detailAddress" type="text"
-                           class="form-control" th:value="${address!=null}?${address.detailAddress}:''"/>
+                    <input id="detailAddress" name="detailAddress" type="text" class="form-control"/>
                 </div>
             </div>
 
         </div>
-    </form>
+
 
     <!--订单详情-->
-    <div class="repair-con">
+    <div class="order-detail">
+       <!-- <h3>
+            <span class="user_phone" th:value="${order.userPhone}" th:text="${order.userPhone}"></span>
+        </h3>-->
+        <h3>
+            <ul class="repair-mal" id="repairMal">
+                <li class="repair-mal-li" th:each="detail : ${orderDetailList}">
+                    <span class="phone_detail" th:text="${detail.phoneDetail}"></span>
+                    <span class="repair_detail" th:text="${detail.repairDetails}"></span>
+                    <span class="repair_price" th:text="${detail.price}"></span>
+                </li>
+            </ul>
+        </h3>
+        <h2>
+            <span>总价</span>
+            <span class="pay_money" th:text="${order.payment}"></span>
+        </h2>
+    </div>
+
+    <div class="btn-wrap">
+        <button class="submit-btn" id="submitBtn" data-brandid="1" data-id="33">确认下单</button>
+    </div>
+
+   <!-- <form>
+        <input id="userAddress" type="hidden" name="userAddress">
+        <input id="orderId" type="hidden" name="orderId" th:value="${order.id}">
+        <input id="phoneDetail" type="hidden" name="phoneDetail">
+        <input id="repairDetails" type="hidden" name="repairDetails">
+        <input id="price" type="hidden" name="price">
+
+    </form>-->
+    <!--<div class="repair-con">
         <h3>
             <span class="phone_data"></span>
             <span class="color-data"></span>
@@ -186,7 +210,7 @@
 
         </ul>
         <div class="money-div">应付金额：<span class="money" id="money">0</span><span>元</span></div>
-    </div>
+    </div>-->
 
 </div>
 
@@ -201,6 +225,15 @@
 
     $(document).ready(function () {
 
+
+        $(".address-checkbox input").iCheck({
+            // checkboxClass: "icheckbox_square-orange",
+            /*increaseArea: '20%' // optional*/
+            radioClass: 'iradio_square-orange'
+        });
+
+
+
         var order = [[${order}]];
         var OrderDetail = [[${OrderDetail}]];
 
@@ -211,6 +244,16 @@
                 $(this).addClass("cur");
             }
         });
+
+        $("#submitBtn").on("click",function () {
+            swal({
+                title:"提交订单成功",
+                text:"我们会上门为您服务，请保持电话畅通",
+                icon: "success"
+            });
+        })
+
+
 
     });
 

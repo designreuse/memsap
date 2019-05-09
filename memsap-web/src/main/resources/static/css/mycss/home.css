@@ -383,3 +383,12 @@ body {
     float: right;
     margin-top: 9px;
 }
+
+.subscribe-form .list-box .submit_box .term{
+    float: left;
+}
+
+.subscribe-form .list-box .submit_box .price_box {
+    font-size: 32px;
+    color: #EE7700;
+}

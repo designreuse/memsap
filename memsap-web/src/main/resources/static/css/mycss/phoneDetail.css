@@ -181,14 +181,18 @@ li{
 }
 
 .mal-wap .mal-con .btn-wrap button {
-    width: 200px;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
-    background: #e70;
+    width: 180px;
+    height: 54px;
+    background-color: #F37B46;
     font-size: 16px;
-    color: #fff;
+    color: #FFFFFF;
+    outline: none;
     cursor: pointer;
+    margin-bottom: 50px;
+    display: block;
+    border: none;
+    float: right;
+    margin-top: 9px;
 }
 
 .mal-wap .mal-con .repair-con .repair-mal .repair-mal-li {

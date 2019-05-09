@@ -1,3 +1,10 @@
+body {
+    /*padding-top: 50px;*/
+    padding-top: 50px;
+    background-color: #ffff;
+    position: relative;
+}
+
 #address-list-box{
     border: 1px solid #dfdfdf;
 }
@@ -7,13 +14,12 @@
     color: #e70;
 }
 
-.user-login .address-list .address-edit{
-    display: none;
+.user-choose{
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
 }
 
-.user-login.cur .address-list.cur .address-edit.cur{
-    display: block;
-}
 
 .mal-con .repair-con h3 {
     font-size: 20px;
@@ -34,6 +40,39 @@
     line-height: 20px;
     margin-bottom: 10px;
     display: none;
+}
+
+.order-detail h3 {
+    font-size: 20px;
+    color: #2c2c2c;
+    line-height: 28px;
+    margin-bottom: 13px;
+}
+
+
+.address-checkbox {
+    text-align: center;
+    padding: 6px 12px;
+}
+
+.order-detail{
+    padding-top: 50px;
+}
+
+
+.btn-wrap button {
+    width: 180px;
+    height: 54px;
+    background-color: #F37B46;
+    font-size: 16px;
+    color: #FFFFFF;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 50px;
+    display: block;
+    border: none;
+    float: right;
+    margin-top: 9px;
 }
 
 

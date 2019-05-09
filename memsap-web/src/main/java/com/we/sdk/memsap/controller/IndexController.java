@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -83,15 +84,35 @@ public class IndexController {
     }
 
 
-    @PostMapping("/toPay")
+   /* @PostMapping("/toPay")
     public String toPay(@RequestBody ShoppingCart shoppingCart,Model model) {
         Order order = shoppingCart.getOrder();
         List<OrderDetail> orderDetailList = shoppingCart.getOrderDetailList();
         List<Address> addressList = addressService.getAddressByPhoneNumber(order.getUserPhone());
+        order.setUserName("qqq");
+        order.setUserPhone("18877779999");
         model.addAttribute("order",order);
         model.addAttribute("orderDetailList",orderDetailList);
         model.addAttribute("addressList",addressList);
-        return "新地址";
+        return "userMsgEdit";
+    }*/
+
+
+    @GetMapping("/toPay")
+    public String toPay(Model model) {
+        Order order = new Order(210.0,"qqq","18859597777");
+        List<OrderDetail> orderDetailList = new LinkedList<OrderDetail>(){{
+            add(new OrderDetail("iPhone 6 plus 黑色","外屏碎(显示正常）",100.0));
+            add(new OrderDetail("iPhone 6 plus 黑色","内屏显示异常",110.0));
+
+        }};
+        List<Address> addressList = addressService.getAddressByPhoneNumber(order.getUserPhone());
+        order.setUserName("qqq");
+        order.setUserPhone("18877779999");
+        model.addAttribute("order",order);
+        model.addAttribute("orderDetailList",orderDetailList);
+        model.addAttribute("addressList",addressList);
+        return "userMsgEdit";
     }
 
 

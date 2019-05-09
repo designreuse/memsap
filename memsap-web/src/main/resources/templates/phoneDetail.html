@@ -60,11 +60,11 @@
             <nav class="navbar navbar-default" id="logo-nav">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" th:href="@{/index}" id="logo">
+                        <a class="navbar-brand" th:href="@{/}" id="logo">
                             <img alt="Brand" th:src="@{/img/保时捷.png}">
                         </a>
 
-                        <a class="navbar-brand" th:href="@{/index}" id="logo-text">手机维修砖家</a>
+                        <a class="navbar-brand" th:href="@{/}" id="logo-text">手机维修砖家</a>
                     </div>
                 </div>
             </nav>
@@ -266,7 +266,7 @@
 
 
     function submitOrder() {
-        if (user == null) {
+        /*if (user == null) {
             var height = $(window).height();
             pic_index = layer.open({
                 type: 2,
@@ -286,7 +286,7 @@
                 }
             });
             return;
-        }
+        }*/
 
 
         var len = $(".repair-mal-li.cur>.price-data").length;
@@ -311,10 +311,10 @@
             dataType: "json",
             data: JSON.stringify({
                 order: {
-                    "userPhone": userPhone,
+                    // "userPhone": userPhone,
                     "payment": payment,
-                    "userName": user.userName,
-                    "userPhone": user.phoneNumber
+                    // "userName": user.userName,
+                    // "userPhone": user.phoneNumber
                 }, orderDetailList: orderDetailList
             }),
             success: function (data) {
@@ -322,6 +322,7 @@
             }
         })
     }
+
 
     /*]]>*/
 

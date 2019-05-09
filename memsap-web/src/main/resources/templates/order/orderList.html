@@ -15,7 +15,6 @@
 
     <link th:href="@{/css/mycss/paging.css}" rel="stylesheet"/>
 
-    <link th:href="@{/css/bootstrap-switch.min.css}" rel="stylesheet"/>
 
 
 </head>
@@ -126,15 +125,15 @@
                                         <td>
                                             <!--<a th:href="@{'toEdit?phoneNumber='+1}" title="修改状态"><i
                                                     class="fa fa-edit text-navy"></i></a>-->
-                                            <!--<a title="修改状态"><span>未完成</span></a>-->
-                                            <div class="switch has-switch" data-on="success" data-off="switch-danger">
+                                            <a title="修改状态"><span>未完成</span></a>
+                                          <!--  <div class="switch has-switch" data-on="success" data-off="switch-danger">
                                                 <div class="switch-on switch-animate switch-small" style="">
                                                     <input type="checkbox" checked="">
                                                     <span class="switch-left switch-success">ON</span>
                                                     <label>&nbsp;</label>
                                                     <span class="switch-right switch-danger">OFF</span>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                             <!--<div class="switch switch-small">
                                                 <input type="checkbox" checked />
                                             </div>-->
@@ -188,7 +187,7 @@
 
 <script th:src="@{/js/paging.js}"></script>
 
-<script th:src="@{/js/bootstrap-switch.min.js}"></script>
+
 
 
 <style type="text/css">
@@ -214,7 +213,7 @@
         });
 
 
-            $(".switch").bootstrapSwitch();
+
 
 
 
